@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Signup() {
+    const [email, setemail] = useState('');
+    const [password, setpassword] = useState('')
   return (
 <div className="flex justify-center min-h-screen text-gray-900 bg-gray-100">
       <div className="flex justify-center flex-1 max-w-screen-xl m-0 bg-white shadow sm:m-10 sm:rounded-lg">
@@ -15,11 +17,11 @@ export default function Signup() {
               <div className="max-w-xs mx-auto">
       <input
         className="w-full px-8 py-4 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
-        type="email" placeholder="Email"
+        type="email" placeholder="Email" onChange={(e)=>{setemail(e.target.value)}}
       />
       <input
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
-        type="password" placeholder="Password"
+        type="password" placeholder="Password" onChange={(e)=>{setpassword(e.target.validationMessage)}}
       />
       <button
         className="flex items-center justify-center w-full py-4 mt-5 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
