@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 
 export default function Signup() {
     const [email, setemail] = useState('');
+    const [firstName, setfirstName] = useState('')
+    const [lastName, setlastName] = useState('')
+    const [DOB, setDOB] = useState(Date)
     const [password, setpassword] = useState('')
   return (
 <div className="flex justify-center min-h-screen text-gray-900 bg-gray-100">
@@ -23,6 +26,22 @@ export default function Signup() {
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
         type="password" placeholder="Password" onChange={(e)=>{setpassword(e.target.validationMessage)}}
       />
+      
+      <input
+        className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
+        type="text" placeholder="FirstName" onChange={(e)=>{setfirstName(e.target.validationMessage)}}
+      />
+      
+      <input
+        className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
+        type="text" placeholder="LirstName" onChange={(e)=>{setlastName(e.target.validationMessage)}}
+      />
+      <input
+        className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
+        type="date" placeholder="Date of Birth" onChange={(e)=>{setDOB(e.target.validationMessage)}}
+      />
+      
+
       <button
         className="flex items-center justify-center w-full py-4 mt-5 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
       >
@@ -37,12 +56,12 @@ export default function Signup() {
         </span>
       </button>
       <p className="mt-6 text-xs text-center text-gray-600">
-        I agree to abide by templatana's
-        <a href="#" className="border-b border-gray-500 border-dotted">
+        I agree to abide by Haroon's Designer
+        <a href="#" className="mx-1 border-b border-gray-500 border-dotted mx">
           Terms of Service
         </a>
         and its
-        <a href="#" className="border-b border-gray-500 border-dotted">
+        <a href="#" className="mx-1 border-b border-gray-500 border-dotted">
           Privacy Policy
         </a>
       </p>
