@@ -17,7 +17,13 @@ interface Product {
 
 const ProductPage: React.FC = () => {
   const [categories] = useState(['Groom\'s Section', 'Eastern', 'Western']);
-  const [productTypes, setProductTypes] = useState<ProductTypes>({
+  // const [productTypes, setProductTypes] = useState<ProductTypes>({
+  //   "Groom's Section": ['Sherwani', 'Prince Coat', 'Fancy Waist Coat'],
+  //   'Eastern': ['Formal Waist Coat', 'Shalwar Suit', 'Kurta'],
+  //   'Western': ['Formal Suiting', 'Stylish Tuxedo', 'Traditional Mix and Match'],
+  // });
+
+  const [productTypes] = useState<ProductTypes>({
     "Groom's Section": ['Sherwani', 'Prince Coat', 'Fancy Waist Coat'],
     'Eastern': ['Formal Waist Coat', 'Shalwar Suit', 'Kurta'],
     'Western': ['Formal Suiting', 'Stylish Tuxedo', 'Traditional Mix and Match'],
