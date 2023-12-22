@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
     const [email, setemail] = useState('');
@@ -6,6 +8,60 @@ export default function Signup() {
     const [lastName, setlastName] = useState('')
     const [DOB, setDOB] = useState(Date)
     const [password, setpassword] = useState('')
+    const [passwordverify, setpasswordverify] = useState('')
+    const [showPassword, setShowPassword] = useState(false);
+
+
+
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
+  
+    // const axiosInstance = axios.create({
+    //   withCredentials: true, // Set withCredentials to true
+    // });
+    
+
+    const Navigate = useNavigate();
+    const Register = async (e)=>{
+      e.preventDefault();
+      
+        try {
+          if(!email || !password || !passwordverify || !firstName){
+            alert("Please Enter all fields")
+          }else
+          {
+  
+            const user = {
+              email: email,
+              firstName: firstName,
+              lastName: lastName,
+              DOB: DOB,
+              password: password,
+              passwordVerify: passwordverify
+            };
+            
+            await axios.post(`http://localhost:5000/api/user/signup` , {user}).then((res)=>{
+                      console.log(res.data)
+                      Navigate('/login')
+                }).catch((e)=>{
+                  console.log("I am here")
+                  console.log(e)
+                  console.log(e?.response?.data)
+                  alert(e?.response?.data?.errorMessage)
+                })
+            }
+        } catch (error) {
+          console.log("I am here in lower catch")
+            console.log(error);
+            if(error){
+              alert("There is a technical issue please wait.");
+            } 
+  
+        }
+      }
+
+    
   return (
 <div className="flex justify-center min-h-screen text-gray-900 bg-gray-100">
       <div className="flex justify-center flex-1 max-w-screen-xl m-0 bg-white shadow sm:m-10 sm:rounded-lg">
