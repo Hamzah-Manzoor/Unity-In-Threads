@@ -2,20 +2,16 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Signup() {
     const [email, setemail] = useState('');
     const [firstName, setfirstName] = useState('')
     const [lastName, setlastName] = useState('')
     const [DOB, setDOB] = useState(Date)
     const [password, setpassword] = useState('')
-    const [passwordverify, setpasswordverify] = useState('')
-    const [showPassword, setShowPassword] = useState(false);
 
 
 
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
-    };
   
     // const axiosInstance = axios.create({
     //   withCredentials: true, // Set withCredentials to true
@@ -27,7 +23,7 @@ export default function Signup() {
       e.preventDefault();
       
         try {
-          if(!email || !password || !passwordverify || !firstName){
+          if(!email || !password || !firstName){
             alert("Please Enter all fields")
           }else
           {
@@ -38,7 +34,7 @@ export default function Signup() {
               lastName: lastName,
               DOB: DOB,
               password: password,
-              passwordVerify: passwordverify
+            
             };
             
             await axios.post(`http://localhost:5000/api/user/signup` , {user}).then((res)=>{
@@ -82,7 +78,6 @@ export default function Signup() {
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
         type="password" placeholder="Password" onChange={(e)=>{setpassword(e.target.validationMessage)}}
       />
-      
       <input
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
         type="text" placeholder="FirstName" onChange={(e)=>{setfirstName(e.target.validationMessage)}}
@@ -100,7 +95,7 @@ export default function Signup() {
 
       <button
         className="flex items-center justify-center w-full py-4 mt-5 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
-      >
+       onClick={()=>{Register()}} >
         <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
           strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
