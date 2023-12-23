@@ -1,9 +1,43 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import Retail_User_Context from '../../context/Retail_User_Context/Retail_User';
 
 export default function Login() {
   
+  const context = useContext(Retail_User_Context)
   const [email, setemail] = useState('');
     const [password, setpassword] = useState('')
+
+
+
+    const Navigate = useNavigate();
+  const Login = (e)=>{
+
+    e.preventDefault();
+      try {
+        const user = {
+          email , 
+          password , 
+        }
+        console.log(user)
+            axios.post('http://localhost:5000/api/retail/login' , user).then((res)=>{
+                console.log(res)
+                const user = res?.data?.user
+                // context.update(res?.data?.user)
+                console.log(user)
+                context.update(user)
+                Navigate('/ReturnsandExchange');
+            }).catch((e)=>{
+                console.log(e)
+                
+            })
+      } catch (error) {
+        console.log(error);
+
+      }
+      // Navigate('/login')
+  }
     
   return (
 <div className="flex justify-center min-h-screen text-gray-900 bg-gray-100">
@@ -23,12 +57,13 @@ export default function Login() {
       />
       <input
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
-        type="password" placeholder="Password" onChange={(e)=>{setpassword(e.target.validationMessage)}}
+        type="password" placeholder="Password" onChange={(e)=>{setpassword(e.target.value)}}
       />
       
 
       <button
         className="flex items-center justify-center w-full py-4 mt-5 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
+        onClick={(e)=>{Login(e)}}
       >
         
         <span>
