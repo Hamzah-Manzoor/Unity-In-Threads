@@ -9,7 +9,7 @@ export default function Signup() {
     const [lastName, setlastName] = useState('')
     const [DOB, setDOB] = useState(Date)
     const [password, setpassword] = useState('')
-
+    const [passwordverify, setpasswordverify] = useState('')
 
 
   
@@ -21,23 +21,27 @@ export default function Signup() {
     const Navigate = useNavigate();
     const Register = async (e)=>{
       e.preventDefault();
-      
+      console.log(email)
+      console.log(password)
+      console.log(firstName)
         try {
-          if(!email || !password || !firstName){
+          if(!email || !password || !firstName || !lastName || !DOB || !passwordverify){
             alert("Please Enter all fields")
+          }else if(password!== passwordverify){
+              alert("Please Enter same password for both fields")
           }else
           {
-  
             const user = {
               email: email,
               firstName: firstName,
               lastName: lastName,
               DOB: DOB,
               password: password,
-            
+              passwordverify : passwordverify 
             };
             
-            await axios.post(`http://localhost:5000/api/user/signup` , {user}).then((res)=>{
+            console.log(user)
+            await axios.post(`http://localhost:5000/api/retail/signup` , user).then((res)=>{
                       console.log(res.data)
                       Navigate('/login')
                 }).catch((e)=>{
@@ -76,26 +80,30 @@ export default function Signup() {
       />
       <input
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
-        type="password" placeholder="Password" onChange={(e)=>{setpassword(e.target.validationMessage)}}
+        type="password" placeholder="Password" onChange={(e)=>{setpassword(e.target.value)}}
       />
       <input
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
-        type="text" placeholder="FirstName" onChange={(e)=>{setfirstName(e.target.validationMessage)}}
+        type="password" placeholder="Password Verify" onChange={(e)=>{setpasswordverify(e.target.value)}}
+      />
+      <input
+        className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
+        type="text" placeholder="FirstName" onChange={(e)=>{setfirstName(e.target.value)}}
       />
       
       <input
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
-        type="text" placeholder="LirstName" onChange={(e)=>{setlastName(e.target.validationMessage)}}
+        type="text" placeholder="LirstName" onChange={(e)=>{setlastName(e.target.value)}}
       />
       <input
         className="w-full px-8 py-4 mt-5 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
-        type="date" placeholder="Date of Birth" onChange={(e)=>{setDOB(e.target.validationMessage)}}
+        type="date" placeholder="Date of Birth" onChange={(e)=>{setDOB(e.target.value)}}
       />
       
 
       <button
         className="flex items-center justify-center w-full py-4 mt-5 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
-       onClick={()=>{Register()}} >
+       onClick={(e)=>{Register(e)}} >
         <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
           strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />

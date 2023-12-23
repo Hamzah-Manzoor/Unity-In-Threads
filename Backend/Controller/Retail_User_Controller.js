@@ -2,7 +2,8 @@ const bcrypt = require('bcrypt');
 var nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
-const UserModel = require('../Models/Retail_UserModel');
+const Retail_UserModel = require('../Models/Retail_UserModel');
+const { use } = require('../Routes/Retail_User_Routes');
 
 
 const login = async(req,res)=>{
@@ -16,7 +17,7 @@ const login = async(req,res)=>{
             console.log(email + password);
             return res.status(400).json({errorMessage : "Please Enter the all fields"});
         }
-        const user = await UserModel.findOne({email});
+        const user = await Retail_UserModel.findOne({email});
 
         console.log(user);
 
@@ -32,8 +33,7 @@ const login = async(req,res)=>{
         }
         const token = jwt.sign({
             user : user._id , 
-            email : user.email,
-            count : user.count,
+            email : user.email
         } , process.env.JWT_Secret)
 
         //send the token in cookie
@@ -43,7 +43,8 @@ const login = async(req,res)=>{
             sameSite: 'none',
             secure : true,
         }).status(200).send({
-            message : "User Logged in Successfully"
+            message : "User Logged in Successfully" , 
+            user : user
         });
         } catch (error) {
             console.log(error)
@@ -65,11 +66,14 @@ const logout = async(req,res)=>{
 
 const signup = async(req,res)=>{
     try {
-        const {email , password , passwordverify , fullname} = req.body;  
 
-        console.log(email + password + passwordverify + fullname)
+        const user = req.body;
+        const {email , password , passwordverify , firstName , lastName , DOB} = user;  
         
-        if(!email || !password || !passwordverify || !fullname){
+
+        console.log(email + password + passwordverify + firstName)
+        
+        if(!email || !password || !passwordverify || !firstName || !lastName || !DOB){
             return res.status(400).json({errorMessage : "Please Enter the all fields of the form"});
         }
 
@@ -80,7 +84,7 @@ const signup = async(req,res)=>{
         if(password !== passwordverify){
             return res.status(400).json({errorMessage : "Please Enter the same password "});
         }
-        const users = await UserModel.findOne({email});
+        const users = await Retail_UserModel.findOne({email});
 
         console.log(users);
 
@@ -95,10 +99,12 @@ const signup = async(req,res)=>{
 
         // console.log(passwordHash);
 
-        const newUser = new UserModel({
+        const newUser = new Retail_UserModel({
             email : email , 
             password : passwordHash , 
-            fullname : fullname ,  
+            firstName : firstName ,
+            lastName: lastName ,
+            DOB : DOB
         })
 
         const SavedUser = await newUser.save();
@@ -167,7 +173,7 @@ const forgotPassword = async(req,res)=>{
                 message : "Please enter all fields"
             })
         }
-        let user = await UserModel.findOne({email})
+        let user = await Retail_UserModel.findOne({email})
         console.log(user)
         if (!user){
             res.status(400).send({
@@ -230,7 +236,7 @@ const resetpassword = async(req,res)=>{
             }else{
                 const salt = await  bcrypt.genSalt();
                 const passwordHash = await bcrypt.hash(password , salt);
-                UserModel.findByIdAndUpdate({_id : id} , {password : passwordHash}).then((u)=>{
+                Retail_UserModel.findByIdAndUpdate({_id : id} , {password : passwordHash}).then((u)=>{
                     return res.status(200).send({
                         message : "Password Updated sucessfully"
                     })

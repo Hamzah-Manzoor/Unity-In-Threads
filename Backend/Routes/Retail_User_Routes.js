@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 
 
-const {login , logout ,  signup , isLoggedin , forgotPassword , resetpassword} = require('../Controllers/UserController')
+const {login , logout ,  signup , isLoggedin , forgotPassword , resetpassword} = require('../Controller/Retail_User_Controller')
 
 const auth = require('../Middleware/auth');
 

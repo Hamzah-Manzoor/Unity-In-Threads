@@ -6,13 +6,16 @@ import Login from './Components/Login/Login'
 import SidebarState from './context/Sidebar/SidebarState'
 import Returns from './Components/Returns/Returns'
 import Layout from './Components/Layout/Layout'
+import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
 
 function App() {
 
   return (
     <>
       <BrowserRouter>
+      <Retail_User_State>
       <SidebarState>
+        
         
 
       
@@ -34,6 +37,7 @@ function App() {
           
           </Routes>
           </SidebarState>
+          </Retail_User_State>
       </BrowserRouter>
     </>
   )

@@ -13,6 +13,10 @@ app.use(cors({
 app.use(cookie_parser());
 
 app.use(express.json());
+
+const Retail_User_Routes = require('./Routes/Retail_User_Routes')
+
+app.use('/api/retail' , Retail_User_Routes);
 // const userRoutes = require('./Routes/UserRoutes');
 // const gptRouters = require('./Routes/ChatGPTroutes');
 // app.use('/api/user' , userRoutes);
