@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface ProductTypes {
   [key: string]: string[];
@@ -62,42 +63,45 @@ const ProductPage: React.FC = () => {
     { id: 18, name: 'Product R', code: 'P0018', stock: 25, color: 'Indingo', type: 'Traditional Mix and Match', category: 'Western', image: 'productr.jpg' },
     // Add more sample product data here
   ];
-  const [products, setProducts] = useState(initialProducts);
+  //const [products, setProducts] = useState(initialProducts);
+  const [products] = useState(initialProducts);
 
-  const handleTypeClick = (type: String) => {
-    const filteredProducts = initialProducts.filter(product => product.type === type);
-    setProducts(filteredProducts);
-  };
+  //const handleTypeClick = (type: String) => {
+  //  const filteredProducts = initialProducts.filter(product => product.type === type);
+    //setProducts(filteredProducts);
+  //};
 
   return (
     <div className="p-4">
       {categories.map(category => (
         <div key={category}>
-          <h2 className="text-2xl font-semibold mb-2">{category}</h2>
-          <div className="mb-4">
-            {/* <h2 className="text-xl font-semibold mb-2">Product Types</h2>
+          <h2 className="text-2xl font-semibold mb-2 underline text-center" style={{ textTransform: 'uppercase' }}>{category}</h2>
+          {/* <div className="mb-4">
+            <h2 className="text-xl font-semibold mb-2">Product Types</h2>
             <ul>
               {productTypes[category].map(type => (
                 <li key={type} className="cursor-pointer text-green-500" onClick={() => handleTypeClick(type)}>
                   {type}
                 </li>
               ))}
-            </ul> */}
-          </div>
+            </ul>
+          </div> */}
           {productTypes[category].map(type => (
             <div key={type}>
               <h2 className="text-lg font-semibold mb-2">{type}</h2>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {products.filter(product => product.category === category && product.type === type).map((product, index) => (
-                  <div key={index} className="border border-gray-300 rounded p-4 mb-4">
-                    {/* <img src={product.image} alt={product.name} className="w-32 h-32 object-cover mb-2" /> */}
-                    <h3 className="text-lg font-semibold">{product.name}</h3>
-                    <p>Product Code: {product.code}</p>
-                    <p>Available Stock: {product.stock}</p>
-                    <p>Color: {product.color}</p>
-                    <p>Type: {product.type}</p>
-                    <p>Category: {product.category}</p>
-                  </div>
+                  <Link to={`/products/${product.id}`} key={index}>
+                    <div key={index} className="border border-gray-300 rounded p-4 mb-4">
+                      {/* <img src={product.image} alt={product.name} className="w-32 h-32 object-cover mb-2" /> */}
+                      <h3 className="text-lg font-semibold">{product.name}</h3>
+                      <p>Product Code: {product.code}</p>
+                      <p>Available Stock: {product.stock}</p>
+                      <p>Color: {product.color}</p>
+                      <p>Type: {product.type}</p>
+                      <p>Category: {product.category}</p>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
