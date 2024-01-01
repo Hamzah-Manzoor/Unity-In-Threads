@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { MdAttachFile } from "react-icons/md";
 
@@ -18,6 +18,8 @@ const ProductDetailsPage: React.FC = () => {
   const { productId }: { productId?: string } = useParams(); // Make productId optional
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<ProductDetails | undefined>(undefined);
 
   // Mock product details (Replace this with your actual data)
   const mockProductDetails: ProductDetails[] = [
@@ -45,6 +47,14 @@ const ProductDetailsPage: React.FC = () => {
     // Add more mock product details here if needed
   ];
 
+  // Fetch product details when productId changes
+  useEffect(() => {
+    if (productId) {
+      const selectedProduct = mockProductDetails.find((product) => product.id === parseInt(productId, 10));
+      setCurrentProduct(selectedProduct);
+    }
+  }, [productId]);
+
   const handleDeleteProduct = () => {
     const confirmation = window.confirm('Are you sure you want to delete this product?');
 
@@ -65,6 +75,27 @@ const ProductDetailsPage: React.FC = () => {
       fileInputRef.current.click();
     }
   };
+
+  const handleUpdateProduct = () => {
+    setIsUpdateModalOpen(true);
+  };
+
+  const handleCloseUpdateModal = () => {
+    setIsUpdateModalOpen(false);
+  };
+
+  // Update the state of the product attribute
+  const handleAttributeChange = (attribute: keyof ProductDetails, value: string | number) => {
+    if (currentProduct) {
+      setCurrentProduct((prevProduct) => {
+        if (prevProduct) {
+          return { ...prevProduct, [attribute]: value } as ProductDetails;
+        }
+        return prevProduct;
+      });
+    }
+  };
+  
 
   // Find the product with the given productId (Parse the productId to a number)
   const selectedProduct: ProductDetails | undefined = productId
@@ -90,7 +121,7 @@ const ProductDetailsPage: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col items-center mt-20">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-3xl mb-2 w-1/2 xl:w-3/4">
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-3xl mb-2 w-1/2 xl:w-3/4" onClick={handleUpdateProduct}>
                 Update Product
               </button>
               <button
@@ -140,6 +171,84 @@ const ProductDetailsPage: React.FC = () => {
             </div>
 
           </div>
+
+
+          {/* Modal for update product */}
+          {isUpdateModalOpen && (
+            <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-700 bg-opacity-50">
+              <div className="bg-white p-8 rounded-lg">
+                <p className="text-xl mb-4">Hi, Welcome to the Update Product's Page</p>
+
+                {/* <div className="flex flex-col mb-4">
+                  <label htmlFor="productName" className="mb-2 text-lg font-semibold">Product Name</label>
+                  <input type="text" id="productName" className="border border-gray-400 rounded px-3 py-2" value={currentProduct?.name || ''} readOnly />
+                </div>
+
+                <div className="flex flex-col mb-4">
+                  <label htmlFor="productCode" className="mb-2 text-lg font-semibold">Product Code</label>
+                  <input type="text" id="productCode" className="border border-gray-400 rounded px-3 py-2" value={currentProduct?.code || ''} readOnly />
+                </div> */}
+
+                <div className="flex flex-col mb-4">
+                  <label htmlFor="productStock" className="mb-2 text-lg font-semibold">Stock</label>
+                  <input
+                    type="number"
+                    id="productStock"
+                    className="border border-gray-400 rounded px-3 py-2"
+                    value={currentProduct?.stock || ''}
+                    onChange={(e) => handleAttributeChange('stock', parseInt(e.target.value))}
+                  />
+                </div>
+
+                <div className="flex flex-col mb-4">
+                  <label htmlFor="productColor" className="mb-2 text-lg font-semibold">Color</label>
+                  <input
+                    type="text"
+                    id="productColor"
+                    className="border border-gray-400 rounded px-3 py-2"
+                    placeholder={currentProduct?.color || ''} // Set pre-filled value as placeholder
+                    value={currentProduct?.color || ''}
+                    onChange={(e) => handleAttributeChange('color', e.target.value)}
+                  />
+                </div>
+
+                <div className="flex flex-col mb-4">
+                  <label htmlFor="productType" className="mb-2 text-lg font-semibold">Type</label>
+                  <input
+                    type="text"
+                    id="productType"
+                    className="border border-gray-400 rounded px-3 py-2"
+                    placeholder={currentProduct?.type || ''}
+                    value={currentProduct?.type || ''}
+                    onChange={(e) => handleAttributeChange('type', e.target.value)}
+                  />
+                </div>
+
+                <div className="flex flex-col mb-4">
+                  <label htmlFor="productCategory" className="mb-2 text-lg font-semibold">Category</label>
+                  <input
+                    type="text"
+                    id="productCategory"
+                    className="border border-gray-400 rounded px-3 py-2"
+                    placeholder={currentProduct?.category || ''}
+                    value={currentProduct?.category || ''}
+                    onChange={(e) => handleAttributeChange('category', e.target.value)}
+                  />
+                </div>
+
+
+                <div className="flex justify-between">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-3xl mr-4" onClick={handleCloseUpdateModal}>
+                    Update
+                  </button>
+                  <button className="bg-white border border-gray-500 hover:bg-gray-200 font-bold py-3 px-6 rounded-3xl" onClick={handleCloseUpdateModal}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
 
 
         </div>
