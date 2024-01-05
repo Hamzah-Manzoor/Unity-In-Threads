@@ -1,4 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Signup() {
     const [email, setemail] = useState('');
@@ -104,11 +107,7 @@ export default function Signup() {
 
       <button
         className="flex items-center justify-center w-full py-4 mt-5 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
-<<<<<<< HEAD
       >
-=======
-       onClick={(e)=>{Register(e)}} >
->>>>>>> 359f1ac (Login_Signup_Backend)
         <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
           strokeLinecap="round" strokeLinejoin="round">
           <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />

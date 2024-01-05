@@ -1,10 +1,18 @@
 <<<<<<< HEAD
 import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import sidebar_context from '../../context/Sidebar/Sidebar';
+import Retail_User_Context from '../../context/Retail_User_Context/Retail_User';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Navabr() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-
+    const context = useContext(sidebar_context)
+    const retail_context = useContext(Retail_User_Context);
+    const [Name, setName] = useState("Guest User")
+    const [email, setemail] = useState("guestuser@gmail.com")
+    const Navigate = useNavigate()
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -61,6 +69,7 @@ export default function Navabr() {
             aria-controls="logo-sidebar"
             type="button"
             className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            onClick={func}
           >
             <span className="sr-only">Open sidebar</span>
             <svg
@@ -78,16 +87,17 @@ export default function Navabr() {
             </svg>
           </button>
           <a href="https://flowbite.com" className="flex ms-2 md:me-24">
-            <img
+            {/* <img
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-8 me-3"
               alt="FlowBite Logo"
-            />
+            /> */}
             <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-              Flowbite
+              Haroon's Designer
             </span>
           </a>
         </div>
+        
         <div className="flex">
           <div className="flex ms-3">
             <div>

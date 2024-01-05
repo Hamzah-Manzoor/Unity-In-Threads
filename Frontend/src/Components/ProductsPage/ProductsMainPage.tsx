@@ -75,12 +75,12 @@ const ProductPage: React.FC = () => {
     <div className="p-4">
       {categories.map(category => (
         <div key={category}>
-          <h2 className="text-2xl font-semibold mb-2 underline text-center" style={{ textTransform: 'uppercase' }}>{category}</h2>
+          <h2 className="mb-2 text-2xl font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
           {/* <div className="mb-4">
-            <h2 className="text-xl font-semibold mb-2">Product Types</h2>
+            <h2 className="mb-2 text-xl font-semibold">Product Types</h2>
             <ul>
               {productTypes[category].map(type => (
-                <li key={type} className="cursor-pointer text-green-500" onClick={() => handleTypeClick(type)}>
+                <li key={type} className="text-green-500 cursor-pointer" onClick={() => handleTypeClick(type)}>
                   {type}
                 </li>
               ))}
@@ -88,12 +88,12 @@ const ProductPage: React.FC = () => {
           </div> */}
           {productTypes[category].map(type => (
             <div key={type}>
-              <h2 className="text-lg font-semibold mb-2">{type}</h2>
+              <h2 className="mb-2 text-lg font-semibold">{type}</h2>
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {products.filter(product => product.category === category && product.type === type).map((product, index) => (
                   <Link to={`/products/${product.id}`} key={index}>
-                    <div key={index} className="border border-gray-300 rounded p-4 mb-4">
-                      {/* <img src={product.image} alt={product.name} className="w-32 h-32 object-cover mb-2" /> */}
+                    <div key={index} className="p-4 mb-4 border border-gray-300 rounded">
+                      {/* <img src={product.image} alt={product.name} className="object-cover w-32 h-32 mb-2" /> */}
                       <h3 className="text-lg font-semibold">{product.name}</h3>
                       <p>Product Code: {product.code}</p>
                       <p>Available Stock: {product.stock}</p>

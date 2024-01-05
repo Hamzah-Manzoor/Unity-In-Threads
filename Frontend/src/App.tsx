@@ -4,8 +4,7 @@ import Signup from '../src/Components/SignUp/Signup'
 import Login from './Components/Login/Login'
 <<<<<<< HEAD
 import Products from './Components/ProductsPage/ProductsMainPage'
-import Navabr from './Components/Navbar/Navabr'
-import Sidebar from './Components/Sidebar/Sidebar'
+
 import ProductDetailsPage from './Components/ProductsPage/ProductDetailsPage'
 =======
 
@@ -38,6 +37,25 @@ function App() {
             <Route path='/login' Component={Login}></Route>
             <Route path='/products' Component={Products}></Route>
             <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
+            <Route path='/login' Component={Login}></Route>
+            <Route
+            path='/products1'
+            element={ // 'element' should be used instead of 'Component'
+              <Layout>
+                <Products></Products>
+              </Layout>
+            }
+          />
+        <Route
+            path='/ReturnsandExchange'
+            element={ // 'element' should be used instead of 'Component'
+              <Layout>
+                <Returns />
+              </Layout>
+            }
+          />
+            
+
             
             
           
@@ -47,6 +65,10 @@ function App() {
           </SidebarState>
           </Retail_User_State>
 >>>>>>> 359f1ac (Login_Signup_Backend)
+          </Retail_User_State>
+          </SidebarState>
+
+
       </BrowserRouter>
     </>
   )
