@@ -7,9 +7,9 @@ export default function Sidebar() {
 
   console.log(context);
   return (
-    <div>
+    <div className='flex p-0 m-0'>
         <aside id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40  h-screen pt-20 transition-transform ${
+        className={`fixed top-0 flex-1 left-0 z-40  h-screen pt-20 transition-transform ${
           context.toggleState ? 'translate-x-0' : '-translate-x-full'
         } bg-white border-r border-gray-200 lg:translate-x-0   dark:bg-gray-800 dark:border-gray-700`}
         aria-label="Sidebar">
