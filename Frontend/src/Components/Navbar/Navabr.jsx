@@ -1,12 +1,43 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import sidebar_context from '../../context/Sidebar/Sidebar';
+import Retail_User_Context from '../../context/Retail_User_Context/Retail_User';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Navabr() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-
+    const context = useContext(sidebar_context)
+    const retail_context = useContext(Retail_User_Context);
+    const [Name, setName] = useState("Guest User")
+    const [email, setemail] = useState("guestuser@gmail.com")
+    const Navigate = useNavigate()
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const logout = ()=>{
+    axios.get('http://localhost:5000/api/retail/logout').then((res)=>{
+            console.log(res);
+            alert(res?.data?.message);
+            retail_context.logout_user()
+            Navigate('/login');
+    }).catch((err)=>{
+            console.log(err);
+            alert(err?.response?.data);
+    })
+}
+  useEffect(() => {
+    console.log('Retail_Context has changed:', retail_context);
+    
+    setName(retail_context?.user?.firstName+retail_context?.user?.lastName)
+    setemail(retail_context?.user?.email)
+
+  }, [retail_context]); 
+  const func = ()=>{
+    context.update();
+    console.log(context.toggleState);
+  }
+  
   return (
     <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -18,6 +49,7 @@ export default function Navabr() {
             aria-controls="logo-sidebar"
             type="button"
             className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            onClick={func}
           >
             <span className="sr-only">Open sidebar</span>
             <svg
@@ -35,16 +67,17 @@ export default function Navabr() {
             </svg>
           </button>
           <a href="https://flowbite.com" className="flex ms-2 md:me-24">
-            <img
+            {/* <img
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-8 me-3"
               alt="FlowBite Logo"
-            />
+            /> */}
             <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-              Flowbite
+              Haroon's Designer
             </span>
           </a>
         </div>
+        
         <div className="flex">
           <div className="flex ms-3">
             <div>
@@ -66,10 +99,10 @@ export default function Navabr() {
                  <div className="absolute z-50 w-48 mt-10 bg-white divide-y divide-gray-100 rounded shadow right-2 dark:bg-gray-700 dark:divide-gray-600">
               <div className="px-4 py-3" role="none">
                 <p className="text-sm text-gray-900 dark:text-white" role="none">
-                  Neil Sims
+                  {Name}
                 </p>
                 <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                  neil.sims@flowbite.com
+                  {email}
                 </p>
               </div>
               <ul className="py-1" role="none">
@@ -89,9 +122,14 @@ export default function Navabr() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                    Sign out
-                  </a>
+                <Link
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                  role="menuitem"
+                  onClick={logout}
+                >
+                  Sign out
+                </Link>
+
                 </li>
               </ul>
             </div>
