@@ -76,12 +76,6 @@ const ProductPage: React.FC = () => {
     setSelectedCategory(event.target.value);
   };
 
-  const handleCreateProduct = () => {
-    // Add your logic to handle creating a new product here
-    // For example, redirect to a new product creation page or show a modal
-    console.log('Create Product clicked');
-  };
-
   return (
     <div className="p-4">
 
