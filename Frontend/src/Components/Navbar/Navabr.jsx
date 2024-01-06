@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
 import React, { useContext, useEffect, useState } from 'react'
 import sidebar_context from '../../context/Sidebar/Sidebar';
 import Retail_User_Context from '../../context/Retail_User_Context/Retail_User';
@@ -7,29 +5,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Navabr() {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const context = useContext(sidebar_context)
-    const retail_context = useContext(Retail_User_Context);
-    const [Name, setName] = useState("Guest User")
-    const [email, setemail] = useState("guestuser@gmail.com")
-    const Navigate = useNavigate()
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-=======
-import React, { useContext, useEffect, useState } from 'react'
-import sidebar_context from '../../context/Sidebar/Sidebar';
-import Retail_User_Context from '../../context/Retail_User_Context/Retail_User';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const context = useContext(sidebar_context)
+  const retail_context = useContext(Retail_User_Context);
+  const [Name, setName] = useState("Guest User")
+  const [email, setemail] = useState("guestuser@gmail.com")
+  const Navigate = useNavigate()
 
-export default function Navabr() {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const context = useContext(sidebar_context)
-    const retail_context = useContext(Retail_User_Context);
-    const [Name, setName] = useState("Guest User")
-    const [email, setemail] = useState("guestuser@gmail.com")
-    const Navigate = useNavigate()
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -57,7 +39,6 @@ export default function Navabr() {
     console.log(context.toggleState);
   }
   
->>>>>>> 359f1ac (Login_Signup_Backend)
   return (
     <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
     <div className="px-3 py-3 lg:px-5 lg:pl-3">

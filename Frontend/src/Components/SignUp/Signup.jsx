@@ -9,8 +9,6 @@ export default function Signup() {
     const [lastName, setlastName] = useState('')
     const [DOB, setDOB] = useState(Date)
     const [password, setpassword] = useState('')
-<<<<<<< HEAD
-=======
     const [passwordverify, setpasswordverify] = useState('')
 
 
@@ -63,8 +61,6 @@ export default function Signup() {
         }
       }
 
-    
->>>>>>> 359f1ac (Login_Signup_Backend)
   return (
 <div className="flex justify-center min-h-screen text-gray-900 bg-gray-100">
       <div className="flex justify-center flex-1 max-w-screen-xl m-0 bg-white shadow sm:m-10 sm:rounded-lg">
