@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { MdAttachFile } from "react-icons/md";
+import 'tailwindcss/tailwind.css'; // Import Tailwind CSS
 
 interface ProductDetails {
   id: number;
@@ -111,7 +112,7 @@ const ProductDetailsPage: React.FC = () => {
 
           <div className="basis-2/3 px-3.5 py-3.5 sm:px-5 flex flex-col justify-between">
             <div>
-              <p className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold">{selectedProduct.name}</p>
+              <p className="text-4xl font-bold lg:text-5xl xl:text-6xl 2xl:text-7xl">{selectedProduct.name}</p>
               <div className="pt-8">
                 <p className="text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">Product Code: {selectedProduct.code}</p>
                 <p className="text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">Available Stock: {selectedProduct.stock}</p>
@@ -121,11 +122,11 @@ const ProductDetailsPage: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col items-center mt-20">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-3xl mb-2 w-1/2 xl:w-3/4" onClick={handleUpdateProduct}>
+              <button className="w-1/2 px-4 py-3 mb-2 font-bold text-white bg-blue-500 hover:bg-blue-700 rounded-3xl xl:w-3/4" onClick={handleUpdateProduct}>
                 Update Product
               </button>
               <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-3xl mb-2 w-1/2 xl:w-3/4"
+                className="w-1/2 px-4 py-3 mb-2 font-bold text-white bg-red-500 hover:bg-red-700 rounded-3xl xl:w-3/4"
                 onClick={() => handleDeleteProduct()}
               >
               Delete Product
@@ -148,10 +149,10 @@ const ProductDetailsPage: React.FC = () => {
 
             <div className="flex items-center mt-2">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 rounded-3xl flex mx-auto w-3/4 lg:w-1/2 flex justify-center items-center"
+                className="flex items-center justify-center w-3/4 py-3 mx-auto font-bold text-white bg-blue-500 hover:bg-blue-700 rounded-3xl lg:w-1/2"
                 onClick={handleAttachMedia}
               >
-                <MdAttachFile className="mr-2 h-5 w-5" />
+                <MdAttachFile className="w-5 h-5 mr-2" />
                 Attach Media
               </button>
               {/* Hidden file input */}
@@ -176,17 +177,17 @@ const ProductDetailsPage: React.FC = () => {
           {/* Modal for update product */}
           {isUpdateModalOpen && (
             <div className="fixed inset-0 z-10 flex items-center justify-center bg-gray-700 bg-opacity-50">
-              <div className="bg-white p-8 rounded-lg">
-                <p className="text-xl mb-4">Hi, Welcome to the Update Product's Page</p>
+              <div className="p-8 bg-white rounded-lg">
+                <p className="mb-4 text-xl">Hi, Welcome to the Update Product's Page</p>
 
                 {/* <div className="flex flex-col mb-4">
                   <label htmlFor="productName" className="mb-2 text-lg font-semibold">Product Name</label>
-                  <input type="text" id="productName" className="border border-gray-400 rounded px-3 py-2" value={currentProduct?.name || ''} readOnly />
+                  <input type="text" id="productName" className="px-3 py-2 border border-gray-400 rounded" value={currentProduct?.name || ''} readOnly />
                 </div>
 
                 <div className="flex flex-col mb-4">
                   <label htmlFor="productCode" className="mb-2 text-lg font-semibold">Product Code</label>
-                  <input type="text" id="productCode" className="border border-gray-400 rounded px-3 py-2" value={currentProduct?.code || ''} readOnly />
+                  <input type="text" id="productCode" className="px-3 py-2 border border-gray-400 rounded" value={currentProduct?.code || ''} readOnly />
                 </div> */}
 
                 <div className="flex flex-col mb-4">
@@ -194,7 +195,7 @@ const ProductDetailsPage: React.FC = () => {
                   <input
                     type="number"
                     id="productStock"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     value={currentProduct?.stock || ''}
                     onChange={(e) => handleAttributeChange('stock', parseInt(e.target.value))}
                   />
@@ -205,7 +206,7 @@ const ProductDetailsPage: React.FC = () => {
                   <input
                     type="text"
                     id="productColor"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     placeholder={currentProduct?.color || ''} // Set pre-filled value as placeholder
                     value={currentProduct?.color || ''}
                     onChange={(e) => handleAttributeChange('color', e.target.value)}
@@ -217,7 +218,7 @@ const ProductDetailsPage: React.FC = () => {
                   <input
                     type="text"
                     id="productType"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     placeholder={currentProduct?.type || ''}
                     value={currentProduct?.type || ''}
                     onChange={(e) => handleAttributeChange('type', e.target.value)}
@@ -229,7 +230,7 @@ const ProductDetailsPage: React.FC = () => {
                   <input
                     type="text"
                     id="productCategory"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     placeholder={currentProduct?.category || ''}
                     value={currentProduct?.category || ''}
                     onChange={(e) => handleAttributeChange('category', e.target.value)}
@@ -238,10 +239,10 @@ const ProductDetailsPage: React.FC = () => {
 
 
                 <div className="flex justify-between">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-3xl mr-4" onClick={handleCloseUpdateModal}>
+                  <button className="px-6 py-3 mr-4 font-bold text-white bg-blue-500 hover:bg-blue-700 rounded-3xl" onClick={handleCloseUpdateModal}>
                     Update
                   </button>
-                  <button className="bg-white border border-gray-500 hover:bg-gray-200 font-bold py-3 px-6 rounded-3xl" onClick={handleCloseUpdateModal}>
+                  <button className="px-6 py-3 font-bold bg-white border border-gray-500 hover:bg-gray-200 rounded-3xl" onClick={handleCloseUpdateModal}>
                     Cancel
                   </button>
                 </div>
