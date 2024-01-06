@@ -24,7 +24,7 @@ const AddProduct: React.FC = () => {
     if (
       productName &&
       productCode &&
-      productStock > 0 &&
+      //productStock > 0 &&
       productColor &&
       productType &&
       productCategory &&
