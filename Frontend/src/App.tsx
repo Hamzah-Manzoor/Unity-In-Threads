@@ -6,6 +6,7 @@ import Products from './Components/ProductsPage/ProductsMainPage'
 import Navabr from './Components/Navbar/Navabr'
 import Sidebar from './Components/Sidebar/Sidebar'
 import ProductDetailsPage from './Components/ProductsPage/ProductDetailsPage'
+import AddProduct from './Components/ProductsPage/AddProduct'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route path='/login' Component={Login}></Route>
             <Route path='/products' Component={Products}></Route>
             <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
+            <Route path="/products/add-product" Component={AddProduct}></Route>
             
             
           
