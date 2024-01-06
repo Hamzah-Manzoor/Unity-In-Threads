@@ -31,8 +31,8 @@ const ProductDetailsPage: React.FC = () => {
       color: 'Blue',
       type: 'Sherwani',
       category: "Groom's Section",
-      image: 'https://amiradnan.com/cdn/shop/products/FG-0001880-0644201-Silver-5.jpg?v=1664260476',
-      //image: 'https://uycollection.com/cdn/shop/products/EmbroideredPakistaniGroomSherwaniDressforWedding_1800x1800_32036069-ba94-487c-8c8c-d2642dcb9ae3.webp?v=1672990287',
+      //image: 'https://amiradnan.com/cdn/shop/products/FG-0001880-0644201-Silver-5.jpg?v=1664260476',
+      image: 'https://uycollection.com/cdn/shop/products/EmbroideredPakistaniGroomSherwaniDressforWedding_1800x1800_32036069-ba94-487c-8c8c-d2642dcb9ae3.webp?v=1672990287',
     },
     {
       id: 2,
