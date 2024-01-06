@@ -19,6 +19,34 @@ const AddProduct: React.FC = () => {
     }
   };
 
+  const handleSubmit = () => {
+    // Check if all required fields are filled
+    if (
+      productName &&
+      productCode &&
+      productStock > 0 &&
+      productColor &&
+      productType &&
+      productCategory &&
+      productImage
+    ) {
+      // All required fields are filled, proceed with form submission
+      console.log('Form submitted:', {
+        productName,
+        productCode,
+        productStock,
+        productColor,
+        productType,
+        productCategory,
+        productImage,
+      });
+      alert('Success! Product has been added.');
+    } else {
+      // Show an error message or prevent form submission
+      alert('Please fill in all the required fields.');
+    }
+  };
+
   return (
     <div className="p-4">
       <p className="text-center font-bold text-4xl font-serif">ADD PRODUCT</p>
@@ -149,8 +177,10 @@ const AddProduct: React.FC = () => {
           )}
         </div>
 
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 md:mx-auto md:w-7/12 lg:w-6/12 xl:w-5/12 rounded-3xl">
-          Create Product
+        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 md:mx-auto md:w-7/12 lg:w-6/12 xl:w-5/12 rounded-3xl"
+        onClick={handleSubmit}
+        >
+          Add Product
         </button>
       </div>
     </div>
