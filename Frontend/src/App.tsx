@@ -4,6 +4,7 @@ import Signup from '../src/Components/SignUp/Signup'
 import Login from './Components/Login/Login'
 import Products from './Components/ProductsPage/ProductsMainPage'
 import AddProduct from './Components/ProductsPage/AddProduct'
+import RecordRetailOrder from './Components/RecordRetailOrder/RecordRetailOrder'
 
 import ProductDetailsPage from './Components/ProductsPage/ProductDetailsPage'
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/products' Component={Products}></Route>
         <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
         <Route path="/products/add-product" Component={AddProduct}></Route>
+        <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
         <Route path='/login' Component={Login}></Route>
         <Route path='/products1'
             element={ // 'element' should be used instead of 'Component'
