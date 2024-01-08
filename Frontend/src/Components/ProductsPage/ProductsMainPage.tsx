@@ -79,35 +79,24 @@ const ProductPage: React.FC = () => {
 
   return (
     <div className="p-4">
-
-      <div className="flex flex-row-reverse mb-4">
-        <select
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          className="p-2 bg-white border border-gray-400 rounded-md shadow-md focus:outline-none"
-        >
-          <option value="">Filter by Category</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-
-        <Link to="/products/add-product" className="px-4 py-2 mr-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
-          Add Product
-        </Link>
-    </div>
-
-      {/* Render products based on the selected category */}
-      {selectedCategory && (
-        <div>
-          <h2 className="mb-2 text-2xl font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{selectedCategory}</h2>
-          {productTypes[selectedCategory].map(type => (
+      {categories.map(category => (
+        <div key={category}>
+          <h2 className="mb-2 text-2xl font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
+          {/* <div className="mb-4">
+            <h2 className="mb-2 text-xl font-semibold">Product Types</h2>
+            <ul>
+              {productTypes[category].map(type => (
+                <li key={type} className="text-green-500 cursor-pointer" onClick={() => handleTypeClick(type)}>
+                  {type}
+                </li>
+              ))}
+            </ul>
+          </div> */}
+          {productTypes[category].map(type => (
             <div key={type}>
               <h2 className="mb-2 text-lg font-semibold">{type}</h2>
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {products.filter(product => product.category === selectedCategory && product.type === type).map((product, index) => (
+                {products.filter(product => product.category === category && product.type === type).map((product, index) => (
                   <Link to={`/products/${product.id}`} key={index}>
                     <div key={index} className="p-4 mb-4 border border-gray-300 rounded">
                       {/* <img src={product.image} alt={product.name} className="object-cover w-32 h-32 mb-2" /> */}
@@ -124,40 +113,7 @@ const ProductPage: React.FC = () => {
             </div>
           ))}
         </div>
-      )}
-
-      {/* Default display when no category is selected */}
-      {!selectedCategory && (
-        <div>
-          {categories.map(category => (
-            <div key={category}>
-              <h2 className="mb-2 text-2xl font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
-              {productTypes[category].map(type => (
-                <div key={type}>
-                  <h2 className="mb-2 text-lg font-semibold">{type}</h2>
-                  <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {products.filter(product => product.category === category && product.type === type).map((product, index) => (
-                      <Link to={`/products/${product.id}`} key={index}>
-                        <div key={index} className="p-4 mb-4 border border-gray-300 rounded">
-                          {/* <img src={product.image} alt={product.name} className="object-cover w-32 h-32 mb-2" /> */}
-                          <h3 className="text-lg font-semibold">{product.name}</h3>
-                          <p>Product Code: {product.code}</p>
-                          <p>Available Stock: {product.stock}</p>
-                          <p>Color: {product.color}</p>
-                          <p>Type: {product.type}</p>
-                          <p>Category: {product.category}</p>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
-
-
+      ))}
     </div>
   );
 };
