@@ -154,7 +154,7 @@ const RecordRetailOrder = () => {
   const [productCode, setProductCode] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [orderList, setOrderList] = useState<OrderItem[]>([]);
-  const [branchName, setBranchName] = useState('Emporium Mall (1st Floor)');
+  const [branchName] = useState('Emporium Mall (1st Floor)');
 
   const totalCost = orderList.reduce((acc, item) => acc + item.quantity * item.productPrice, 0);
   const [showReceipt, setShowReceipt] = useState(false);
