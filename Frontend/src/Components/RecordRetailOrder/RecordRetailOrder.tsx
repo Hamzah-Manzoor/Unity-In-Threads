@@ -57,6 +57,7 @@ const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
           <p className="font-mono">Contact: +92 334 4701621</p>
           <p className="font-mono text-sm text-gray-600">{branchName}</p>
           <p className="font-mono text-sm text-gray-600">{formattedDate} at {formattedTime}</p>
+          <p className="font-mono text-sm text-gray-600">Order Number: 52735</p>
         </div>
 
         <hr className="my-2 border-t border-gray-400" />
