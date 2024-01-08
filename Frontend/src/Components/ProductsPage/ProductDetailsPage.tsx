@@ -105,9 +105,13 @@ const ProductDetailsPage: React.FC = () => {
 
   // Render the details of the selected product if found, else show a message
   return (
+<<<<<<< Updated upstream
     <div className="p-4">
 
       {/* My name is Muneeb */}
+=======
+    <div className="py-16">
+>>>>>>> Stashed changes
       {/* <h2>Product Details</h2> */}
       {selectedProduct ? (
         <div className="bg-gray-200 sm:mx-0.5 md:mx-2 lg:mx-7 xl:mx-28 2xl:mx-40 flex flex-col justify-center sm:flex-row">

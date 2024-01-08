@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import 'tailwindcss/tailwind.css'; // Import Tailwind CSS
+import ProductsCard from './ProductsCard';
+
 
 interface ProductTypes {
   [key: string]: string[];
@@ -33,10 +34,10 @@ const ProductPage: React.FC = () => {
   });
 
   const initialProducts: Product[] = [
-    { id: 1, name: 'Product A', code: 'P001', stock: 10, color: 'Blue', type: 'Sherwani', category: "Groom's Section", image: 'productA.jpg' },
-    { id: 2, name: 'Product B', code: 'P002', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'productB.jpg' },
-    { id: 11, name: 'Product AA', code: 'P0011', stock: 10, color: 'Blue', type: 'Sherwani', category: "Groom's Section", image: 'productAA.jpg' },
-    { id: 22, name: 'Product BB', code: 'P0022', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'productBB.jpg' },
+    { id: 1, name: 'Product A', code: 'P001', stock: 10, color: 'Blue', type: 'Sherwani', category: "Groom's Section", image: 'https://amiradnan.com/cdn/shop/products/FG-0001880-0644201-Silver-5.jpg?v=1664260476'},
+    { id: 2, name: 'Product B', code: 'P002', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'https://i.pinimg.com/564x/e2/31/ae/e231aebc2ad63a5d2010497c6041ded9.jpg' },
+    { id: 11, name: 'Product AA', code: 'P0011', stock: 10, color: 'Blue', type: 'Sherwani', category: "Groom's Section", image: 'https://i.pinimg.com/564x/1a/72/12/1a7212c3e0a49e67e1dc5ad64c9f2b04.jpg' },
+    { id: 22, name: 'Product BB', code: 'P0022', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'https://amiradnan.com/cdn/shop/products/FG-0001880-0644201-Silver-5.jpg?v=1664260476' },
 
     { id: 3, name: 'Product C', code: 'P003', stock: 12, color: 'Pink', type: 'Prince Coat', category: "Groom's Section", image: 'productc.jpg' },
     { id: 4, name: 'Product D', code: 'P004', stock: 16, color: 'Brown', type: 'Prince Coat', category: "Groom's Section", image: 'productd.jpg' },
@@ -78,7 +79,7 @@ const ProductPage: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="py-16">
       {categories.map(category => (
         <div key={category}>
           <h2 className="mb-2 text-2xl font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
@@ -97,20 +98,22 @@ const ProductPage: React.FC = () => {
               <h2 className="mb-2 text-lg font-semibold">{type}</h2>
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {products.filter(product => product.category === category && product.type === type).map((product, index) => (
-                  <Link to={`/products/${product.id}`} key={index}>
-                    <div key={index} className="p-4 mb-4 border border-gray-300 rounded">
-                      {/* <img src={product.image} alt={product.name} className="object-cover w-32 h-32 mb-2" /> */}
-                      <h3 className="text-lg font-semibold">{product.name}</h3>
-                      <p>Product Code: {product.code}</p>
-                      <p>Available Stock: {product.stock}</p>
-                      <p>Color: {product.color}</p>
-                      <p>Type: {product.type}</p>
-                      <p>Category: {product.category}</p>
-                    </div>
-                  </Link>
+                  // <Link to={`/products/${product.id}`} key={index}>
+                  //   <div key={index} className="p-4 mb-4 border border-gray-300 rounded">
+                  //     {/* <img src={product.image} alt={product.name} className="object-cover w-32 h-32 mb-2" /> */}
+                  //     <h3 className="text-lg font-semibold">{product.name}</h3>
+                  //     <p>Product Code: {product.code}</p>
+                  //     <p>Available Stock: {product.stock}</p>
+                  //     <p>Color: {product.color}</p>
+                  //     <p>Type: {product.type}</p>
+                  //     <p>Category: {product.category}</p>
+                  //   </div>
+                  // </Link>
+                  <ProductsCard key={product.id} {...product} />
                 ))}
               </div>
             </div>
+
           ))}
         </div>
       ))}

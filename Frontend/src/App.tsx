@@ -12,48 +12,28 @@ import Returns from './Components/Returns/Returns'
 import SidebarState from './context/Sidebar/SidebarState'
 import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
 import React from 'react'
+import CustomOrder from './Components/CustomOrder/CustomOrder'
 
 function App() {
 
   return (
     <>
       <BrowserRouter>
-        <SidebarState>
-          <Retail_User_State>
-
-      
-        <Routes>
-        <Route path='/' Component={Signup}></Route>
-        <Route path='/products' Component={Products}></Route>
-        <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
-        <Route path="/products/add-product" Component={AddProduct}></Route>
-        <Route path='/login' Component={Login}></Route>
-        <Route path='/products1'
-            element={ // 'element' should be used instead of 'Component'
-              <Layout>
-                <Products></Products>
-              </Layout>
-            }
-          />
-        <Route
-            path='/ReturnsandExchange'
-            element={ // 'element' should be used instead of 'Component'
-              <Layout>
-                <Returns />
-              </Layout>
-            }
-          />
-            
-
-            
-            
-          
-          </Routes>
-          </Retail_User_State>
-          </SidebarState>
-
-
-      </BrowserRouter>
+  <SidebarState>
+    <Retail_User_State>
+      <Routes>
+        <Route path='/' element={<Signup></Signup>} />
+        <Route path='/products' element={<Layout><Products /></Layout>} />
+        <Route path="/products/:productId" element={<Layout><ProductDetailsPage /></Layout>} />
+        <Route path="/products/add-product" element={<Layout><AddProduct /></Layout>} />
+        <Route path='/login' element={<Login></Login>} />
+        <Route path='/products1' element={<Layout><Products /></Layout>} />
+        <Route path='/ReturnsandExchange' element={<Layout><Returns /></Layout>} />
+        <Route path='/CustomOrder' element={<Layout><CustomOrder /></Layout>} />
+      </Routes>
+    </Retail_User_State>
+  </SidebarState>
+</BrowserRouter>
     </>
   )
 }
