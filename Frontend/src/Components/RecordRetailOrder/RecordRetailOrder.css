@@ -1,0 +1,9 @@
+@media print {
+  .buttonsContainer {
+    display: none;
+  }
+}
+
+.hiddenForCapture {
+  display: none !important;
+}
