@@ -20,7 +20,7 @@ interface Product {
 
 const ProductPage: React.FC = () => {
   const [categories] = useState(['Groom\'s Section', 'Eastern', 'Western']);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  //const [selectedCategory, setSelectedCategory] = useState<string>('');
   // const [productTypes, setProductTypes] = useState<ProductTypes>({
   //   "Groom's Section": ['Sherwani', 'Prince Coat', 'Fancy Waist Coat'],
   //   'Eastern': ['Formal Waist Coat', 'Shalwar Suit', 'Kurta'],
@@ -74,9 +74,9 @@ const ProductPage: React.FC = () => {
     //setProducts(filteredProducts);
   //};
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(event.target.value);
-  };
+  // const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setSelectedCategory(event.target.value);
+  // };
 
   return (
     <div className="py-16">

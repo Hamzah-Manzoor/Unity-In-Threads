@@ -6,10 +6,7 @@ export default function CustomOrder() {
         const [selectedOption, setSelectedOption] = useState('');
         const [showForm, setShowForm] = useState(false);
       
-<<<<<<< Updated upstream
         //My name is 
-=======
->>>>>>> Stashed changes
         const handleDropdownChange = (event) => {
           setSelectedOption(event.target.value);
           setShowForm(true);
