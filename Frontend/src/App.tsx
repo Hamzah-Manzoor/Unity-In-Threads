@@ -11,6 +11,9 @@ import Layout from './Components/Layout/Layout'
 import Returns from './Components/Returns/Returns'
 import SidebarState from './context/Sidebar/SidebarState'
 import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
+import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
+import Sidebar from './Components/Sidebar/Sidebar'
+
 
 function App() {
 
@@ -27,6 +30,8 @@ function App() {
         <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
         <Route path="/products/add-product" Component={AddProduct}></Route>
         <Route path='/login' Component={Login}></Route>
+        <Route path='/Dashboard' Component={Dashboard_retail}></Route>
+        <Route path="/Sidebar" Component={Sidebar}></Route>
         <Route path='/products1'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
