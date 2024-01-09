@@ -41,7 +41,14 @@ function App() {
         <Route path="/products/add-product" Component={AddProduct}></Route>
         <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
         <Route path='/login' Component={Login}></Route>
-        <Route path='/Dashboard/Retail' Component={Dashboard_retail}></Route>
+        <Route path='Dashboard/Retail'
+            element={ // 'element' should be used instead of 'Component'
+              <Layout>
+                <Dashboard_retail></Dashboard_retail>
+              </Layout>
+            }
+          />
+        {/* <Route path='/Dashboard/Retail' Component={Dashboard_retail}></Route> */}
         <Route path='/Dashboard/Production' Component={Dashboard_production}></Route>
         <Route path='/products'
             element={ // 'element' should be used instead of 'Component'
