@@ -4,7 +4,7 @@ function Sherwani({heading}) {
   return (
     <form className="w-full pt-4 text-center">
       <h1 className='p-4 text-5xl text-slate-50'>{heading}</h1>
-      <div className="mb-2">
+      <div className="p-3 mb-2">
         <label htmlFor="chestSize" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Garnment Chest size
         </label>
@@ -16,7 +16,7 @@ function Sherwani({heading}) {
           required
         />
       </div>
-      <div className="mb-2">
+      <div className="p-3 mb-2">
         <label htmlFor="shoulderMeasurement" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Shoulder Measurement
         </label>
@@ -28,7 +28,7 @@ function Sherwani({heading}) {
           required
         />
       </div>
-      <div className="mb-2">
+      <div className="p-3 mb-2">
         <label htmlFor="neck" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Neck
         </label>
@@ -40,7 +40,7 @@ function Sherwani({heading}) {
           required
         />
       </div>
-      <div className="mb-2">
+      <div className="p-3 mb-2">
         <label htmlFor="sleeveLength" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Sleeves Length
         </label>
@@ -52,7 +52,7 @@ function Sherwani({heading}) {
           required
         />
       </div>
-      <div className="mb-2">
+      <div className="p-3 mb-2">
         <label htmlFor="sherwaniLength" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Sherwani Length
         </label>
