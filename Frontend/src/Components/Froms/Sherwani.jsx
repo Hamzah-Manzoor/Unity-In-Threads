@@ -2,7 +2,7 @@ import React from 'react';
 
 function Sherwani({heading}) {
   return (
-    <form className="w-full text-center">
+    <form className="w-full pt-4 text-center">
       <h1 className='p-4 text-5xl text-slate-50'>{heading}</h1>
       <div className="mb-2">
         <label htmlFor="chestSize" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
