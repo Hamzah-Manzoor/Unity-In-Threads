@@ -14,6 +14,10 @@ import Layout from './Components/Layout/Layout'
 import Returns from './Components/Returns/Returns'
 import SidebarState from './context/Sidebar/SidebarState'
 import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
+import CustomOrder from './Components/CustomOrder/CustomOrder'
+import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
+import Dashboard_production from './Components/Dashboard/Dashboard_production'
+
 
 function App() {
 
@@ -26,12 +30,27 @@ function App() {
       
         <Routes>
         <Route path='/' Component={Signup}></Route>
-        <Route path='/products' Component={Products}></Route>
+        <Route path='/CustomOrder'
+            element={ // 'element' should be used instead of 'Component'
+              <Layout>
+                <CustomOrder></CustomOrder>
+              </Layout>
+            }
+          />
         <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
         <Route path="/products/add-product" Component={AddProduct}></Route>
         <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
         <Route path='/login' Component={Login}></Route>
-        <Route path='/products1'
+        <Route path='Dashboard/Retail'
+            element={ // 'element' should be used instead of 'Component'
+              <Layout>
+                <Dashboard_retail></Dashboard_retail>
+              </Layout>
+            }
+          />
+        {/* <Route path='/Dashboard/Retail' Component={Dashboard_retail}></Route> */}
+        <Route path='/Dashboard/Production' Component={Dashboard_production}></Route>
+        <Route path='/products'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
                 <Products></Products>

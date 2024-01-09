@@ -49,7 +49,7 @@ export default function Navabr() {
             data-drawer-toggle="logo-sidebar"
             aria-controls="logo-sidebar"
             type="button"
-            className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             onClick={func}
           >
             <span className="sr-only">Open sidebar</span>
@@ -67,12 +67,7 @@ export default function Navabr() {
               ></path>
             </svg>
           </button>
-          <a href="https://flowbite.com" className="flex ms-2 md:me-24">
-            {/* <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8 me-3"
-              alt="FlowBite Logo"
-            /> */}
+          <a href="#" className="flex ms-2 md:me-24">
             <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
               Haroon's Designer
             </span>
