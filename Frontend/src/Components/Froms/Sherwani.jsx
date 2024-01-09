@@ -2,7 +2,7 @@ import React from 'react';
 
 function Sherwani({heading}) {
   return (
-    <form className="w-full pt-4 text-center">
+    <form className="w-full text-center">
       <h1 className='p-4 text-5xl text-slate-50'>{heading}</h1>
       <div className="p-3 mb-2">
         <label htmlFor="chestSize" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -67,7 +67,7 @@ function Sherwani({heading}) {
       {/* Additional input fields can be added similarly */}
       <button
         type="submit"
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="text-white mb-5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Submit
       </button>
