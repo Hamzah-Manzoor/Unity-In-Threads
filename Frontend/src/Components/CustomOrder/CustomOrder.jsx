@@ -43,12 +43,12 @@ export default function CustomOrder() {
         
       
   return (
-
-
-        <div className="relative flex justify-center inline-block lg:pt-16 sm:pt-4">
+    <div className="flex justify-center h-full min-h-screen pt-20 text-center">
+    
+        <div className='w-8/12 pb-5'>
           <select
             onChange={handleDropdownChange}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white mb-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <option value="">Select an option</option>
             <option value="Sherwani">Sherwani</option>
@@ -61,10 +61,11 @@ export default function CustomOrder() {
 
         {showForm && (
           
-            <div className="absolute z-10 w-9/12 mt-1 bg-white divide-y divide-gray-100 rounded-lg shadow w-9 w- h-100 dark:bg-gray-700 top-full">
+            <div className="w-full mt-1 bg-white divide-y divide-gray-100 rounded-lg shadow h-100 dark:bg-gray-700 top-full">
               {renderForm()}
             </div>
           )}
+        </div>
         </div>
       );
 }

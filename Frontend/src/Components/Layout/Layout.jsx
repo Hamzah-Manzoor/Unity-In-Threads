@@ -4,12 +4,13 @@ import Sidebar from '../Sidebar/Sidebar'
 
 export default function Layout({children}) {
   return (
-    <div className="grid h-screen grid-rows-4">
+    <div className="grid h-screen grid-rows-8">
     {/* Navbar (1/5 height) */}
-    <Navabr className="row-span-1"></Navabr>
-  
+    <div className="row-span-1">
+    <Navabr></Navabr>
+    </div>
     {/* Grid container for sidebar and content */}
-    <div className="grid grid-cols-1 row-span-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4">
+    <div className="grid grid-cols-1 row-span-7 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4">
       {/* Sidebar (1/6 width) */}
       <Sidebar className="col-span-1"></Sidebar>
   
