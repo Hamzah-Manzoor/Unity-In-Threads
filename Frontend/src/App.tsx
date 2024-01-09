@@ -14,6 +14,7 @@ import Layout from './Components/Layout/Layout'
 import Returns from './Components/Returns/Returns'
 import SidebarState from './context/Sidebar/SidebarState'
 import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
+import CustomOrder from './Components/CustomOrder/CustomOrder'
 
 function App() {
 
@@ -26,12 +27,18 @@ function App() {
       
         <Routes>
         <Route path='/' Component={Signup}></Route>
-        <Route path='/products' Component={Products}></Route>
+        <Route path='/CustomOrder'
+            element={ // 'element' should be used instead of 'Component'
+              <Layout>
+                <CustomOrder></CustomOrder>
+              </Layout>
+            }
+          />
         <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
         <Route path="/products/add-product" Component={AddProduct}></Route>
         <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
         <Route path='/login' Component={Login}></Route>
-        <Route path='/products1'
+        <Route path='/products'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
                 <Products></Products>
