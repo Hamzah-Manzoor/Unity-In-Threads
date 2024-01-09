@@ -20,8 +20,7 @@ const Dashboard: React.FC = () => {
   const soldSherwani = 32;
   return (
     <div className="container mx-auto py-8 px-8">
-      <p className="text-3xl font-semibold mb-4 text-gray-800">Retail Dashboard</p>
-      <p className=" grid justify-items-end text-3xl font-semibold mb-4 text-2xl">Emporium Mall, 1st Floor</p>
+      <p className="text-3xl font-semibold mb-4 text-gray-800">Production Dashboard</p>
       <p className=" grid justify-items-end text-3xl font-semibold mb-4 text-lg">10th Jan 2024</p>
 
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">Overall</h2>

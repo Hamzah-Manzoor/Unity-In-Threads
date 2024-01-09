@@ -16,6 +16,7 @@ import SidebarState from './context/Sidebar/SidebarState'
 import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
 import CustomOrder from './Components/CustomOrder/CustomOrder'
 import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
+import Dashboard_production from './Components/Dashboard/Dashboard_production'
 
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
         <Route path="/products/add-product" Component={AddProduct}></Route>
         <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
         <Route path='/login' Component={Login}></Route>
-        <Route path='/Dashboard' Component={Dashboard_retail}></Route>
+        <Route path='/Dashboard/Retail' Component={Dashboard_retail}></Route>
+        <Route path='/Dashboard/Production' Component={Dashboard_production}></Route>
         <Route path='/products'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
