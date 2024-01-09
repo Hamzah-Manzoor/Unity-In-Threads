@@ -17,6 +17,7 @@ import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
 import CustomOrder from './Components/CustomOrder/CustomOrder'
 import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
 import Dashboard_production from './Components/Dashboard/Dashboard_production'
+import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
       <BrowserRouter>
         <SidebarState>
           <Retail_User_State>
-
+          <Login_Type_State>
       
         <Routes>
         <Route path='/' Component={Signup}></Route>
@@ -75,6 +76,7 @@ function App() {
             
           
           </Routes>
+          </Login_Type_State>
           </Retail_User_State>
           </SidebarState>
 

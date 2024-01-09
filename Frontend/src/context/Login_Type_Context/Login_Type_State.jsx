@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Login_Type_Context from './Login_Type_Context';
 
 
 const Login_Type_State = (props)=>{
@@ -9,9 +10,9 @@ const Login_Type_State = (props)=>{
         settype(str);
     }
     return (
-        <Login_Type_State.Provider value={{type , update}}>
+        <Login_Type_Context.Provider value={{type , update}}>
             {props.children}
-        </Login_Type_State.Provider>
+        </Login_Type_Context.Provider>
     )
 
 }
