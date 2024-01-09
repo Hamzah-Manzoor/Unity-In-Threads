@@ -103,6 +103,7 @@ export default function Signup() {
 
       <button
         className="flex items-center justify-center w-full py-4 mt-5 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
+        onClick={(e)=>Register(e)}
       >
         <svg className="w-6 h-6 -ml-2" fill="none" stroke="currentColor" strokeWidth="2"
           strokeLinecap="round" strokeLinejoin="round">
