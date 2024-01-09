@@ -6,6 +6,8 @@ import Products from './Components/ProductsPage/ProductsMainPage'
 import AddProduct from './Components/ProductsPage/AddProduct'
 import RecordRetailOrder from './Components/RecordRetailOrder/RecordRetailOrder'
 
+import TaskManager from './Components/TaskManagerProduction/TaskManager'
+
 import ProductDetailsPage from './Components/ProductsPage/ProductDetailsPage'
 
 import Layout from './Components/Layout/Layout'
@@ -44,6 +46,10 @@ function App() {
               </Layout>
             }
           />
+
+
+        {/* Production Modules */}
+        <Route path="/task-manager" Component={TaskManager}></Route>
             
 
             
