@@ -39,31 +39,31 @@ const ProductPage: React.FC = () => {
     { id: 11, name: 'Product AA', code: 'P0011', stock: 10, color: 'Blue', type: 'Sherwani', category: "Groom's Section", image: 'https://i.pinimg.com/564x/1a/72/12/1a7212c3e0a49e67e1dc5ad64c9f2b04.jpg' },
     { id: 22, name: 'Product BB', code: 'P0022', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'https://amiradnan.com/cdn/shop/products/FG-0001880-0644201-Silver-5.jpg?v=1664260476' },
 
-    { id: 3, name: 'Product C', code: 'P003', stock: 12, color: 'Pink', type: 'Prince Coat', category: "Groom's Section", image: 'productc.jpg' },
-    { id: 4, name: 'Product D', code: 'P004', stock: 16, color: 'Brown', type: 'Prince Coat', category: "Groom's Section", image: 'productd.jpg' },
+    { id: 3, name: 'Product C', code: 'P003', stock: 12, color: 'Pink', type: 'Prince Coat', category: "Groom's Section", image: 'https://cdn.shopify.com/s/files/1/2337/7003/products/0000_PrinceCoat_6_3.jpg' },
+    { id: 4, name: 'Product D', code: 'P004', stock: 16, color: 'Brown', type: 'Prince Coat', category: "Groom's Section", image: 'https://cdn.shopify.com/s/files/1/2337/7003/products/b0cf7814855cb94a481e21bbe576622b.jpg' },
 
-    { id: 5, name: 'Product E', code: 'P005', stock: 23, color: 'Pink', type: 'Fancy Waist Coat', category: "Groom's Section", image: 'producte.jpg' },
-    { id: 6, name: 'Product F', code: 'P006', stock: 7, color: 'Violet', type: 'Fancy Waist Coat', category: "Groom's Section", image: 'productf.jpg' },
-
-
-    { id: 7, name: 'Product G', code: 'P007', stock: 18, color: 'Green', type: 'Formal Waist Coat', category: 'Eastern', image: 'productg.jpg' },
-    { id: 8, name: 'Product H', code: 'P008', stock: 42, color: 'Black', type: 'Formal Waist Coat', category: 'Eastern', image: 'producth.jpg' },
-
-    { id: 9, name: 'Product I', code: 'P009', stock: 19, color: 'Orange', type: 'Shalwar Suit', category: 'Eastern', image: 'producti.jpg' },
-    { id: 10, name: 'Product J', code: 'P0010', stock: 22, color: 'Blue', type: 'Shalwar Suit', category: 'Eastern', image: 'productj.jpg' },
-
-    { id: 11, name: 'Product K', code: 'P0011', stock: 13, color: 'Brown', type: 'Kurta', category: 'Eastern', image: 'productk.jpg' },
-    { id: 12, name: 'Product L', code: 'P0012', stock: 25, color: 'Indingo', type: 'Kurta', category: 'Eastern', image: 'productl.jpg' },
+    { id: 5, name: 'Product E', code: 'P005', stock: 23, color: 'Pink', type: 'Fancy Waist Coat', category: "Groom's Section", image: 'https://www.junaidjamshed.com/media/catalog/product/4/5/45017_1__1.jpg' },
+    { id: 6, name: 'Product F', code: 'P006', stock: 7, color: 'Violet', type: 'Fancy Waist Coat', category: "Groom's Section", image: 'https://www.junaidjamshed.com/media/catalog/product/4/8/48022_3_.jpg' },
 
 
-    { id: 13, name: 'Product M', code: 'P0013', stock: 18, color: 'Green', type: 'Formal Suiting', category: 'Western', image: 'productm.jpg' },
-    { id: 14, name: 'Product N', code: 'P0014', stock: 42, color: 'Black', type: 'Formal Suiting', category: 'Western', image: 'productn.jpg' },
+    { id: 7, name: 'Product G', code: 'P007', stock: 18, color: 'Green', type: 'Formal Waist Coat', category: 'Eastern', image: 'https://www.junaidjamshed.com/media/catalog/product/j/j/jjvc-48040_2_.jpg' },
+    { id: 8, name: 'Product H', code: 'P008', stock: 42, color: 'Black', type: 'Formal Waist Coat', category: 'Eastern', image: 'https://www.junaidjamshed.com/media/catalog/product/4/8/48045_3_.jpg' },
 
-    { id: 15, name: 'Product O', code: 'P0015', stock: 19, color: 'Orange', type: 'Stylish Tuxedo', category: 'Western', image: 'producto.jpg' },
-    { id: 16, name: 'Product P', code: 'P0016', stock: 22, color: 'Blue', type: 'Stylish Tuxedo', category: 'Western', image: 'productp.jpg' },
+    { id: 9, name: 'Product I', code: 'P009', stock: 19, color: 'Orange', type: 'Shalwar Suit', category: 'Eastern', image: 'https://www.junaidjamshed.com/media/catalog/product/2/5/2557_2_.jpg' },
+    { id: 10, name: 'Product J', code: 'P0010', stock: 22, color: 'Blue', type: 'Shalwar Suit', category: 'Eastern', image: 'https://www.junaidjamshed.com/media/catalog/product/j/j/jjms-2563_brown.jpg' },
 
-    { id: 17, name: 'Product Q', code: 'P0017', stock: 13, color: 'Brown', type: 'Traditional Mix and Match', category: 'Western', image: 'productq.jpg' },
-    { id: 18, name: 'Product R', code: 'P0018', stock: 25, color: 'Indingo', type: 'Traditional Mix and Match', category: 'Western', image: 'productr.jpg' },
+    { id: 11, name: 'Product K', code: 'P0011', stock: 13, color: 'Brown', type: 'Kurta', category: 'Eastern', image: 'https://www.gulahmedshop.com/media/catalog/product/n/a/navy_blue_styling_kurta_kr-sty23-031_3_.jpg' },
+    { id: 12, name: 'Product L', code: 'P0012', stock: 25, color: 'Indingo', type: 'Kurta', category: 'Eastern', image: 'https://www.gulahmedshop.com/media/catalog/product/b/r/brown_printed_kurta_kr-pln22-010_1_.jpg' },
+
+
+    { id: 13, name: 'Product M', code: 'P0013', stock: 18, color: 'Green', type: 'Formal Suiting', category: 'Western', image: 'https://uniworthdress.com/uploads/product/ST1549S.jpg' },
+    { id: 14, name: 'Product N', code: 'P0014', stock: 42, color: 'Black', type: 'Formal Suiting', category: 'Western', image: 'https://uniworthdress.com/uploads/product/ST1244S..jpg' },
+
+    { id: 15, name: 'Product O', code: 'P0015', stock: 19, color: 'Orange', type: 'Stylish Tuxedo', category: 'Western', image: 'https://royaltag.com.pk/cdn/shop/files/MS10897-GR_2_720x.jpg' },
+    { id: 16, name: 'Product P', code: 'P0016', stock: 22, color: 'Blue', type: 'Stylish Tuxedo', category: 'Western', image: 'https://royaltag.com.pk/cdn/shop/files/MS10897-BR_4_720x.jpg' },
+
+    { id: 17, name: 'Product Q', code: 'P0017', stock: 13, color: 'Brown', type: 'Traditional Mix and Match', category: 'Western', image: 'https://bonanzasatrangi.com/cdn/shop/products/UWGZB23-04-052A8125_120x.jpg' },
+    { id: 18, name: 'Product R', code: 'P0018', stock: 25, color: 'Indingo', type: 'Traditional Mix and Match', category: 'Western', image: 'https://bonanzasatrangi.com/cdn/shop/products/UWGZC23-03_1_120x.jpg' },
     // Add more sample product data here
   ];
   //const [products, setProducts] = useState(initialProducts);
