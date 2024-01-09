@@ -14,7 +14,7 @@ export default function Layout({children}) {
       <Sidebar className="col-span-1"></Sidebar>
   
       {/* Content (Remaining width) */}
-      <div className="col-span-3 bg-gray-800">
+      <div className="col-span-3 bg-gray-800 h-100">
         {/* Content */}
         {children}
       </div>

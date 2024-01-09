@@ -49,48 +49,48 @@ const AddProduct: React.FC = () => {
 
   return (
     <div className="p-4">
-      <p className="text-center font-bold text-4xl font-serif">ADD PRODUCT</p>
+      <p className="font-serif text-4xl font-bold text-center">ADD PRODUCT</p>
 
-      <div className="flex flex-col mx-7 space-y-4">
+      <div className="flex flex-col space-y-4 mx-7">
 
         <div className="flex flex-col md:flex-row">
 
             <div className="md:basis-1/2 md:mx-5">
 
                 <div className="flex flex-col">
-                <label htmlFor="productName" className="text-lg font-semibold mb-1">
+                <label htmlFor="productName" className="mb-1 text-lg font-semibold">
                     Product Name
                 </label>
                 <input
                     type="text"
                     id="productName"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productCode" className="text-lg font-semibold mb-1">
+                <label htmlFor="productCode" className="mb-1 text-lg font-semibold">
                     Product Code
                 </label>
                 <input
                     type="text"
                     id="productCode"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     value={productCode}
                     onChange={(e) => setProductCode(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productStock" className="text-lg font-semibold mb-1">
+                <label htmlFor="productStock" className="mb-1 text-lg font-semibold">
                     Stock
                 </label>
                 <input
                     type="number"
                     id="productStock"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     value={productStock}
                     onChange={(e) => setProductStock(parseInt(e.target.value))}
                 />
@@ -101,39 +101,39 @@ const AddProduct: React.FC = () => {
             <div className="md:basis-1/2 md:mx-5">
 
                 <div className="flex flex-col">
-                <label htmlFor="productColor" className="text-lg font-semibold mb-1">
+                <label htmlFor="productColor" className="mb-1 text-lg font-semibold">
                     Color
                 </label>
                 <input
                     type="text"
                     id="productColor"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     value={productColor}
                     onChange={(e) => setProductColor(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productType" className="text-lg font-semibold mb-1">
+                <label htmlFor="productType" className="mb-1 text-lg font-semibold">
                     Type
                 </label>
                 <input
                     type="text"
                     id="productType"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     value={productType}
                     onChange={(e) => setProductType(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productCategory" className="text-lg font-semibold mb-1">
+                <label htmlFor="productCategory" className="mb-1 text-lg font-semibold">
                     Category
                 </label>
                 <input
                     type="text"
                     id="productCategory"
-                    className="border border-gray-400 rounded px-3 py-2"
+                    className="px-3 py-2 border border-gray-400 rounded"
                     value={productCategory}
                     onChange={(e) => setProductCategory(e.target.value)}
                 />
@@ -144,15 +144,15 @@ const AddProduct: React.FC = () => {
         </div>
 
         <div className="flex flex-col md:mx-5">
-          <label htmlFor="productImage" className="text-lg font-semibold mb-1">
+          <label htmlFor="productImage" className="mb-1 text-lg font-semibold">
             Product Image
           </label>
           <div className="flex items-center">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-3xl flex justify-center items-center"
+              className="flex items-center justify-center px-4 py-2 font-bold text-white bg-blue-500 hover:bg-blue-700 rounded-3xl"
               onClick={handleAttachMedia}
             >
-              <MdAttachFile className="mr-2 h-5 w-5" />
+              <MdAttachFile className="w-5 h-5 mr-2" />
               Attach Image
             </button>
             {/* Hidden file input */}
@@ -173,11 +173,11 @@ const AddProduct: React.FC = () => {
             />
           </div>
           {productImage && (
-            <img src={productImage} alt="Product" className="mt-3 object-cover h-48 w-48" />
+            <img src={productImage} alt="Product" className="object-cover w-48 h-48 mt-3" />
           )}
         </div>
 
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 md:mx-auto md:w-7/12 lg:w-6/12 xl:w-5/12 rounded-3xl"
+        <button className="px-6 py-3 font-bold text-white bg-green-500 hover:bg-green-700 md:mx-auto md:w-7/12 lg:w-6/12 xl:w-5/12 rounded-3xl"
         onClick={handleSubmit}
         >
           Add Product
