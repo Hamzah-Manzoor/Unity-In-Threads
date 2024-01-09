@@ -4,6 +4,9 @@ import Signup from '../src/Components/SignUp/Signup'
 import Login from './Components/Login/Login'
 import Products from './Components/ProductsPage/ProductsMainPage'
 import AddProduct from './Components/ProductsPage/AddProduct'
+import RecordRetailOrder from './Components/RecordRetailOrder/RecordRetailOrder'
+
+import TaskManager from './Components/TaskManagerProduction/TaskManager'
 
 import ProductDetailsPage from './Components/ProductsPage/ProductDetailsPage'
 
@@ -11,8 +14,8 @@ import Layout from './Components/Layout/Layout'
 import Returns from './Components/Returns/Returns'
 import SidebarState from './context/Sidebar/SidebarState'
 import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
+import CustomOrder from './Components/CustomOrder/CustomOrder'
 import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
-import Sidebar from './Components/Sidebar/Sidebar'
 
 
 function App() {
@@ -26,13 +29,19 @@ function App() {
       
         <Routes>
         <Route path='/' Component={Signup}></Route>
-        <Route path='/products' Component={Products}></Route>
+        <Route path='/CustomOrder'
+            element={ // 'element' should be used instead of 'Component'
+              <Layout>
+                <CustomOrder></CustomOrder>
+              </Layout>
+            }
+          />
         <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
         <Route path="/products/add-product" Component={AddProduct}></Route>
+        <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
         <Route path='/login' Component={Login}></Route>
         <Route path='/Dashboard' Component={Dashboard_retail}></Route>
-        <Route path="/Sidebar" Component={Sidebar}></Route>
-        <Route path='/products1'
+        <Route path='/products'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
                 <Products></Products>
@@ -47,6 +56,10 @@ function App() {
               </Layout>
             }
           />
+
+
+        {/* Production Modules */}
+        <Route path="/task-manager" Component={TaskManager}></Route>
             
 
             
