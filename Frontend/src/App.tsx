@@ -17,9 +17,11 @@ import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
 import CustomOrder from './Components/CustomOrder/CustomOrder'
 import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
 import Dashboard_production from './Components/Dashboard/Dashboard_production'
+import { useContext } from 'react'
 
 
 function App() {
+  const type = useContext(Lo)
 
   return (
     <>
