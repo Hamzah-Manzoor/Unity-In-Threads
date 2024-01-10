@@ -21,14 +21,14 @@ import { useContext } from 'react'
 
 
 function App() {
-  const type = useContext(Lo)
+  //const type = useContext(Lo)
 
   return (
     <>
       <BrowserRouter>
         <SidebarState>
           <Retail_User_State>
-
+          <Login_Type_State>
       
         <Routes>
         <Route path='/' Component={Signup}></Route>
@@ -77,6 +77,7 @@ function App() {
             
           
           </Routes>
+          </Login_Type_State>
           </Retail_User_State>
           </SidebarState>
 
