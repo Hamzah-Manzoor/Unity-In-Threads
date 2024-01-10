@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -115,6 +116,9 @@ export default function Signup() {
           Sign Up
         </span>
       </button>
+      <p className="mt-6 text-xs text-center text-gray-600">
+        <Link to='/login'></Link>
+      </p>
       <p className="mt-6 text-xs text-center text-gray-600">
         I agree to abide by Haroon's Designer
         <a href="#" className="mx-1 border-b border-gray-500 border-dotted mx">
