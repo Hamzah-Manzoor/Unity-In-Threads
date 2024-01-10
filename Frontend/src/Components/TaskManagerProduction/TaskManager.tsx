@@ -62,7 +62,7 @@ const TaskManager: React.FC = () => {
       ];
       
     const [changedRows, setChangedRows] = useState(new Set<number>());
-    const [confirmUpdate, setConfirmUpdate] = useState(false);
+    // const [confirmUpdate, setConfirmUpdate] = useState(false);
       
   const [editableTaskId, setEditableTaskId] = useState<number | null>(null);
 
@@ -78,7 +78,8 @@ const TaskManager: React.FC = () => {
 
   const [employees] = useState<Employee[]>(initialEmployees);
   const [selectedEmployees, setSelectedEmployees] = useState<Employee[]>([]);
-  const [selectedEmployeesEdit, setSelectedEmployeesEdit] = useState<Employee[]>([]);
+  //const [selectedEmployeesEdit, setSelectedEmployeesEdit] = useState<Employee[]>([]);
+  const [,setSelectedEmployeesEdit] = useState<Employee[]>([]);
 
 
   const handleTaskDeletion = (taskId: number) => {
