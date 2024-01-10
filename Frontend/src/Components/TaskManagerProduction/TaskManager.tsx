@@ -20,8 +20,8 @@ interface Task {
 const TaskManager: React.FC = () => {
 
     const initialEmployees: Employee[] = [
-        { id: 1, name: 'Ali Irtaza', employeeId: 'EMP001', hoursWorked: 40 },
-        { id: 2, name: 'Junaid Ahmed', employeeId: 'EMP002', hoursWorked: 35 },
+        { id: 3, name: 'Ali Irtaza', employeeId: 'EMP003', hoursWorked: 40 },
+        { id: 4, name: 'Junaid Ahmed', employeeId: 'EMP004', hoursWorked: 35 },
         // Add more employees here
       ];
 
@@ -61,7 +61,10 @@ const TaskManager: React.FC = () => {
         // Add more sample tasks here
       ];
       
+    const [changedRows, setChangedRows] = useState(new Set<number>());
+    const [confirmUpdate, setConfirmUpdate] = useState(false);
       
+  const [editableTaskId, setEditableTaskId] = useState<number | null>(null);
 
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [newTask, setNewTask] = useState<Task>({
@@ -75,6 +78,8 @@ const TaskManager: React.FC = () => {
 
   const [employees] = useState<Employee[]>(initialEmployees);
   const [selectedEmployees, setSelectedEmployees] = useState<Employee[]>([]);
+  const [selectedEmployeesEdit, setSelectedEmployeesEdit] = useState<Employee[]>([]);
+
 
   const handleTaskDeletion = (taskId: number) => {
     const confirmed = window.confirm('Are you sure you want to delete this task?');
@@ -117,9 +122,74 @@ const TaskManager: React.FC = () => {
     }));
   };
 
+
+  const handleAddEmployeeEdit = (employee: Employee, taskId: number) => {
+    // Update selected employees for display
+    setSelectedEmployeesEdit((prevSelectedEmployees) => [
+      ...prevSelectedEmployees,
+      employee,
+    ]);
+  
+    // Update the task being edited
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              assignedTo: [...(task.assignedTo || []), employee],
+            }
+          : task
+      )
+    );
+  };
+  
+  const handleRemoveEmployeeEdit = (employeeId: number, taskId: number) => {
+    // Update selected employees for display
+    setSelectedEmployeesEdit((prevSelectedEmployees) =>
+      prevSelectedEmployees.filter((emp) => emp.id !== employeeId)
+    );
+  
+    // Update the task being edited
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              assignedTo: (task.assignedTo || []).filter((emp) => emp.id !== employeeId),
+            }
+          : task
+      )
+    );
+  };
+  
+
+  const handleRowChange = (taskId: number) => {
+    const updatedSet = new Set<number>(changedRows);
+    updatedSet.add(taskId);
+    setChangedRows(updatedSet);
+  };
+  
+  const handleSaveChanges = (taskId: number) => {
+    if (changedRows.has(taskId)) {
+      if (confirm("Are you sure you want to update this task?")) {
+        const updatedTasks = tasks.map((task) =>
+          task.id === taskId ? { ...task, changed: false } : task
+        );
+        setTasks(updatedTasks);
+  
+        const updatedChangedRows = new Set(changedRows);
+        updatedChangedRows.delete(taskId);
+        setChangedRows(updatedChangedRows);
+      }
+    }
+  };
+  
+
+
+
   return (
     <div className="task-manager p-6">
-      <h1 className="text-4xl font-bold mb-4 text-center">TASK MANAGER</h1>
+      <h1 className="text-5xl font-bold mb-10 text-center">TASK MANAGER</h1>
 
       <table className="border-solid w-full">
 
@@ -139,34 +209,219 @@ const TaskManager: React.FC = () => {
         <tbody>
             
           {tasks.map((task) => (
-            <tr key={task.id}>
-              <td className="border border-gray-800 py-2 px-1.5 text-center">{task.description}</td>
+            <tr key={task.id} className={changedRows.has(task.id) ? 'bg-green-100' : ''}>
+
               <td className="border border-gray-800 py-2 px-1.5 text-center">
-                {new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(task.deadline))}
-              </td>
-              <td className="border border-gray-800 py-2 px-1.5">
-                {task.assignedTo && task.assignedTo.length > 0 ? (
-                  <div className="flex flex-col">
-                    {task.assignedTo.map((employee) => (
-                      <div key={employee.id} className="flex justify-center">
-                        <span>{`${employee.name} (${employee.employeeId})`}</span>
-                      </div>
-                    ))}
-                  </div>
+                {editableTaskId === task.id ? (
+                  <input
+                    type="text"
+                    value={task.description}
+                    className="h-full w-full text-center outline-none"
+                    onChange={(e) => {
+                      const updatedTasks = tasks.map((t) =>
+                        t.id === task.id ? { ...t, description: e.target.value } : t
+                      );
+                      handleRowChange(task.id);
+                      setTasks(updatedTasks);
+                    }}
+                    onBlur={() => setEditableTaskId(null)}
+                  />
                 ) : (
-                  <span>Not Assigned</span>
+                  <span
+                    onClick={() => setEditableTaskId(task.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {task.description}
+                  </span>
                 )}
               </td>
-              <td className="border border-gray-800 py-2 px-1.5 text-center">{task.status}</td>
-              <td className="border border-gray-800 py-2 px-1.5 text-center">{task.priority}</td>
+
               <td className="border border-gray-800 py-2 px-1.5 text-center">
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                  onClick={() => handleTaskDeletion(task.id)}
-                >
-                  Delete
-                </button>
+                {editableTaskId === task.id ? (
+                  <input
+                    type="date"
+                    value={task.deadline}
+                    onChange={(e) => {
+                      const updatedTasks = tasks.map((t) =>
+                        t.id === task.id ? { ...t, deadline: e.target.value } : t
+                      );
+                      handleRowChange(task.id);
+                      setTasks(updatedTasks);
+                    }}
+                    onBlur={() => setEditableTaskId(null)}
+                  />
+                ) : (
+                  <span
+                    onClick={() => setEditableTaskId(task.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {new Intl.DateTimeFormat('en-US', {
+                      month: 'short',
+                      day: '2-digit',
+                      year: 'numeric',
+                    }).format(new Date(task.deadline))}
+                  </span>
+                )}
               </td>
+
+              <td className="border border-gray-800 py-2 px-1.5">
+                {editableTaskId === task.id ? (
+                  <div className="flex items-center">
+                    <div className="flex-1 px-0">
+                      {task.assignedTo && task.assignedTo.length > 0 && (
+                        <div className="flex flex-col items-center justify-end">
+                          {task.assignedTo.map((employee) => (
+                            <div
+                              key={employee.id}
+                              className="flex items-center bg-gray-300 rounded-xl px-2.5 py-1.5 my-0.5 text-xs"
+                            >
+                              <span>{`${employee.name} (${employee.employeeId})`}</span>
+                              <button
+                                onClick={() => handleRemoveEmployeeEdit(employee.id, task.id)}
+                                className="ml-1.5"
+                              >
+                                &#x2715;
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <div className="w-3.5">
+                      <select
+                        className="border-0 outline-none justify-start py-1 w-3.5 appearance-none"
+                        onChange={(e) => {
+                          const selectedId = parseInt(e.target.value);
+                          const foundEmployee = employees.find(
+                            (emp) =>
+                              emp.id === selectedId &&
+                              !task.assignedTo?.some((se) => se.id === emp.id)
+                          );
+                          if (foundEmployee) {
+                            handleAddEmployeeEdit(foundEmployee, task.id);
+                          }
+                          handleRowChange(task.id);
+                        }}
+                        defaultValue=""
+                      >
+                        <option value="" disabled hidden>
+                          &#9660;
+                        </option>
+                        {employees.map((employee) => (
+                          <option key={employee.id} value={employee.id}>
+                            &#9660;
+                            {`${employee.name} (${employee.employeeId})`}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                ) : (
+                  <span
+                    onClick={() => setEditableTaskId(task.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {task.assignedTo && task.assignedTo.length > 0 ? (
+                      <div className="flex flex-col">
+                        {task.assignedTo.map((employee) => (
+                          <div
+                            key={employee.id}
+                            className="flex max-w-fit bg-gray-300 rounded-xl px-2.5 py-1.5 my-0.5 mx-auto text-xs"
+                          >
+                            <span>{`${employee.name} (${employee.employeeId})`}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <span>Not Assigned</span>
+                    )}
+                  </span>
+                )}
+              </td>
+
+              <td className="border border-gray-800 py-2 px-1.5 text-center">
+                {editableTaskId === task.id ? (
+                  <select
+                    value={task.status}
+                    className="border-0 outline-none w-full py-1 rounded text-center text-gray-800"
+                    onChange={(e) => {
+                      const updatedStatus = e.target.value as 'Pending' | 'Ongoing' | 'Completed';
+                      const updatedTasks = tasks.map((t) =>
+                        t.id === task.id ? { ...t, status: updatedStatus } : t
+                      );
+                      handleRowChange(task.id);
+                      setTasks(updatedTasks);
+                    }}
+                    onBlur={() => setEditableTaskId(null)}
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                ) : (
+                  <span
+                    onClick={() => setEditableTaskId(task.id)}
+                    className="px-2 py-1 rounded-xl"
+                    style={{
+                      cursor: 'pointer',
+                      background: task.status === 'Pending' ? 'lightcoral' : 
+                            task.status === 'Ongoing' ? 'yellow' : 
+                            task.status === 'Completed' ? 'lightgreen' : 'inherit'
+                    }}
+                  >
+                    {task.status}
+                  </span>
+                )}
+              </td>
+
+              <td className="border border-gray-800 py-2 px-1.5 text-center">
+                {editableTaskId === task.id ? (
+                  <input
+                    type="number"
+                    value={task.priority}
+                    className="h-full w-full text-center outline-none pl-4"
+                    min="1"
+                    max="4"
+                    onChange={(e) => {
+                      const priority = parseInt(e.target.value);
+                      if (!isNaN(priority) && priority >= 1 && priority <= 4) {
+                        const updatedTasks = tasks.map((t) =>
+                          t.id === task.id ? { ...t, priority } : t
+                        );
+                        handleRowChange(task.id);
+                        setTasks(updatedTasks);
+                      }
+                    }}
+                    onBlur={() => setEditableTaskId(null)}
+                  />
+                ) : (
+                  <span
+                    onClick={() => setEditableTaskId(task.id)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {task.priority}
+                  </span>
+                )}
+              </td>
+
+              <td className="border border-gray-800 py-2 px-1.5 text-center">
+                {changedRows.has(task.id) ? (
+                  <button
+                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                    onClick={() => handleSaveChanges(task.id)}
+                  >
+                    Save
+                  </button>
+                ) : (
+                  <button
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                    onClick={() => handleTaskDeletion(task.id)}
+                  >
+                    Delete
+                  </button>
+                )}
+              </td>
+
             </tr>
           ))}
 
