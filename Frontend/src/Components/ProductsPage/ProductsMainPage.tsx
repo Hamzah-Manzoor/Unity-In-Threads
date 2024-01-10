@@ -79,10 +79,10 @@ const ProductPage: React.FC = () => {
   // };
 
   return (
-    <div className="py-16">
+    <div className="mt-6 py-16">
       {categories.map(category => (
         <div key={category}>
-          <h2 className="mb-2 text-2xl font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
+          <h2 className="mb-2 text-2xl text-gray-400 font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
           {/* <div className="mb-4">
             <h2 className="mb-2 text-xl font-semibold">Product Types</h2>
             <ul>
@@ -95,7 +95,7 @@ const ProductPage: React.FC = () => {
           </div> */}
           {productTypes[category].map(type => (
             <div key={type}>
-              <h2 className="mb-2 text-lg font-semibold">{type}</h2>
+              <h2 className="mb-2 text-lg font-semibold text-gray-400 mt-8 mb-5">{type}</h2>
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {products.filter(product => product.category === category && product.type === type).map((product, index) => (
                   // <Link to={`/products/${product.id}`} key={index}>
