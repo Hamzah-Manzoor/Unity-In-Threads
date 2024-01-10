@@ -18,10 +18,13 @@ import CustomOrder from './Components/CustomOrder/CustomOrder'
 import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
 import Dashboard_production from './Components/Dashboard/Dashboard_production'
 import { useContext } from 'react'
+import Login_Type_Context from './context/Login_Type_Context/Login_Type_Context'
+import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
 
 
 function App() {
-  //const type = useContext(Lo)
+  const type = useContext(Login_Type_Context);
+
 
   return (
     <>
