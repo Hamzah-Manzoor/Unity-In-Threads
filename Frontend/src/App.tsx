@@ -24,6 +24,7 @@ import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
 
 function App() {
   const type = useContext(Login_Type_Context);
+  console.log(type)
 
 
   return (
@@ -35,6 +36,8 @@ function App() {
       
         <Routes>
         <Route path='/' Component={Signup}></Route>
+        <Route path='/login' Component={Login}></Route>
+        
         <Route path='/CustomOrder'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
@@ -45,7 +48,7 @@ function App() {
         <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
         <Route path="/products/add-product" Component={AddProduct}></Route>
         <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
-        <Route path='/login' Component={Login}></Route>
+        
         <Route path='Dashboard/Retail'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
