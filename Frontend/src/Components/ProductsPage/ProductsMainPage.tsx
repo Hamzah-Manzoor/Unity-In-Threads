@@ -98,7 +98,7 @@ const ProductPage: React.FC = () => {
             <div key={type}>
               <h2 className="mb-2 text-lg font-semibold text-white mt-8 mb-5">{type}</h2>
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {products.filter(product => product.category === category && product.type === type).map((product, index) => (
+                {products.filter(product => product.category === category && product.type === type).map((product) => (
                   // <Link to={`/products/${product.id}`} key={index}>
                   //   <div key={index} className="p-4 mb-4 border border-gray-300 rounded">
                   //     {/* <img src={product.image} alt={product.name} className="object-cover w-32 h-32 mb-2" /> */}
