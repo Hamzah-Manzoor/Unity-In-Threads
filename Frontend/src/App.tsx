@@ -33,12 +33,10 @@ function App() {
       <BrowserRouter>
         <SidebarState>
           <Retail_User_State>
-          <Login_Type_State>
+
       
         <Routes>
         <Route path='/' Component={Signup}></Route>
-        <Route path='/login' Component={Login}></Route>
-        
         <Route path='/CustomOrder'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
@@ -47,17 +45,9 @@ function App() {
             }
           />
         <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
-        <Route path='/newOrder'
-            element={ // 'element' should be used instead of 'Component'
-              <Layout>
-                <NewOrder></NewOrder>
-              </Layout>
-            }
-          />
-        
         <Route path="/products/add-product" Component={AddProduct}></Route>
         <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
-        
+        <Route path='/login' Component={Login}></Route>
         <Route path='Dashboard/Retail'
             element={ // 'element' should be used instead of 'Component'
               <Layout>
@@ -83,20 +73,14 @@ function App() {
             }
           />
 
-
-        {/* Production Modules */}
-        <Route path="/task-manager" Component={TaskManager}></Route>
-            
-
-            
-            
+              {/* Production Modules */}
+              <Route path="/production/task-manager" Component={TaskManager}></Route>
+              <Route path='/production/dashboard' Component={Dashboard_production}></Route>
           
-          </Routes>
+            </Routes>
           </Login_Type_State>
           </Retail_User_State>
-          </SidebarState>
-
-
+        </SidebarState>
       </BrowserRouter>
     </>
   )

@@ -49,7 +49,7 @@ const AddProduct: React.FC = () => {
 
   return (
     <div className="p-4">
-      <p className="font-serif text-4xl font-bold text-center">ADD PRODUCT</p>
+      <p className="font-serif text-4xl font-bold text-center text-white">ADD PRODUCT</p>
 
       <div className="flex flex-col space-y-4 mx-7">
 
@@ -58,39 +58,42 @@ const AddProduct: React.FC = () => {
             <div className="md:basis-1/2 md:mx-5">
 
                 <div className="flex flex-col">
-                <label htmlFor="productName" className="mb-1 text-lg font-semibold">
+                <label htmlFor="productName" className="mb-1 text-lg font-semibold text-white">
                     Product Name
                 </label>
                 <input
                     type="text"
                     id="productName"
-                    className="px-3 py-2 border border-gray-400 rounded"
+                    placeholder="Product Name"
+                    className="px-3 py-2 border border-gray-400 rounded bg-gray-300"
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productCode" className="mb-1 text-lg font-semibold">
+                <label htmlFor="productCode" className="mb-1 text-lg font-semibold text-white">
                     Product Code
                 </label>
                 <input
                     type="text"
                     id="productCode"
-                    className="px-3 py-2 border border-gray-400 rounded"
+                    placeholder="Product Code"
+                    className="px-3 py-2 border border-gray-400 rounded bg-gray-300"
                     value={productCode}
                     onChange={(e) => setProductCode(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productStock" className="mb-1 text-lg font-semibold">
-                    Stock
+                <label htmlFor="productStock" className="mb-1 text-lg font-semibold text-white">
+                    Available Stock
                 </label>
                 <input
                     type="number"
                     id="productStock"
-                    className="px-3 py-2 border border-gray-400 rounded"
+                    placeholder="Available Stock"
+                    className="px-3 py-2 border border-gray-400 rounded bg-gray-300"
                     value={productStock}
                     onChange={(e) => setProductStock(parseInt(e.target.value))}
                 />
@@ -101,39 +104,42 @@ const AddProduct: React.FC = () => {
             <div className="md:basis-1/2 md:mx-5">
 
                 <div className="flex flex-col">
-                <label htmlFor="productColor" className="mb-1 text-lg font-semibold">
-                    Color
+                <label htmlFor="productColor" className="mb-1 text-lg font-semibold text-white">
+                    Product Color
                 </label>
                 <input
                     type="text"
                     id="productColor"
-                    className="px-3 py-2 border border-gray-400 rounded"
+                    placeholder="Product Color"
+                    className="px-3 py-2 border border-gray-400 rounded bg-gray-300"
                     value={productColor}
                     onChange={(e) => setProductColor(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productType" className="mb-1 text-lg font-semibold">
-                    Type
+                <label htmlFor="productType" className="mb-1 text-lg font-semibold text-white">
+                    Product Type
                 </label>
                 <input
                     type="text"
                     id="productType"
-                    className="px-3 py-2 border border-gray-400 rounded"
+                    placeholder="Product Type"
+                    className="px-3 py-2 border border-gray-400 rounded bg-gray-300"
                     value={productType}
                     onChange={(e) => setProductType(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="productCategory" className="mb-1 text-lg font-semibold">
-                    Category
+                <label htmlFor="productCategory" className="mb-1 text-lg font-semibold text-white">
+                    Product Category
                 </label>
                 <input
                     type="text"
                     id="productCategory"
-                    className="px-3 py-2 border border-gray-400 rounded"
+                    placeholder="Product Category"
+                    className="px-3 py-2 border border-gray-400 rounded bg-gray-300"
                     value={productCategory}
                     onChange={(e) => setProductCategory(e.target.value)}
                 />
@@ -144,7 +150,7 @@ const AddProduct: React.FC = () => {
         </div>
 
         <div className="flex flex-col md:mx-5">
-          <label htmlFor="productImage" className="mb-1 text-lg font-semibold">
+          <label htmlFor="productImage" className="mb-1 text-lg font-semibold text-white">
             Product Image
           </label>
           <div className="flex items-center">

@@ -37,7 +37,8 @@ const ProductPage: React.FC = () => {
     { id: 1, name: 'Product A', code: 'P001', stock: 10, color: 'Blue', type: 'Sherwani', category: "Groom's Section", image: 'https://amiradnan.com/cdn/shop/products/FG-0001880-0644201-Silver-5.jpg?v=1664260476'},
     { id: 2, name: 'Product B', code: 'P002', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'https://i.pinimg.com/564x/e2/31/ae/e231aebc2ad63a5d2010497c6041ded9.jpg' },
     { id: 11, name: 'Product AA', code: 'P0011', stock: 10, color: 'Blue', type: 'Sherwani', category: "Groom's Section", image: 'https://i.pinimg.com/564x/1a/72/12/1a7212c3e0a49e67e1dc5ad64c9f2b04.jpg' },
-    { id: 22, name: 'Product BB', code: 'P0022', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'https://amiradnan.com/cdn/shop/products/FG-0001880-0644201-Silver-5.jpg?v=1664260476' },
+    { id: 22, name: 'Product BB', code: 'P0022', stock: 15, color: 'Red', type: 'Sherwani', category: "Groom's Section", image: 'https://www.bargello.com/images/thumbs/0019605_pakistani-designer-sherwani.jpeg' },
+    { id: 33, name: 'Product CC', code: 'P0033', stock: 12, color: 'Yellow', type: 'Sherwani', category: "Groom's Section", image: 'https://www.nameerabyfarooq.com/cdn/shop/products/MenSherwaniPakistaniGroomDressforWedding_620x.jpg?v=1664987126' },
 
     { id: 3, name: 'Product C', code: 'P003', stock: 12, color: 'Pink', type: 'Prince Coat', category: "Groom's Section", image: 'https://cdn.shopify.com/s/files/1/2337/7003/products/0000_PrinceCoat_6_3.jpg' },
     { id: 4, name: 'Product D', code: 'P004', stock: 16, color: 'Brown', type: 'Prince Coat', category: "Groom's Section", image: 'https://cdn.shopify.com/s/files/1/2337/7003/products/b0cf7814855cb94a481e21bbe576622b.jpg' },
@@ -79,10 +80,10 @@ const ProductPage: React.FC = () => {
   // };
 
   return (
-    <div className="mt-6 py-16">
+    <div className="pt-4 px-5">
       {categories.map(category => (
         <div key={category}>
-          <h2 className="mb-2 text-2xl text-gray-400 font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
+          <h2 className="mb-2 text-2xl text-white font-semibold text-center underline" style={{ textTransform: 'uppercase' }}>{category}</h2>
           {/* <div className="mb-4">
             <h2 className="mb-2 text-xl font-semibold">Product Types</h2>
             <ul>
@@ -95,7 +96,7 @@ const ProductPage: React.FC = () => {
           </div> */}
           {productTypes[category].map(type => (
             <div key={type}>
-              <h2 className="mb-2 text-lg font-semibold text-gray-400 mt-8 mb-5">{type}</h2>
+              <h2 className="mb-2 text-lg font-semibold text-white mt-8 mb-5">{type}</h2>
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {products.filter(product => product.category === category && product.type === type).map((product, index) => (
                   // <Link to={`/products/${product.id}`} key={index}>
