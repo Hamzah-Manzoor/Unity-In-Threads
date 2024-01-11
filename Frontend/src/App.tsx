@@ -17,15 +17,22 @@ import Retail_User_State from './context/Retail_User_Context/Retail_User_State'
 import CustomOrder from './Components/CustomOrder/CustomOrder'
 import Dashboard_retail from './Components/Dashboard/Dashboard_retail'
 import Dashboard_production from './Components/Dashboard/Dashboard_production'
+import { useContext } from 'react'
+import Login_Type_Context from './context/Login_Type_Context/Login_Type_Context'
+import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
 
 
 function App() {
+  const type = useContext(Login_Type_Context);
+  console.log(type)
+
 
   return (
     <>
       <BrowserRouter>
         <SidebarState>
           <Retail_User_State>
+          <Login_Type_State>
             <Routes>
 
               <Route path='/' Component={Signup}></Route>
@@ -89,6 +96,7 @@ function App() {
               <Route path='/production/dashboard' Component={Dashboard_production}></Route>
           
             </Routes>
+            </Login_Type_State>
           </Retail_User_State>
         </SidebarState>
       </BrowserRouter>
