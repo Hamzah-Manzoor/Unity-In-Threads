@@ -20,9 +20,9 @@ const Dashboard: React.FC = () => {
   const soldSherwani = 32;
   return (
     <div className="container mx-auto py-8 px-8">
-      <p className="text-3xl font-semibold mb-4 text-gray-800">Retail Dashboard</p>
-      <p className=" grid justify-items-end text-3xl font-semibold mb-4 text-2xl">Emporium Mall, 1st Floor</p>
-      <p className=" grid justify-items-end text-3xl font-semibold mb-4 text-lg">10th Jan 2024</p>
+      <p className="text-3xl font-semibold mb-4 text-white">Retail Dashboard</p>
+      <p className=" grid justify-items-end text-3xl font-semibold mb-4 text-2xl text-white">Emporium Mall, 1st Floor</p>
+      <p className=" grid justify-items-end text-3xl font-semibold mb-4 text-lg text-white">10th Jan 2024</p>
 
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">Overall</h2>
 
@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
 
       {/* Additional Section for Top Selling */}
       <div className="mt-8">
-        <h2 className="text-2xl font-semibold mb-4 text-gray-800">Top Selling</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-white">Top Selling</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {/* Shalwar Kameez */}
           <div className="p-6 bg-white shadow-md rounded-md border-t-4 border-red-500">

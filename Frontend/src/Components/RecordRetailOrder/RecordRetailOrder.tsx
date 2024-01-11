@@ -297,30 +297,30 @@ const RecordRetailOrder = () => {
   return (
     <div className="p-4">
 
-      <div className="flex justify-center mb-4 bg-gray-200 p-3.5">
+      <div className="flex justify-center mb-4 bg-gray-700 p-3.5">
 
         <div className="w-11/12 sm:w-9/12 md:w-8/12 lg:w-6/12 xl:w-5/12">
 
           <div className="flex flex-col ">
 
-            <label htmlFor="productCode" className="text-lg font-semibold mb-1">
+            <label htmlFor="productCode" className="text-lg font-semibold mb-1 text-white">
               Product Code
             </label>
             <input
               type="text"
               placeholder="Product Code"
-              className="border border-gray-400 rounded px-3 py-2"
+              className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
               value={productCode}
               onChange={(e) => setProductCode(e.target.value)}
             />
 
-            <label htmlFor="quantity" className="text-lg font-semibold mb-1">
+            <label htmlFor="quantity" className="text-lg font-semibold mb-1 text-white">
               Quantity
             </label>
             <input
               type="number"
               placeholder="Quantity"
-              className="border border-gray-400 rounded px-3 py-2"
+              className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
               value={quantity}
               onChange={(e) => setQuantity(parseInt(e.target.value))}
             />
@@ -352,7 +352,7 @@ const RecordRetailOrder = () => {
 
       </div>
 
-      <hr className="border-black mb-4" />
+      <hr className="border-white mb-4"/>
 
       <div>
 
@@ -360,7 +360,7 @@ const RecordRetailOrder = () => {
           <p className="text-center text-gray-500">Please Add Items to Generate a Bill.</p>
         ) : (
           orderList.map((item, index) => (
-            <div key={index} className="flex items-center border-b border-gray-300 py-2">
+            <div key={index} className="flex items-center border-b border-gray-300 py-2 text-white">
               <p className="flex-1">{item.productCode}</p>
               <p className="flex-1">{item.productName}</p>
               <p className="flex-1">{item.productColor}</p>
@@ -379,7 +379,7 @@ const RecordRetailOrder = () => {
       </div>
 
       {orderList.length > 0 && (
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end mt-4 text-white">
           <p className="font-bold mr-2">Total Cost: Rs. {totalCost}</p>
         </div>
       )}
