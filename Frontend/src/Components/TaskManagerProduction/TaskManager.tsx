@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaFire } from "react-icons/fa";
 
 interface Employee {
     id: number;
@@ -517,35 +518,44 @@ const TaskManager: React.FC = () => {
                 )}
               </td>
 
-              <td className="border border-gray-400 py-2 px-1.5 text-center text-white">
-                {editableTaskId === task.id ? (
-                  <input
-                    type="number"
-                    value={task.priority}
-                    className={changedRows.has(task.id) ? 'bg-green-900 h-full w-full text-center outline-none pl-4 text-white' : 'h-full w-full text-center outline-none pl-4 bg-gray-800 text-white'}
-                    min="1"
-                    max="3"
-                    onChange={(e) => {
-                      const priority = parseInt(e.target.value);
-                      if (!isNaN(priority) && priority >= 1 && priority <= 3) {
-                        const updatedTasks = tasks.map((t) =>
-                          t.id === task.id ? { ...t, priority } : t
-                        );
-                        handleRowChange(task.id);
-                        setTasks(updatedTasks);
-                      }
-                    }}
-                    onBlur={() => setEditableTaskId(null)}
-                  />
-                ) : (
-                  <span
-                    onClick={() => setEditableTaskId(task.id)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {task.priority}
-                  </span>
-                )}
-              </td>
+              <td className="border border-gray-400 py-2 px-1.5 text-center">
+  {editableTaskId === task.id ? (
+    <input
+      type="number"
+      value={task.priority}
+      className={changedRows.has(task.id) ? 'bg-green-900 h-full w-full text-center outline-none pl-4 text-white' : 'h-full w-full text-center outline-none pl-4 bg-gray-800 text-white'}
+      min="1"
+      max="3"
+      onChange={(e) => {
+        const priority = parseInt(e.target.value);
+        if (!isNaN(priority) && priority >= 1 && priority <= 3) {
+          const updatedTasks = tasks.map((t) =>
+            t.id === task.id ? { ...t, priority } : t
+          );
+          handleRowChange(task.id);
+          setTasks(updatedTasks);
+        }
+      }}
+      onBlur={() => setEditableTaskId(null)}
+    />
+  ) : (
+    <span
+      onClick={() => setEditableTaskId(task.id)}
+      style={{
+        cursor: 'pointer',
+        display: 'inline-flex',
+        alignItems: 'center',
+      }}
+    >
+      <span className={`${task.priority === 1 ? 'bg-red-400' : (task.priority === 2 ? 'bg-yellow-400' : 'bg-green-400')} px-3 py-1 rounded-lg mr-1 flex items-center`}>
+        P{task.priority}
+        {task.priority === 1 && <FaFire className="ml-1"/> }
+      </span>
+    </span>
+  )}
+</td>
+
+
 
               <td className="border border-gray-400 py-2 px-1.5 text-center">
                 {changedRows.has(task.id) ? (
