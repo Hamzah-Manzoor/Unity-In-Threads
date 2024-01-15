@@ -23,6 +23,10 @@ const TaskManager: React.FC = () => {
   // const [confirmUpdate, setConfirmUpdate] = useState(false); 
   const [editableTaskId, setEditableTaskId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [prioritySortOrder, setPrioritySortOrder] = useState<'asc' | 'desc'>('asc');
+  const [selectedFilterEmployee, setSelectedFilterEmployee] = useState<Employee | null>(null);
+  const [selectedFilterStatus, setSelectedFilterStatus] = useState<string | null>(null);
 
 
   const initialEmployees: Employee[] = [
@@ -186,24 +190,107 @@ const TaskManager: React.FC = () => {
       }
     }
   };
-  
 
+  const handleDeadlineSort = () => {
+    const sortedTasks = [...tasks];
+    sortedTasks.sort((a, b) => {
+      const dateA = new Date(a.deadline).getTime();
+      const dateB = new Date(b.deadline).getTime();
+      return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+    });
+    setTasks(sortedTasks);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'); // Toggle sorting order
+  };
+
+  const handlePrioritySort = () => {
+    const sortedTasks = [...tasks];
+    sortedTasks.sort((a, b) => (prioritySortOrder === 'asc' ? a.priority - b.priority : b.priority - a.priority));
+    setTasks(sortedTasks);
+    setPrioritySortOrder(prioritySortOrder === 'asc' ? 'desc' : 'asc');
+  };
+  
+  const filteredTasks = tasks.filter((task) => {
+    const employeeFilter =
+      !selectedFilterEmployee ||
+      task.assignedTo?.some((employee) => employee.id === selectedFilterEmployee.id);
+  
+    const statusFilter =
+      !selectedFilterStatus || task.status === selectedFilterStatus;
+  
+    return employeeFilter && statusFilter;
+  });
 
 
   return (
-    <div className="task-manager p-6 bg-gray-800 h-screen">
+    <div className="task-manager p-6 bg-gray-800 h-screen min-w-min">
       <h1 className="text-5xl font-bold mb-10 text-center text-white">TASK MANAGER</h1>
 
-      <div className="mb-6">
-        <label className="text-white mr-2 text-lg">Search Tasks:</label>
-        <input
-          type="text"
-          value={searchQuery}
-          placeholder="Type here to search..."
-          className="bg-gray-600 text-white py-1 px-4 text-sm rounded-2xl outline-none"
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+      <div className="flex justify-between">
+
+        <div className="mb-6">
+          <label className="text-white mr-2 text-lg">Search Tasks:</label>
+          <input
+            type="text"
+            value={searchQuery}
+            placeholder="Type here to search..."
+            className="bg-gray-600 text-white py-1 px-4 text-sm rounded-2xl outline-none"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        <div className="flex">
+
+          <div className="mb-6 flex items-center mx-1">
+            <select
+              value={selectedFilterEmployee?.id || ''}
+              onChange={(e) => {
+                const selectedId = parseInt(e.target.value);
+                const selectedEmployee = employees.find((emp) => emp.id === selectedId) || null;
+                setSelectedFilterEmployee(selectedEmployee);
+              }}
+              className="bg-gray-600 text-white py-1 px-1 text-sm text-center rounded outline-none w-40 overflow-hidden whitespace-nowrap overflow-ellipsis"
+            >
+              <option value="" key="all">
+                Filter by Employees
+              </option>
+              {employees.map((employee) => (
+                <option value={employee.id} key={employee.id}>
+                  {`${employee.name} (${employee.employeeId})`}
+                </option>
+              ))}
+            </select>
+          </div>
+
+
+          <div className="mb-6 flex items-center mx-1">
+            <select
+              value={selectedFilterStatus || ''}
+              onChange={(e) => {
+                const status = e.target.value;
+                setSelectedFilterStatus(status === 'all' ? null : status);
+              }}
+              className="bg-gray-600 text-white py-1 px-1 text-sm text-center rounded outline-none w-32 overflow-hidden whitespace-nowrap overflow-ellipsis"
+            >
+              <option value="" key="all">
+                Filter by Status
+              </option>
+              <option value="Pending" key="Pending">
+                Pending
+              </option>
+              <option value="Ongoing" key="Ongoing">
+                Ongoing
+              </option>
+              <option value="Completed" key="Completed">
+                Completed
+              </option>
+            </select>
+          </div>
+
+        </div>
+
+
       </div>
+
 
       <table className="border-solid w-full">
 
@@ -211,10 +298,36 @@ const TaskManager: React.FC = () => {
 
           <tr>
             <th className="text-xl border py-4 px-1.5">Task</th>
-            <th className="text-xl border py-4 px-1.5">Deadline</th>
+            <th className="text-xl border py-4 px-1.5">
+            <div className="flex justify-between items-center">
+                <div></div>
+                <div>
+                  <span>Deadline</span>
+                </div>
+                <div>
+                  <button onClick={handleDeadlineSort} className="border-none bg-none cursor-pointer">
+                    {sortOrder === 'asc' ? '↑' : '↓'}
+                  </button>
+                </div>
+              </div>
+            </th>
             <th className="text-xl border py-4 px-1.5">Assigned To</th>
             <th className="text-xl border py-4 px-1.5">Status</th>
-            <th className="text-xl border py-4 px-1.5">Priority</th>
+            <th className="text-xl border py-4 px-1.5">
+              <div className="flex justify-between items-center">
+                <div></div>
+                <div>
+                  <span>
+                    Priority
+                  </span>
+                </div>
+                <div>
+                  <button onClick={handlePrioritySort} className="">
+                    {prioritySortOrder === 'asc' ? '↑' : '↓'}
+                  </button>
+                </div>
+              </div>
+            </th>
             <th className="text-xl border py-4 px-1.5">Action</th>
           </tr>
 
@@ -222,7 +335,7 @@ const TaskManager: React.FC = () => {
 
         <tbody>
             
-        {tasks
+        {filteredTasks
             .filter(task =>
               task.description.toLowerCase().includes(searchQuery.toLowerCase())
             )
@@ -537,7 +650,7 @@ const TaskManager: React.FC = () => {
             <td className="border border-gray-400 py-2 px-1.5 text-center">
               <select
                 value={newTask.status}
-                className="border-0 outline-none w-full py-1 rounded text-center text-white bg-gray-800"
+                className="border-0 outline-none w-full py-1 pl-3 rounded text-center text-white bg-gray-800"
                 onChange={(e) => {
                   const updatedStatus = e.target.value as 'Pending' | 'Ongoing' | 'Completed';
                   setNewTask({ ...newTask, status: updatedStatus });
