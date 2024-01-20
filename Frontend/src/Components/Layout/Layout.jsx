@@ -1,6 +1,6 @@
 import React from 'react'
 import Navabr from '../Navbar/Navabr'
-import Sidebar from '../Sidebar/Sidebar'
+import Sidebar from '../Sidebar/Sidebar_1'
 
 export default function Layout({children}) {
   return (
