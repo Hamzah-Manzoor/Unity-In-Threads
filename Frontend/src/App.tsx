@@ -33,52 +33,71 @@ function App() {
       <BrowserRouter>
         <SidebarState>
           <Retail_User_State>
+          <Login_Type_State>
+            <Routes>
 
-      
-        <Routes>
-        <Route path='/' Component={Signup}></Route>
-        <Route path='/CustomOrder'
-            element={ // 'element' should be used instead of 'Component'
-              <Layout>
-                <CustomOrder></CustomOrder>
-              </Layout>
-            }
-          />
-        <Route path="/products/:productId" Component={ProductDetailsPage}></Route>
-        <Route path="/products/add-product" Component={AddProduct}></Route>
-        <Route path="/record-retail-order" Component={RecordRetailOrder}></Route>
-        <Route path='/login' Component={Login}></Route>
-        <Route path='Dashboard/Retail'
-            element={ // 'element' should be used instead of 'Component'
-              <Layout>
-                <Dashboard_retail></Dashboard_retail>
-              </Layout>
-            }
-          />
-        {/* <Route path='/Dashboard/Retail' Component={Dashboard_retail}></Route> */}
-        <Route path='/Dashboard/Production' Component={Dashboard_production}></Route>
-        <Route path='/products'
-            element={ // 'element' should be used instead of 'Component'
-              <Layout>
-                <Products></Products>
-              </Layout>
-            }
-          />
-        <Route
-            path='/ReturnsandExchange'
-            element={ // 'element' should be used instead of 'Component'
-              <Layout>
-                <Returns />
-              </Layout>
-            }
-          />
+              <Route path='/' Component={Signup}></Route>
+              <Route path='/login' Component={Login}></Route>
+              
+
+              {/* Retail Modules */}
+              <Route path='/retail/dashboard'
+                  element={
+                    <Layout>
+                      <Dashboard_retail/>
+                    </Layout>
+                  }
+              />
+              <Route path='/retail/custom-order'
+                  element={ // 'element' should be used instead of 'Component'
+                    <Layout>
+                      <CustomOrder></CustomOrder>
+                    </Layout>
+                  }
+              />
+              <Route path="/retail/products/:productId" 
+                element={
+                  <Layout>
+                    <ProductDetailsPage/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/add-product" 
+                element={
+                  <Layout>
+                    <AddProduct/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/record-retail-order" 
+                element={
+                  <Layout>
+                    <RecordRetailOrder/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/products"
+                  element={
+                    <Layout>
+                      <Products></Products>
+                    </Layout>
+                  }
+              />
+              <Route
+                  path="/retail/return-and-exchange"
+                  element={
+                    <Layout>
+                      <Returns />
+                    </Layout>
+                  }
+              />
 
               {/* Production Modules */}
               <Route path="/production/task-manager" Component={TaskManager}></Route>
               <Route path='/production/dashboard' Component={Dashboard_production}></Route>
           
             </Routes>
-          </Login_Type_State>
+            </Login_Type_State>
           </Retail_User_State>
         </SidebarState>
       </BrowserRouter>
