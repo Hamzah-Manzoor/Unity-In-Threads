@@ -22,15 +22,17 @@ export default function Login() {
           password , 
         }
         console.log(user)
-            axios.post('http://localhost:5000/api/retail/login' , user).then((res)=>{
+            axios.post('http://localhost:3000/login', user).then((res)=>{
                 console.log(res)
                 const user = res?.data?.user
                 // context.update(res?.data?.user)
                 console.log(user)
                 context.update(user)
-                Navigate('/ReturnsandExchange');
+                Navigate('/retail/dashboard');
+                alert("Login Successful")
             }).catch((e)=>{
                 console.log(e)
+                alert("User Not found")
                 
             })
       } catch (error) {

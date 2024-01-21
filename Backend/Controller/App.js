@@ -29,6 +29,33 @@ app.post('/registerUser', async (req, res) => {
   }
 });
 
+// Login endpoint
+app.post('/login', async (req, res) => {
+    try {
+      await client.connect();
+      const db = client.db('Unity-In-Threads');
+      const collection = db.collection('RetailEmployee');
+  
+      const { email, password } = req.body;
+  
+      // Perform the login logic here (e.g., check email and password against stored data)
+      const user = await collection.findOne({ email, password });
+  
+      if (user) {
+        res.status(200).json({ message: 'Login successful', user });
+      } else {
+        res.status(401).json({ message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+      await client.close();
+    }
+  });
+
+
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
