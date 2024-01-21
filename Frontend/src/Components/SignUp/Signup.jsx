@@ -42,7 +42,7 @@ export default function Signup() {
             };
             
             console.log(user)
-            await axios.post(`http://localhost:5000/api/retail/signup` , user).then((res)=>{
+            await axios.post(`http://localhost:3000/registerUser` , user).then((res)=>{
                       console.log(res.data)
                       Navigate('/login')
                 }).catch((e)=>{
