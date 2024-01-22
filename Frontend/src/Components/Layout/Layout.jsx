@@ -1,6 +1,6 @@
 import React from 'react'
 import Navabr from '../Navbar/Navabr'
-import Sidebar_1 from '../Sidebar/Sidebar_1'
+import Sidebar from '../Sidebar/Sidebar'
 
 export default function Layout({children}) {
   return (
@@ -11,10 +11,10 @@ export default function Layout({children}) {
       </div>
 
       <div className="col-span-1 bg-gray-800">
-        <Sidebar_1></Sidebar_1>
+        <Sidebar/>
       </div>
 
-      <div className="h-full min-h-screen col-span-5 bg-gray-800 lg:col-span-4 pt-14">
+      <div className="col-span-5 lg:col-span-4 pt-14 bg-gray-800 min-h-screen h-full">
         {children}
       </div>
 
@@ -25,4 +25,3 @@ export default function Layout({children}) {
 
     )
 }
-
