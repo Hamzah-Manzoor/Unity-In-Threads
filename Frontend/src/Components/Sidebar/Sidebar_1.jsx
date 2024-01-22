@@ -62,7 +62,7 @@ export default function Sidebar_1() {
         className={`py-2 space-y-2 ${isDropdownOpen ? '' : 'hidden'}`}
       >
         <li>
-          <Link to="/CustomOrder" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Size Form</Link>
+          <Link to="/retail/custom-order" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Size Form</Link>
         </li>
         <li>
           <Link to="#" className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">New Order</Link>
