@@ -11,10 +11,10 @@ export default function Layout({children}) {
       </div>
 
       <div className="col-span-1 bg-gray-800">
-        <Sidebar/>
+        
       </div>
 
-      <div className="col-span-5 lg:col-span-4 pt-14 bg-gray-800 min-h-screen h-full">
+      <div className="h-full min-h-screen col-span-5 bg-gray-800 lg:col-span-4 pt-14">
         {children}
       </div>
 
