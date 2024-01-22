@@ -20,7 +20,6 @@ import Dashboard_production from './Components/Dashboard/Dashboard_production'
 import { useContext } from 'react'
 import Login_Type_Context from './context/Login_Type_Context/Login_Type_Context'
 import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
-import NewOrder from './Components/NewOrder/NewOrder'
 
 
 function App() {
