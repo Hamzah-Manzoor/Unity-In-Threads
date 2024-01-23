@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './RecordRetailOrder.css';
+import './NewBill.css';
 import html2canvas from 'html2canvas';
 
 
@@ -151,7 +151,7 @@ const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
 
 
 
-const RecordRetailOrder = () => {
+const NewBill = () => {
   const [productCode, setProductCode] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [orderList, setOrderList] = useState<OrderItem[]>([]);
@@ -400,4 +400,4 @@ const RecordRetailOrder = () => {
   );
 };
 
-export default RecordRetailOrder;
+export default NewBill;
