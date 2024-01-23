@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProductTable from './ProductTable';
 
 const NewOrder = () => {
   // States to store form values
@@ -12,6 +13,8 @@ const NewOrder = () => {
   const [rate, setRate] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
+  const [orders, setorders] = useState([])
+
   const handleProductChange = (event) => {
     setProductName(event.target.value);
   };
@@ -19,21 +22,36 @@ const NewOrder = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const newOrder = {
+        productName,
+        productCode,
+        stitchingCode,
+        designCode,
+        fabricCode,
+        patchingFabricCode1,
+        patchingFabricCode2,
+        rate,
+        quantity,
+      };
+
+    setorders(prevorders =>[...prevorders , newOrder])
+
+    setProductName('');
+    setProductCode('');
+    setStitchingCode('');
+    setDesignCode('');
+    setFabricCode('');
+    setPatchingFabricCode1('');
+    setPatchingFabricCode2('');
+    setRate(0);
+    setQuantity(0);
+
     // Perform form submission logic here
-    console.log('Form submitted with values:', {
-      productName,
-      productCode,
-      stitchingCode,
-      designCode,
-      fabricCode,
-      patchingFabricCode1,
-      patchingFabricCode2,
-      rate,
-      quantity,
-    });
+    
   };
 
   return (
+    <div className="">
     <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
       <h1 className='p-4 text-5xl text-slate-50'>New Order</h1>
       <label htmlFor="productName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -170,8 +188,16 @@ const NewOrder = () => {
         onClick={(e)=>{handleSubmit(e)}}        
       >
         Submit
-      </button>
+      </button>    
     </form>
+            <div className="">
+                {
+                    orders.length>0 &&
+                    <ProductTable orders={orders}></ProductTable>
+                }
+            </div>
+    </div>
+    
   );
 };
 
