@@ -3,7 +3,7 @@ import './NewBill.css';
 import html2canvas from 'html2canvas';
 
 
-interface OrderItem {
+interface ReadyMadeOrderItem {
     productCode: string;
     productName: string;
     productColor: string;
@@ -11,8 +11,17 @@ interface OrderItem {
     quantity: number;
   }
 
+interface OrderMakeItem {
+  odbNumber: number;
+  productName: string;
+  productCode: string;
+  rate: number;
+  quantity: number;
+}
+
 interface ReceiptPopupProps {
-  orderList: OrderItem[];
+  readyMadeOrderList: ReadyMadeOrderItem[];
+  orderMakeList: OrderMakeItem[];
   totalCost: number;
   branchName: string;
   closeReceipt: () => void;
@@ -22,9 +31,9 @@ interface ReceiptPopupProps {
   //showReceipt: boolean;
 }
 
-
 const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
-  orderList,
+  readyMadeOrderList,
+  orderMakeList,
   totalCost,
   branchName,
   closeReceipt,
@@ -62,9 +71,26 @@ const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
 
         <hr className="my-2 border-t border-gray-400" />
 
+
         <div className="mb-4">
 
-          <div className="flex mb-2 font-semibold">
+          {/* Display Ready Made items */}
+          {readyMadeOrderList.length > 0 && (
+            <>
+              <div className="text-center mt-4 mb-2">
+                <p className="text-lg font-bold">Ready Made Items</p>
+              </div>
+              {readyMadeOrderList.map((item, index) => (
+                <div key={index} className="flex mb-2">
+                  <p className="basis-6/12">{`${item.productName} (${item.productColor})`}</p>
+                  <p className="basis-3/12 text-center">{item.quantity}</p>
+                  <p className="basis-3/12 text-right">{item.productPrice}</p>
+                </div>
+              ))}
+            </>
+          )}
+
+          {/* <div className="flex mb-2 font-semibold">
             <p className="w-6/12">Product Name</p>
             <p className="w-3/12 text-center">Quantity</p>
             <p className="w-3/12 text-right">Price</p>
@@ -76,9 +102,26 @@ const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
               <p className="basis-3/12 text-center">{item.quantity}</p>
               <p className="basis-3/12 text-right">{item.productPrice}</p>
             </div>
-          ))}
+          ))} */}
+
+          {/* Display Order Make items */}
+          {orderMakeList.length > 0 && (
+            <>
+              <div className="text-center mt-4 mb-2">
+                <p className="text-lg font-bold">Order Make Items</p>
+              </div>
+              {orderMakeList.map((item, index) => (
+                <div key={index} className="flex mb-2">
+                  <p className="basis-6/12">{`${item.productName} (ODB#: ${item.odbNumber})`}</p>
+                  <p className="basis-3/12 text-center">{item.quantity}</p>
+                  <p className="basis-3/12 text-right">{item.rate}</p>
+                </div>
+              ))}
+            </>
+          )}
 
         </div>
+
 
         <hr className="my-4 border-t border-gray-400" />
 
@@ -142,25 +185,31 @@ const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
 
         </div>
 
-
-
       </div>
     </div>
   );
 };
 
 
+enum ItemType {
+  ReadyMade = 'Ready Made',
+  OrderMake = 'Order Make',
+}
+
 
 const NewBill = () => {
   const [productCode, setProductCode] = useState('');
   const [quantity, setQuantity] = useState(0);
-  const [orderList, setOrderList] = useState<OrderItem[]>([]);
+  const [odbNumber, setOdbNumber] = useState(0);
+  const [readyMadeList, setReadyMadeList] = useState<ReadyMadeOrderItem[]>([]);
   const [branchName] = useState('Emporium Mall (1st Floor)');
+  const [itemType, setItemType] = useState<ItemType>(ItemType.ReadyMade);
+  const [orderMakeList, setOrderMakeList] = useState<OrderMakeItem[]>([]);
 
-  const totalCost = orderList.reduce((acc, item) => acc + item.quantity * item.productPrice, 0);
+  const totalCost = readyMadeList.reduce((acc, item) => acc + item.quantity * item.productPrice, 0);
   const [showReceipt, setShowReceipt] = useState(false);
 
-  const initialProducts = [
+  const readyMadeProducts = [
     { id: 1, name: 'Product A', code: 'P001', stock: 10, color: 'Blue', price: 3400 },
     { id: 2, name: 'Product B', code: 'P002', stock: 15, color: 'Red', price: 4450 },
     { id: 11, name: 'Product AA', code: 'P0011', stock: 10, color: 'Blue', price: 2200 },
@@ -193,58 +242,98 @@ const NewBill = () => {
     { id: 18, name: 'Product R', code: 'P018', stock: 25, color: 'Indingo', price: 5700 },
   ];
 
+
+  const orderMakeProducts = [
+    { id: 1, name: 'Product A', odb: 111, code: 'P010', quantity: 2, price: 3400 },
+    { id: 2, name: 'Product B', odb: 112, code: 'P015', quantity: 1, price: 4150 },
+    { id: 3, name: 'Product C', odb: 113, code: 'P017', quantity: 3, price: 5750 },
+    { id: 4, name: 'Product D', odb: 114, code: 'P018', quantity: 2, price: 6150 },
+  ];
+
   const handleAddItem = () => {
-    if (productCode && quantity > 0) {
-      // Find the product from the initialProducts array based on the provided product code
-      const product = initialProducts.find((item) => item.code === productCode);
-  
-      if (product) {
-        const existingItem = orderList.find((item) => item.productCode === product.code);
-  
-        if (existingItem) {
-          // Update the quantity of the existing item
-          const updatedOrderList = orderList.map((item) => {
-            if (item.productCode === existingItem.productCode) {
-              return {
-                ...item,
-                quantity: item.quantity + quantity,
-                productPrice: item.productPrice + product.price * quantity,
-              };
-            }
-            return item;
-          });
-          setOrderList(updatedOrderList);
+
+    if (itemType === ItemType.ReadyMade) {
+
+      if (productCode && quantity > 0) {
+        // Find the product from the initialProducts array based on the provided product code
+        const product = readyMadeProducts.find((item) => item.code === productCode);
+    
+        if (product) {
+          const existingItem = readyMadeList.find((item) => item.productCode === product.code);
+    
+          if (existingItem) {
+            // Update the quantity of the existing item
+            const updatedOrderList = readyMadeList.map((item) => {
+              if (item.productCode === existingItem.productCode) {
+                return {
+                  ...item,
+                  quantity: item.quantity + quantity,
+                  productPrice: item.productPrice + product.price * quantity,
+                };
+              }
+              return item;
+            });
+            setReadyMadeList(updatedOrderList);
+          } else {
+            const newItem: ReadyMadeOrderItem = {
+              productCode: product.code,
+              productName: product.name,
+              productColor: product.color,
+              productPrice: product.price * quantity,
+              quantity,
+            };
+            setReadyMadeList([...readyMadeList, newItem]);
+          }
+    
+          // Reset input fields after adding/updating the item
+          setProductCode('');
+          setQuantity(0);
         } else {
-          const newItem: OrderItem = {
-            productCode: product.code,
-            productName: product.name,
-            productColor: product.color,
-            productPrice: product.price * quantity,
-            quantity,
-          };
-          setOrderList([...orderList, newItem]);
+          alert('Product not found with the provided code.');
         }
-  
-        // Reset input fields after adding/updating the item
-        setProductCode('');
-        setQuantity(0);
+      } else {
+        alert('Please enter a valid product code and quantity.');
+      }
+
+    } else if (itemType === ItemType.OrderMake) {
+      // Find the product from the initialProducts array based on the provided product code
+      const product = orderMakeProducts.find((item) => item.odb === odbNumber);
+
+      if (product) {
+        const newItem: OrderMakeItem = {
+          odbNumber: product.odb,
+          productName: product.name,
+          productCode: product.code,
+          rate: product.price,
+          quantity: product.quantity,
+        };
+        setOrderMakeList([...orderMakeList, newItem]);
       } else {
         alert('Product not found with the provided code.');
       }
-    } else {
-      alert('Please enter a valid product code and quantity.');
+
+      setOdbNumber(0);
     }
+
+
   };
   
 
-  const handleDeleteItem = (index: number) => {
-    const updatedList = [...orderList];
+  const handleDeleteReadyMadeItem = (index: number) => {
+    const updatedList = [...readyMadeList];
     updatedList.splice(index, 1);
-    setOrderList(updatedList);
+    setReadyMadeList(updatedList);
   };
 
+  const handleDeleteOrderMakeItem = (index: number) => {
+    const updatedList = [...orderMakeList];
+    updatedList.splice(index, 1);
+    setOrderMakeList(updatedList);
+  };
+  
+
   const handleGenerateInvoice = () => {
-    if (orderList.length > 0) {
+    if (readyMadeList.length > 0) {
       setShowReceipt(true);
     } else {
       alert('Please add items to generate a receipt.');
@@ -303,27 +392,58 @@ const NewBill = () => {
 
           <div className="flex flex-col ">
 
-            <label htmlFor="productCode" className="text-lg font-semibold mb-1 text-white">
-              Product Code
+            <label htmlFor="itemType" className="text-lg font-semibold mb-1 text-white">
+              Item Type
             </label>
-            <input
-              type="text"
-              placeholder="Product Code"
+            <select
+              value={itemType}
+              onChange={(e) => setItemType(e.target.value as ItemType)}
               className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
-              value={productCode}
-              onChange={(e) => setProductCode(e.target.value)}
-            />
+            >
+              <option value={ItemType.ReadyMade}>Ready Made</option>
+              <option value={ItemType.OrderMake}>Order Make</option>
+            </select>
 
-            <label htmlFor="quantity" className="text-lg font-semibold mb-1 text-white">
-              Quantity
-            </label>
-            <input
-              type="number"
-              placeholder="Quantity"
-              className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
-              value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value))}
-            />
+            {itemType === ItemType.ReadyMade && (
+              <>
+                <label htmlFor="productCode" className="text-lg font-semibold mb-1 text-white">
+                  Product Code
+                </label>
+                <input
+                  type="text"
+                  placeholder="Product Code"
+                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
+                  value={productCode}
+                  onChange={(e) => setProductCode(e.target.value)}
+                />
+
+                <label htmlFor="quantity" className="text-lg font-semibold mb-1 text-white">
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  placeholder="Quantity"
+                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
+                  value={quantity}
+                  onChange={(e) => setQuantity(parseInt(e.target.value))}
+                />
+              </>
+            )}
+
+            {itemType === ItemType.OrderMake && (
+              <>
+                <label htmlFor="odbNumber" className="text-lg font-semibold mb-1 text-white">
+                  ODB#
+                </label>
+                <input
+                  type="number"
+                  placeholder="ODB#"
+                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
+                  value={odbNumber}
+                  onChange={(e) => setOdbNumber(parseInt(e.target.value))}
+                />
+              </>
+            )}
 
           </div>
 
@@ -338,10 +458,10 @@ const NewBill = () => {
 
             <button
               className={`${
-                orderList.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'
+                readyMadeList.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'
               } text-white font-bold py-2 px-4 rounded`}
               onClick={handleGenerateInvoice}
-              disabled={orderList.length === 0}
+              disabled={readyMadeList.length === 0}
             >
               Generate Receipt
             </button>
@@ -356,29 +476,66 @@ const NewBill = () => {
 
       <div>
 
-        {orderList.length === 0 ? (
+        {readyMadeList.length === 0 && orderMakeList.length === 0 ? (
           <p className="text-center text-gray-500">Please Add Items to Generate a Bill.</p>
         ) : (
-          orderList.map((item, index) => (
-            <div key={index} className="flex items-center border-b border-gray-300 py-2 text-white">
-              <p className="flex-1">{item.productCode}</p>
-              <p className="flex-1">{item.productName}</p>
-              <p className="flex-1">{item.productColor}</p>
-              <p className="flex-1">x{item.quantity}</p>
-              <p className="flex-1">Rs. {item.productPrice}</p>
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                onClick={() => handleDeleteItem(index)}
-              >
-                Delete
-              </button>
-            </div>
-          ))
+          <>
+
+            {readyMadeList.length > 0 && (
+              <>
+                <div className="text-center mt-4 mb-2">
+                  <p className="text-lg font-bold text-white">Ready Made Items</p>
+                </div>
+                {readyMadeList.map((item, index) => (
+                    <div key={index} className="flex items-center border-b border-gray-300 py-2 text-white">
+                      <p className="flex-1">{item.productCode}</p>
+                      <p className="flex-1">{item.productName}</p>
+                      <p className="flex-1">{item.productColor}</p>
+                      <p className="flex-1">x{item.quantity}</p>
+                      <p className="flex-1">Rs. {item.productPrice}</p>
+                      <button
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                        onClick={() => handleDeleteReadyMadeItem(index)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                ))}
+              </>
+            )}
+
+            
+            {/* Display Order Make items */}
+            {orderMakeList.length > 0 && (
+              <>
+                <div className="text-center mt-4 mb-2">
+                  <p className="text-lg font-bold text-white">Order Make Items</p>
+                </div>
+                {orderMakeList.map((item, index) => (
+                  <div key={index} className="flex items-center border-b border-gray-300 py-2 text-white">
+                    <p className="flex-1">{`ODB#: ${item.odbNumber}`}</p>
+                    <p className="flex-1">{item.productCode}</p>
+                    <p className="flex-1">{item.productName}</p>
+                    <p className="flex-1">{`x${item.quantity}`}</p>
+                    <p className="flex-1">{`Rs. ${item.rate}`}</p>
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                      onClick={() => handleDeleteOrderMakeItem(index)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </>
+            )}
+          </>
+
+
         )}
 
       </div>
 
-      {orderList.length > 0 && (
+      {readyMadeList.length > 0 && (
         <div className="flex justify-end mt-4 text-white">
           <p className="font-bold mr-2">Total Cost: Rs. {totalCost}</p>
         </div>
@@ -386,14 +543,15 @@ const NewBill = () => {
 
       {showReceipt && (
         <ReceiptPopup
-          orderList={orderList}
-          totalCost={totalCost}
-          branchName={branchName}
-          closeReceipt={handleCloseReceipt}
-          printReceipt={handlePrintReceipt}
-          saveAsImage={handleSaveAsImage}
-          //saveAsPDF={handleSaveAsPDF}
-          //showReceipt={showReceipt}
+        readyMadeOrderList={readyMadeList}
+        orderMakeList={orderMakeList}
+        totalCost={totalCost}
+        branchName={branchName}
+        closeReceipt={handleCloseReceipt}
+        printReceipt={handlePrintReceipt}
+        saveAsImage={handleSaveAsImage}
+        // saveAsPDF={handleSaveAsPDF}
+        // showReceipt={showReceipt}
         />
       )}
     </div>
