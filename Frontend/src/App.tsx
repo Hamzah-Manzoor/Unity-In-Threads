@@ -5,6 +5,7 @@ import Login from './Components/Login/Login'
 import Products from './Components/ProductsPage/ProductsMainPage'
 import AddProduct from './Components/ProductsPage/AddProduct'
 import NewBill from './Components/NewBill/NewBill'
+import UpdateBill from './Components/UpdateBill/UpdateBill'
 
 import TaskManager from './Components/TaskManagerProduction/TaskManager'
 
@@ -87,6 +88,14 @@ function App() {
                   element={
                     <Layout>
                       <Returns />
+                    </Layout>
+                  }
+              />
+              <Route
+                  path="/retail/update-bill"
+                  element={
+                    <Layout>
+                      <UpdateBill />
                     </Layout>
                   }
               />
