@@ -206,7 +206,8 @@ const NewBill = () => {
   const [itemType, setItemType] = useState<ItemType>(ItemType.ReadyMade);
   const [orderMakeList, setOrderMakeList] = useState<OrderMakeItem[]>([]);
 
-  const totalCost = readyMadeList.reduce((acc, item) => acc + item.quantity * item.productPrice, 0);
+  const totalCost = readyMadeList.reduce((acc, item) => acc + (item.quantity * item.productPrice), 0) +
+    orderMakeList.reduce((acc, item) => acc + (item.rate * item.quantity), 0);
   const [showReceipt, setShowReceipt] = useState(false);
 
   const readyMadeProducts = [
@@ -279,7 +280,7 @@ const NewBill = () => {
               productCode: product.code,
               productName: product.name,
               productColor: product.color,
-              productPrice: product.price * quantity,
+              productPrice: product.price,
               quantity,
             };
             setReadyMadeList([...readyMadeList, newItem]);
@@ -535,7 +536,13 @@ const NewBill = () => {
 
       </div>
 
-      {readyMadeList.length > 0 && (
+      {/* {readyMadeList.length > 0 && (
+        <div className="flex justify-end mt-4 text-white">
+          <p className="font-bold mr-2">Total Cost: Rs. {totalCost}</p>
+        </div>
+      )} */}
+
+      { (readyMadeList.length > 0 || orderMakeList.length > 0) && (
         <div className="flex justify-end mt-4 text-white">
           <p className="font-bold mr-2">Total Cost: Rs. {totalCost}</p>
         </div>
