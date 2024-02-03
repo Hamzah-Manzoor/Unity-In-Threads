@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './NewBill.css';
 import html2canvas from 'html2canvas';
 
@@ -6,13 +6,13 @@ import html2canvas from 'html2canvas';
 interface ReadyMadeOrderItem {
     productCode: string;
     productName: string;
-    productColor: string;
+    productColor?: string;
     productPrice: number;
     quantity: number;
   }
 
 interface OrderMakeItem {
-  odbNumber: number;
+  odbNumber?: number;
   productName: string;
   productCode: string;
   rate: number;
@@ -205,10 +205,13 @@ const NewBill = () => {
   const [branchName] = useState('Emporium Mall (1st Floor)');
   const [itemType, setItemType] = useState<ItemType>(ItemType.ReadyMade);
   const [orderMakeList, setOrderMakeList] = useState<OrderMakeItem[]>([]);
+  const [billType, setBillType] = useState<'New Bill' | 'Resume Bill'>('New Bill');
+  const [resumeBillNumber, setResumeBillNumber] = useState('');
+  const [showReceipt, setShowReceipt] = useState(false);
 
   const totalCost = readyMadeList.reduce((acc, item) => acc + (item.quantity * item.productPrice), 0) +
     orderMakeList.reduce((acc, item) => acc + (item.rate * item.quantity), 0);
-  const [showReceipt, setShowReceipt] = useState(false);
+  
 
   const readyMadeProducts = [
     { id: 1, name: 'Product A', code: 'P001', stock: 10, color: 'Blue', price: 3400 },
@@ -249,6 +252,90 @@ const NewBill = () => {
     { id: 2, name: 'Product B', odb: 112, code: 'P015', quantity: 1, price: 4150 },
     { id: 3, name: 'Product C', odb: 113, code: 'P017', quantity: 3, price: 5750 },
     { id: 4, name: 'Product D', odb: 114, code: 'P018', quantity: 2, price: 6150 },
+  ];
+
+  const dummyBills = [
+    {
+      billNumber: '111',
+      purchasingDetails: [
+        {
+          itemType: 'Ready Made',
+          productCode: 'P001',
+          productName: 'Product A',
+          productColor: 'Blue',
+          size: 'Large',
+          orderNumber: '001',
+          rate: 100,
+          quantity: 2,
+          total: 200
+        },
+        {
+          itemType: 'Order Make',
+          odbNumber: 122,
+          productName: 'Product B',
+          productCode: 'P002',
+          size: 'Small',
+          rate: 150,
+          quantity: 1,
+          total: 150
+        }
+      ],
+      paymentDetails: [
+        {
+          paymentDate: '2024-01-30',
+          amountPaid: 100,
+          paymentMode: 'Credit Card',
+          billStatus: 'Pending'
+        },
+        // {
+        //   paymentDate: '2024-02-01',
+        //   amountPaid: 250,
+        //   paymentMode: 'Cash',
+        //   billStatus: 'Completed'
+        // }
+      ]
+    },
+
+    {
+      billNumber: '112',
+      purchasingDetails: [
+        {
+          itemType: 'Ready Made',
+          productCode: 'P002',
+          productName: 'Product C',
+          productColor: 'Black',
+          size: 'Large',
+          orderNumber: '001',
+          rate: 200,
+          quantity: 2,
+          total: 400
+        },
+        {
+          itemType: 'Order Make',
+          odbNumber: 121,
+          productName: 'Product D',
+          productCode: 'P003',
+          size: 'Small',
+          rate: 250,
+          quantity: 1,
+          total: 250
+        }
+      ],
+      paymentDetails: [
+        {
+          paymentDate: '2024-01-30',
+          amountPaid: 400,
+          paymentMode: 'Credit Card',
+          billStatus: 'Pending'
+        },
+        {
+          paymentDate: '2024-02-01',
+          amountPaid: 250,
+          paymentMode: 'Cash',
+          billStatus: 'Completed'
+        },
+      ]
+    },
   ];
 
   const handleAddItem = () => {
@@ -334,7 +421,7 @@ const NewBill = () => {
   
 
   const handleGenerateInvoice = () => {
-    if (readyMadeList.length > 0) {
+    if (readyMadeList.length > 0 || orderMakeList.length > 0) {
       setShowReceipt(true);
     } else {
       alert('Please add items to generate a receipt.');
@@ -384,6 +471,51 @@ const NewBill = () => {
   //   // Implement saving the receipt as a PDF here
   // };
 
+  const handleResumeBill = () => {
+    if (billType === 'Resume Bill' && resumeBillNumber) {
+      // Find the bill in the dummyBills array based on the entered bill number
+      const selectedBill = dummyBills.find((bill) => bill.billNumber === resumeBillNumber);
+
+      if (selectedBill) {
+        // Extract and set Ready Made items from the selected bill
+        const readyMadeItems = selectedBill.purchasingDetails
+          .filter((item) => item.itemType === 'Ready Made')
+          .map((item) => ({
+            productCode: item.productCode,
+            productName: item.productName,
+            productColor: item.productColor,
+            productPrice: item.rate,
+            quantity: item.quantity,
+          }));
+        //console.log("Ready Made Items:", readyMadeItems);
+        setReadyMadeList(readyMadeItems);
+
+        // Extract and set Order Make items from the selected bill
+        const orderMakeItems = selectedBill.purchasingDetails
+          .filter((item) => item.itemType === 'Order Make')
+          .map((item) => ({
+            odbNumber: item.odbNumber,
+            productName: item.productName,
+            productCode: item.productCode,
+            rate: item.rate,
+            quantity: item.quantity,
+          }));
+        setOrderMakeList(orderMakeItems);
+
+        // Reset other input fields and options
+        setProductCode('');
+        setQuantity(0);
+        setOdbNumber(0);
+        setItemType(ItemType.ReadyMade);
+        setBillType('New Bill');
+        setResumeBillNumber('');
+        setShowReceipt(false);
+      } else {
+        alert('Bill not found with the provided number.');
+      }
+    }
+  };
+
   return (
     <div className="p-4">
 
@@ -392,6 +524,38 @@ const NewBill = () => {
         <div className="w-11/12 sm:w-9/12 md:w-8/12 lg:w-6/12 xl:w-5/12">
 
           <div className="flex flex-col ">
+
+          <label htmlFor="billType" className="text-lg font-semibold mb-1 text-white">
+              Bill Type
+            </label>
+            <select
+              value={billType}
+              onChange={(e) => setBillType(e.target.value as 'New Bill' | 'Resume Bill')}
+              className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
+            >
+              <option value="New Bill">New Bill</option>
+              <option value="Resume Bill">Resume Bill</option>
+            </select>
+            {billType === 'Resume Bill' && (
+              <>
+                <label htmlFor="resumeBillNumber" className="text-lg font-semibold mb-1 text-white">
+                  Enter Bill Number
+                </label>
+                <input
+                  type="text"
+                  placeholder="Bill Number"
+                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
+                  value={resumeBillNumber}
+                  onChange={(e) => setResumeBillNumber(e.target.value)}
+                />
+                <button
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2"
+                  onClick={handleResumeBill}
+                >
+                  Get Bill
+                </button>
+              </>
+            )}
 
             <label htmlFor="itemType" className="text-lg font-semibold mb-1 text-white">
               Item Type
@@ -459,12 +623,12 @@ const NewBill = () => {
 
             <button
               className={`${
-                readyMadeList.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'
+                readyMadeList.length === 0 && orderMakeList.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'
               } text-white font-bold py-2 px-4 rounded`}
               onClick={handleGenerateInvoice}
-              disabled={readyMadeList.length === 0}
+              disabled={readyMadeList.length === 0 && orderMakeList.length === 0}
             >
-              Generate Receipt
+              Generate Bill
             </button>
 
           </div>

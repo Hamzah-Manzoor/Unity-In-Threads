@@ -258,26 +258,28 @@ const UpdateBill = () => {
           {!isBillCompleted() && (
             <div className="mt-5">
               <p className="text-lg font-bold mb-2">Add Payment:</p>
-              <div className="flex flex-col md:flex-row items-center md:items-start justify-between md:space-x-4">
-                <input 
-                  type="number" 
-                  placeholder="Payment Amount"
-                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 md:w-1/3"
-                  value={newPaymentAmount} 
-                  onChange={(e) => setNewPaymentAmount(Number(e.target.value))} 
-                />
-                <select 
-                  value={newPaymentMode}
-                  onChange={(e) => setNewPaymentMode(e.target.value)}
-                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 md:w-1/3"
-                >
-                  <option value="Cash">Cash</option>
-                  <option value="Credit Card">Credit Card</option>
-                </select>
+              <div className="flex flex-col text-black mx-auto w-11/12 sm:w-9/12 md:w-8/12 lg:w-6/12 xl:w-5/12">
+                <div className="flex flex-row w-full">
+                  <input 
+                    type="number" 
+                    placeholder="Payment Amount"
+                    className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 w-6/12 mr-0.5"
+                    value={newPaymentAmount} 
+                    onChange={(e) => setNewPaymentAmount(Number(e.target.value))} 
+                  />
+                  <select 
+                    value={newPaymentMode}
+                    onChange={(e) => setNewPaymentMode(e.target.value)}
+                    className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 w-6/12 ml-0.5"
+                  >
+                    <option value="Cash">Cash</option>
+                    <option value="Credit Card">Credit Card</option>
+                  </select>
+                </div>
                 <input 
                   type="text" 
                   placeholder="Payment Details"
-                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 md:w-1/3"
+                  className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 w-full"
                   value={newPaymentDetails} 
                   onChange={(e) => setNewPaymentDetails(e.target.value)} 
                 />
