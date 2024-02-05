@@ -1,41 +1,26 @@
 import { useState } from 'react';
 
 const UpdateBill = () => {
-  // State to store the entered bill number
+
   const [billNumber, setBillNumber] = useState('');
-  // State to store the fetched bill data
   const [billData, setBillData] = useState<any>(null);
-  // State for new payment data
   const [newPaymentAmount, setNewPaymentAmount] = useState(0);
   const [newPaymentMode, setNewPaymentMode] = useState('Cash');
   const [newPaymentDetails, setNewPaymentDetails] = useState('');
-
+  const [editedPaymentMode, setEditedPaymentMode] = useState<string | null>(null);
+  const [changedRows, setChangedRows] = useState(new Set<number>());
+  const [editablePaymentIndex, setEditablePaymentIndex] = useState<number | null>(null);
+  const [editedPaymentAmount, setEditedPaymentAmount] = useState<number | null>(null);
 
   const fetchBill = () => {
-    // Check if the entered bill number matches any of the dummy bill data
     const foundBill = dummyBills.find(bill => bill.billNumber === billNumber);
-
     if (foundBill) {
-      // // Calculate total amount due
-      // const totalAmountDue = foundBill.purchasingDetails.reduce((total, item) => total + (item.rate * item.quantity), 0);
-  
-      // // Calculate total amount paid
-      // const totalAmountPaid = foundBill.paymentDetails.reduce((total, payment) => total + payment.amountPaid, 0);
-  
-      // // Check if the bill status is "Completed" and the total amount paid equals the total amount due
-      // const isBillCompleted = foundBill.paymentDetails[foundBill.paymentDetails.length - 1].billStatus === 'Completed'
-      //                         && totalAmountPaid === totalAmountDue;
-  
-
       setBillData(foundBill);
-
     } else {
-      // If no matching bill found, show relevant alert
       alert('Bill not found. Please enter a valid bill number.');
     }
   };
 
-  // Additional dummy bill data
   const dummyBills = [
     {
       billNumber: '111',
@@ -63,12 +48,14 @@ const UpdateBill = () => {
       ],
       paymentDetails: [
         {
+          id: 1,
           paymentDate: '2024-01-30',
           amountPaid: 100,
           paymentMode: 'Credit Card',
           billStatus: 'Pending'
         },
         // {
+        //   id: 2,
         //   paymentDate: '2024-02-01',
         //   amountPaid: 250,
         //   paymentMode: 'Cash',
@@ -103,12 +90,14 @@ const UpdateBill = () => {
       ],
       paymentDetails: [
         {
+          id: 1,
           paymentDate: '2024-01-30',
           amountPaid: 400,
           paymentMode: 'Credit Card',
           billStatus: 'Pending'
         },
         {
+          id: 2,
           paymentDate: '2024-02-01',
           amountPaid: 250,
           paymentMode: 'Cash',
@@ -130,7 +119,6 @@ const UpdateBill = () => {
   const addPayment = () => {
 
     const totalAmountDue = billData.purchasingDetails.reduce((total: number, item: { rate: number; quantity: number; }) => total + (item.rate * item.quantity), 0);
-    //const totalAmountPaid = updatedPaymentDetails.reduce((total: number, payment: { amountPaid: any; }) => total + payment.amountPaid, 0);
     const totalAmountPaid = billData.paymentDetails.reduce((total: number, payment: { amountPaid: any; }) => total + payment.amountPaid, 0);
 
     if (!(Number(totalAmountPaid + newPaymentAmount) > Number(totalAmountDue))) {
@@ -138,15 +126,6 @@ const UpdateBill = () => {
         alert('Please enter a valid payment amount.');
         return;
       }
-
-      //const totalAmountDue = billData.purchasingDetails.reduce((total: number, item: { rate: number; quantity: number; }) => total + (item.rate * item.quantity), 0);
-      //const totalAmountPaid = updatedPaymentDetails.reduce((total: number, payment: { amountPaid: any; }) => total + payment.amountPaid, 0);
-      //const totalAmountPaid = billData.paymentDetails.reduce((total: number, payment: { amountPaid: any; }) => total + payment.amountPaid, 0);
-
-      
-
-      //console.log("Amout due: ", totalAmountDue);
-      //console.log("Amount paid: ", Number(totalAmountPaid + newPaymentAmount) );
   
       const billStatus = Number(totalAmountPaid + newPaymentAmount) === totalAmountDue ? 'Completed' : 'Pending';
 
@@ -160,7 +139,6 @@ const UpdateBill = () => {
 
       const updatedPaymentDetails = [...billData.paymentDetails, newPayment];
   
-
       const updatedBillData = {
         ...billData,
         paymentDetails: updatedPaymentDetails,
@@ -174,8 +152,85 @@ const UpdateBill = () => {
       alert('Remaining amount due is: ' + Number(totalAmountDue - totalAmountPaid) + '. Please enter an amount less than or equal to the remaining amount due.');
     }
   };
-  
 
+  const handleSaveChanges = (index: number) => {
+    if (editedPaymentAmount !== null) {
+      const confirmation = window.confirm('Are you sure you want to save the changes?');
+      if (confirmation) {
+        const totalAmountDue = billData.purchasingDetails.reduce((total: number, item: { rate: number; quantity: number; }) => total + (item.rate * item.quantity), 0);
+        const totalAmountPaid = billData.paymentDetails.reduce((total: number, payment: { amountPaid: any; }) => total + payment.amountPaid, 0);
+        const updatedTotalAmountPaid = totalAmountPaid - billData.paymentDetails[index].amountPaid + editedPaymentAmount;
+  
+        if (updatedTotalAmountPaid <= totalAmountDue) {
+          const updatedPaymentDetails = billData.paymentDetails.map((payment: any, i: number) => {
+            if (i === index) {
+              return { ...payment, amountPaid: editedPaymentAmount };
+            }
+            return payment;
+          });
+          const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
+          setBillData(updatedBillData);
+          setEditedPaymentAmount(null);
+          setEditablePaymentIndex(null);
+          // Once the changes are saved, update the UI accordingly
+          const updatedChangedRows = new Set<number>(changedRows);
+          updatedChangedRows.delete(index);
+          setChangedRows(updatedChangedRows);
+        } else {
+          alert('Total amount paid cannot exceed the total amount due.');
+        }
+      }
+    } else if (editedPaymentMode !== null) {
+      const confirmation = window.confirm('Are you sure you want to save the changes?');
+      if (confirmation) {
+        const updatedPaymentDetails = billData.paymentDetails.map((payment: any, i: number) => {
+          if (i === index) {
+            return { ...payment, paymentMode: editedPaymentMode };
+          }
+          return payment;
+        });
+        const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
+        setBillData(updatedBillData);
+        setEditedPaymentMode(null);
+        setEditablePaymentIndex(null);
+        // Once the changes are saved, update the UI accordingly
+        const updatedChangedRows = new Set<number>(changedRows);
+        updatedChangedRows.delete(index);
+        setChangedRows(updatedChangedRows);
+      }
+    }
+  };
+
+  const updateChangedRows = (index: number) => {
+    const updatedSet = new Set<number>(changedRows);
+    updatedSet.add(index);
+    setChangedRows(updatedSet);
+  };
+  
+  const handleChange = (index: number) => {
+    // Call updateChangedRows to mark the row as changed
+    updateChangedRows(index);
+  };
+
+  const handleDeletePayment = (index: number) => {
+    const confirmation = window.confirm('Are you sure you want to delete this payment detail?');
+    if (confirmation) {
+      const updatedPaymentDetails = billData.paymentDetails.filter((i: number) => i !== index);
+      const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
+      setBillData(updatedBillData);
+    }
+  };
+
+  const calculateBillStatus = (index: number) => {
+    let totalAmountPaid = 0;
+    for (let i = 0; i <= index; i++) {
+      totalAmountPaid += billData.paymentDetails[i].amountPaid;
+    }
+    const totalAmountDue = billData.purchasingDetails.reduce((total: number, item: any) => total + item.rate * item.quantity, 0);
+    return totalAmountPaid === totalAmountDue ? 'Completed' : 'Pending';
+  };
+  
+  
   return (
     <div className="pt-3 px-6">
 
@@ -231,7 +286,7 @@ const UpdateBill = () => {
           </table>
 
           <p className="mt-5 mb-2 text-lg font-bold">Payment Details:</p>
-          <table className="w-full text-center border-collapse border border-slate-500">
+          <table className="w-full text-center border-collapse border border-slate-500 mb-5">
             <thead>
               <tr>
                 <th className="border border-slate-500 bg-gray-700">Index</th>
@@ -239,16 +294,79 @@ const UpdateBill = () => {
                 <th className="border border-slate-500 bg-gray-700">Amount Paid</th>
                 <th className="border border-slate-500 bg-gray-700">Payment Mode</th>
                 <th className="border border-slate-500 bg-gray-700">Bill Status</th>
+                <th className="border border-slate-500 bg-gray-700">Action</th>
               </tr>
             </thead>
             <tbody>
               {billData.paymentDetails.map((payment: any, index: number) => (
                 <tr key={index}>
+
                   <td className="border border-slate-500">{index+1}</td>
+
                   <td className="border border-slate-500">{payment.paymentDate}</td>
-                  <td className="border border-slate-500">{payment.amountPaid}</td>
-                  <td className="border border-slate-500">{payment.paymentMode}</td>
-                  <td className="border border-slate-500">{payment.billStatus}</td>
+
+                  <td className="border border-slate-500">
+                    {editablePaymentIndex === index ? (
+                      <input 
+                    type="number" 
+                    value={editedPaymentAmount !== null ? editedPaymentAmount : payment.amountPaid} 
+                    className="h-full w-full text-center outline-none bg-gray-800"
+                    onChange={(e) => {
+                      setEditedPaymentAmount(Number(e.target.value));
+                      handleChange(index);
+                    }}
+                      />
+                    ) : (
+                      <span
+                        onClick={() => {
+                          setEditablePaymentIndex(index);
+                          {editedPaymentAmount && editablePaymentIndex === index ? setEditedPaymentAmount(editedPaymentAmount) : setEditedPaymentAmount(payment.amountPaid) }
+                          //setEditedPaymentAmount(payment.amountPaid);
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        { editedPaymentAmount && editablePaymentIndex === index ? (editedPaymentAmount) : (payment.amountPaid) }
+                      </span>
+                    )}
+                  </td>
+
+                  <td className="border border-slate-500">
+                    {editablePaymentIndex === index ? (
+                      <select
+                        value={editedPaymentMode !== null ? editedPaymentMode : payment.paymentMode}
+                        onChange={(e) => {
+                          setEditedPaymentMode(e.target.value);
+                          handleChange(index);
+                        }}
+                        className="h-full w-full text-center outline-none bg-gray-800"
+                      >
+                        <option value="Cash">Cash</option>
+                        <option value="Credit Card">Credit Card</option>
+                      </select>
+                    ) : (
+                      <span
+                        onClick={() => {
+                          setEditablePaymentIndex(index);
+                          { editedPaymentMode && editablePaymentIndex === index ? setEditedPaymentMode(editedPaymentMode):setEditedPaymentMode(payment.paymentMode)}
+                          //setEditedPaymentMode(payment.paymentMode);
+                        }}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        {editedPaymentMode && editablePaymentIndex === index ? (editedPaymentMode) : (payment.paymentMode)}
+                      </span>
+                    )}
+                  </td>
+
+                  <td className="border border-slate-500">{calculateBillStatus(index)}</td>
+
+                  <td className="border border-slate-500">
+                    {changedRows.has(index) ? ( // Check if the row is edited or changed
+                      <button onClick={() => handleSaveChanges(index)} className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">Save</button>
+                    ) : (
+                      <button onClick={() => handleDeletePayment(index)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 ml-2 rounded">Delete</button>
+                    )}
+                  </td>
+
                 </tr>
               ))}
             </tbody>
@@ -256,7 +374,7 @@ const UpdateBill = () => {
 
           {/* Add Payment section */}
           {!isBillCompleted() && (
-            <div className="mt-5">
+            <div className="mb-4">
               <p className="text-lg font-bold mb-2">Add Payment:</p>
               <div className="flex flex-col text-black mx-auto w-11/12 sm:w-9/12 md:w-8/12 lg:w-6/12 xl:w-5/12">
                 <div className="flex flex-row w-full">
@@ -265,7 +383,12 @@ const UpdateBill = () => {
                     placeholder="Payment Amount"
                     className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 w-6/12 mr-0.5"
                     value={newPaymentAmount} 
-                    onChange={(e) => setNewPaymentAmount(Number(e.target.value))} 
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      if (value >= 0) {
+                        setNewPaymentAmount(value);
+                      }
+                    }} 
                   />
                   <select 
                     value={newPaymentMode}

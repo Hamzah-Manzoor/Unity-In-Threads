@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import './NewBill.css';
 import html2canvas from 'html2canvas';
 
