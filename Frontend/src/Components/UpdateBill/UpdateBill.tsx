@@ -215,7 +215,7 @@ const UpdateBill = () => {
   const handleDeletePayment = (index: number) => {
     const confirmation = window.confirm('Are you sure you want to delete this payment detail?');
     if (confirmation) {
-      const updatedPaymentDetails = billData.paymentDetails.filter((i: number) => i !== index);
+      const updatedPaymentDetails = billData.paymentDetails.filter((payment: any, i: number) => i !== index && payment !== 0);
       const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
       setBillData(updatedBillData);
     }
