@@ -4,12 +4,15 @@ const UpdateBill = () => {
 
   const [billNumber, setBillNumber] = useState('');
   const [billData, setBillData] = useState<any>(null);
+
   const [newPaymentAmount, setNewPaymentAmount] = useState(0);
   const [newPaymentMode, setNewPaymentMode] = useState('Cash');
   const [newPaymentDetails, setNewPaymentDetails] = useState('');
-  const [editedPaymentMode, setEditedPaymentMode] = useState<string | null>(null);
+
   const [changedRows, setChangedRows] = useState(new Set<number>());
-  const [editablePaymentIndex, setEditablePaymentIndex] = useState<number | null>(null);
+  const [editableIndex, setEditableIndex] = useState<number | null>(null);
+
+  const [editedPaymentMode, setEditedPaymentMode] = useState<string | null>(null);
   const [editedPaymentAmount, setEditedPaymentAmount] = useState<number | null>(null);
 
   const fetchBill = () => {
@@ -171,7 +174,7 @@ const UpdateBill = () => {
           const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
           setBillData(updatedBillData);
           setEditedPaymentAmount(null);
-          setEditablePaymentIndex(null);
+          setEditableIndex(null);
           // Once the changes are saved, update the UI accordingly
           const updatedChangedRows = new Set<number>(changedRows);
           updatedChangedRows.delete(index);
@@ -192,7 +195,7 @@ const UpdateBill = () => {
         const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
         setBillData(updatedBillData);
         setEditedPaymentMode(null);
-        setEditablePaymentIndex(null);
+        setEditableIndex(null);
         // Once the changes are saved, update the UI accordingly
         const updatedChangedRows = new Set<number>(changedRows);
         updatedChangedRows.delete(index);
@@ -306,32 +309,44 @@ const UpdateBill = () => {
                   <td className="border border-slate-500">{payment.paymentDate}</td>
 
                   <td className="border border-slate-500">
-                    {editablePaymentIndex === index ? (
+                    {editableIndex === index ? (
                       <input 
-                    type="number" 
-                    value={editedPaymentAmount !== null ? editedPaymentAmount : payment.amountPaid} 
-                    className="h-full w-full text-center outline-none bg-gray-800"
-                    onChange={(e) => {
-                      setEditedPaymentAmount(Number(e.target.value));
-                      handleChange(index);
-                    }}
+                        type="number" 
+                        value={editedPaymentAmount !== null ? editedPaymentAmount : payment.amountPaid} 
+                        className="h-full w-full text-center outline-none bg-gray-800"
+                        onChange={(e) => {
+                          setEditedPaymentAmount(Number(e.target.value));
+                          handleChange(index);
+                        }}
+                        onBlur={() => {
+                          if (editedPaymentAmount || editedPaymentMode){
+                            //Do Nothing
+                          } else {
+                            setEditableIndex(null)
+                          } 
+                        }}
                       />
                     ) : (
                       <span
                         onClick={() => {
-                          setEditablePaymentIndex(index);
-                          {editedPaymentAmount && editablePaymentIndex === index ? setEditedPaymentAmount(editedPaymentAmount) : setEditedPaymentAmount(payment.amountPaid) }
-                          //setEditedPaymentAmount(payment.amountPaid);
+                          if (editedPaymentAmount || editedPaymentMode) {
+                            //console.log("Amount: " + editedPaymentAmount + " Mode: " + editedPaymentMode);
+                            alert('Please save the row you have already changed.');
+                          } else {
+                            setEditableIndex(index);
+                            //setEditedPaymentAmount(null);
+                            //{editedPaymentAmount && editableIndex === index ? setEditedPaymentAmount(editedPaymentAmount) : setEditedPaymentAmount(payment.amountPaid) }
+                          }
                         }}
                         style={{ cursor: 'pointer' }}
                       >
-                        { editedPaymentAmount && editablePaymentIndex === index ? (editedPaymentAmount) : (payment.amountPaid) }
+                        { editedPaymentAmount && editableIndex === index ? (editedPaymentAmount) : (payment.amountPaid) }
                       </span>
                     )}
                   </td>
 
                   <td className="border border-slate-500">
-                    {editablePaymentIndex === index ? (
+                    {editableIndex === index ? (
                       <select
                         value={editedPaymentMode !== null ? editedPaymentMode : payment.paymentMode}
                         onChange={(e) => {
@@ -339,20 +354,32 @@ const UpdateBill = () => {
                           handleChange(index);
                         }}
                         className="h-full w-full text-center outline-none bg-gray-800"
+                        onBlur={() => {
+                          if (editedPaymentAmount || editedPaymentMode){
+                            //Do Nothing
+                          } else {
+                            setEditableIndex(null);
+                          }
+                        }}
                       >
                         <option value="Cash">Cash</option>
                         <option value="Credit Card">Credit Card</option>
                       </select>
+                      
                     ) : (
                       <span
                         onClick={() => {
-                          setEditablePaymentIndex(index);
-                          { editedPaymentMode && editablePaymentIndex === index ? setEditedPaymentMode(editedPaymentMode):setEditedPaymentMode(payment.paymentMode)}
-                          //setEditedPaymentMode(payment.paymentMode);
+                          if (editedPaymentAmount || editedPaymentMode) {
+                            alert('Please save the row you have already changed.');
+                          } else {
+                            setEditableIndex(index);
+                            //{ editedPaymentMode && editableIndex === index ? setEditedPaymentMode(editedPaymentMode):setEditedPaymentMode(payment.paymentMode)}
+                            //setEditedPaymentMode(payment.paymentMode);
+                          }
                         }}
                         style={{ cursor: 'pointer' }}
                       >
-                        {editedPaymentMode && editablePaymentIndex === index ? (editedPaymentMode) : (payment.paymentMode)}
+                        {editedPaymentMode && editableIndex === index ? (editedPaymentMode) : (payment.paymentMode)}
                       </span>
                     )}
                   </td>
@@ -384,15 +411,25 @@ const UpdateBill = () => {
                     className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 w-6/12 mr-0.5"
                     value={newPaymentAmount} 
                     onChange={(e) => {
-                      const value = Number(e.target.value);
-                      if (value >= 0) {
-                        setNewPaymentAmount(value);
+                      if (editedPaymentAmount || editedPaymentMode) {
+                        alert('Please save the row you have already changed.');
+                      } else {
+                        const value = Number(e.target.value);
+                        if (value >= 0) {
+                          setNewPaymentAmount(value);
+                        }
                       }
                     }} 
                   />
                   <select 
                     value={newPaymentMode}
-                    onChange={(e) => setNewPaymentMode(e.target.value)}
+                    onChange={(e) => {
+                      if (editedPaymentAmount || editedPaymentMode) {
+                        alert('Please save the row you have already changed.');
+                      } else {
+                        setNewPaymentMode(e.target.value)
+                      }
+                    }}
                     className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 w-6/12 ml-0.5"
                   >
                     <option value="Cash">Cash</option>
@@ -404,7 +441,13 @@ const UpdateBill = () => {
                   placeholder="Payment Details"
                   className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-2 w-full"
                   value={newPaymentDetails} 
-                  onChange={(e) => setNewPaymentDetails(e.target.value)} 
+                  onChange={(e) => {
+                    if (editedPaymentAmount || editedPaymentMode) {
+                      alert('Please save the row you have already changed.');
+                    } else {
+                      setNewPaymentDetails(e.target.value)
+                    }
+                  }} 
                 />
                 <button onClick={addPayment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full md:w-auto">Add Payment</button>
               </div>
