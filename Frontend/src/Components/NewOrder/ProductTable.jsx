@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import FinalizeOrder from './FinalizeOrder';
 
 const ProductTable = ({orders}) => {
+
+
+  const [showFinalizeOrder, setShowFinalizeOrder] = useState(false); // State variable to toggle FinalizeOrder component visibility
+
   return (
     <div className="relative m-10 overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
@@ -73,6 +78,17 @@ const ProductTable = ({orders}) => {
           {/* Add more table rows as needed */}
         </tbody>
       </table>
+      <div className="flex justify-center">
+      <button
+        type="submit"
+        className="text-white m-10 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        onClick={() => setShowFinalizeOrder(true)}
+      >
+        Close Order
+      </button>
+      </div>
+      {/* Render FinalizeOrder component conditionally */}
+      {showFinalizeOrder && <FinalizeOrder />}
     </div>
   );
 };
