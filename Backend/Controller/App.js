@@ -1,5 +1,5 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const cors = require('cors'); // Import the cors middleware
 const app = express();
 const port = 3000;
@@ -53,6 +53,37 @@ app.post('/login', async (req, res) => {
       await client.close();
     }
   });
+
+  // Function to connect to the MongoDB database
+async function connectToDatabase() {
+  try {
+    await client.connect();
+    console.log("Connected to the database");
+    return client.db('Unity-In-Threads').collection('Bills');
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+    throw error;
+  }
+}
+
+// Fetch bill by billNumber endpoint
+app.get('/api/bills/:billNumber', async (req, res) => {
+  try {
+    console.log('You are in server.');
+    const billsCollection = await connectToDatabase();
+    const billNumber = req.params.billNumber;
+    const bill = await billsCollection.findOne({ billNumber });
+
+    if (bill) {
+      res.status(200).json(bill);
+    } else {
+      res.status(404).json({ error: 'Bill not found' });
+    }
+  } catch (error) {
+    console.error("Error fetching bill:", error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const UpdateBill = () => {
 
@@ -27,6 +27,25 @@ const UpdateBill = () => {
       alert('Bill not found. Please enter a valid bill number.');
     }
   };
+
+  // const fetchBill = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:3000/api/bills/' + billNumber);
+  //     console.log('Response is: ' + response);
+  //     if (!response.ok) {
+  //       throw new Error('Bill not found. Please enter a valid bill number.');
+  //     }
+  //     const billDataFromServer = await response.json();
+  //     setBillData(billDataFromServer);
+  //   } catch (error: any) {
+  //     alert(error.message);
+  //   }
+  // };
+  
+
+  // useEffect(() => {
+  //   fetchBill();
+  // }, []);
 
   const dummyBills = [
     {
