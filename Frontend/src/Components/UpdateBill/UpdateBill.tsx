@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 const UpdateBill = () => {
@@ -19,33 +20,29 @@ const UpdateBill = () => {
   const [customerName, setCustomerName] = useState('');
   const [customerContact, setCustomerContact] = useState('');
 
-  const fetchBill = () => {
-    const foundBill = dummyBills.find(bill => bill.billNumber === billNumber);
-    if (foundBill) {
-      setBillData(foundBill);
-    } else {
-      alert('Bill not found. Please enter a valid bill number.');
-    }
-  };
-
-  // const fetchBill = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:3000/api/bills/' + billNumber);
-  //     console.log('Response is: ' + response);
-  //     if (!response.ok) {
-  //       throw new Error('Bill not found. Please enter a valid bill number.');
-  //     }
-  //     const billDataFromServer = await response.json();
-  //     setBillData(billDataFromServer);
-  //   } catch (error: any) {
-  //     alert(error.message);
+  // const fetchBill = () => {
+  //   const foundBill = dummyBills.find(bill => bill.billNumber === billNumber);
+  //   if (foundBill) {
+  //     setBillData(foundBill);
+  //   } else {
+  //     alert('Bill not found. Please enter a valid bill number.');
   //   }
   // };
-  
 
-  // useEffect(() => {
-  //   fetchBill();
-  // }, []);
+  const fetchBill = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/getBill/' + billNumber);
+      console.log('Response is: ' + response);
+      if (!response.ok) {
+        throw new Error('Bill not found. Please enter a valid bill number.');
+      }
+      const billDataFromServer = await response.json();
+      setBillData(billDataFromServer);
+    } catch (error: any) {
+      alert(error.message);
+    }
+  };
+  
 
   const dummyBills = [
     {

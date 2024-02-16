@@ -67,11 +67,12 @@ async function connectToDatabase() {
 }
 
 // Fetch bill by billNumber endpoint
-app.get('/api/bills/:billNumber', async (req, res) => {
+app.get('/api/getBill/:billNumber', async (req, res) => {
   try {
-    console.log('You are in server.');
+    //console.log('You are in server.');
     const billsCollection = await connectToDatabase();
     const billNumber = req.params.billNumber;
+    console.log('Bill Number: ' + billNumber);
     const bill = await billsCollection.findOne({ billNumber });
 
     if (bill) {
@@ -84,6 +85,7 @@ app.get('/api/bills/:billNumber', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 
