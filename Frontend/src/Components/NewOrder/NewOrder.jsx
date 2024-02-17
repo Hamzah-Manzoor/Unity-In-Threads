@@ -13,6 +13,18 @@ const NewOrder = () => {
   const [rate, setRate] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
+  const formFieldHeadings = [
+    'Product name',
+    'Product Code',
+    'Stitching Code',
+    'Design Code',
+    'Fabric Code',
+    'Patching Fabric Code 1',
+    'Patching Fabric Code 2',
+    'Rate',
+    'Quantity',
+  ];
+
   const [orders, setorders] = useState([])
 
   const handleProductChange = (event) => {
@@ -193,7 +205,7 @@ const NewOrder = () => {
             <div className="">
                 {
                     orders.length>0 &&
-                    <ProductTable orders={orders}></ProductTable>
+                    <ProductTable orders={orders} formFieldHeadings={formFieldHeadings}></ProductTable>
                 }
             </div>
     </div>
