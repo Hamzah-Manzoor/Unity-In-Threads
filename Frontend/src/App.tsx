@@ -4,7 +4,8 @@ import Signup from '../src/Components/SignUp/Signup'
 import Login from './Components/Login/Login'
 import Products from './Components/ProductsPage/ProductsMainPage'
 import AddProduct from './Components/ProductsPage/AddProduct'
-import RecordRetailOrder from './Components/RecordRetailOrder/RecordRetailOrder'
+import NewBill from './Components/NewBill/NewBill'
+import UpdateBill from './Components/UpdateBill/UpdateBill'
 
 import TaskManager from './Components/TaskManagerProduction/TaskManager'
 
@@ -77,10 +78,10 @@ function App() {
                   </Layout>
                 }
               />
-              <Route path="/retail/record-retail-order" 
+              <Route path="/retail/new-bill" 
                 element={
                   <Layout>
-                    <RecordRetailOrder/>
+                    <NewBill/>
                   </Layout>
                 }
               />
@@ -96,6 +97,14 @@ function App() {
                   element={
                     <Layout>
                       <Returns />
+                    </Layout>
+                  }
+              />
+              <Route
+                  path="/retail/update-bill"
+                  element={
+                    <Layout>
+                      <UpdateBill />
                     </Layout>
                   }
               />
