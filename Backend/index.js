@@ -1,63 +1,24 @@
-// const express = require('express')
-// const app = express();
-// require('dotenv').config();
-// const cors = require('cors');
-// const cookie_parser = require('cookie-parser');
-// const mongoose = require('mongoose');
+import mongoose, { model } from 'mongoose';
+import express from 'express';
+import { MongoClient, ObjectId } from 'mongodb';
+import cors from 'cors';
+import RetailRoutes from './Routes/Retail-Routes.js'
 
-// app.use(cors({
-//   origin : true,
-//   credentials : true
-// }));
-
-// app.use(cookie_parser());
-
-// app.use(express.json());
-
-// const Retail_User_Routes = require('./Routes/Retail_User_Routes')
-
-// app.use('/api/retail' , Retail_User_Routes);
-// // const userRoutes = require('./Routes/UserRoutes');
-// // const gptRouters = require('./Routes/ChatGPTroutes');
-// // app.use('/api/user' , userRoutes);
-// // //Use GPT Routes
-// // app.use('/api/gpt' , gptRouters);
-// const PORT = process.env.PORT || 5000;
-
-// app.listen(PORT , ()=>{
-//     console.log(`Server is running on port ${PORT}`);
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const express = require('express');
-const { MongoClient, ObjectId } = require('mongodb');
-const cors = require('cors'); // Import the cors middleware
 const app = express();
 const port = 3000;
 
 const uri = "mongodb+srv://l201269:dRb8JHOGNS8EgGKq@unity-in-threads.wdi6zdw.mongodb.net/?retryWrites=true&w=majority";
+const uri2 = "mongodb+srv://l201269:dRb8JHOGNS8EgGKq@unity-in-threads.wdi6zdw.mongodb.net/Unity-In-Threads?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 app.use(express.json());
+app.use('/', RetailRoutes);
+
+mongoose.connect(uri2, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Error connecting to MongoDB:', err));
+
 
 app.post('/registerUser', async (req, res) => {
   try {
@@ -102,39 +63,6 @@ app.post('/login', async (req, res) => {
       await client.close();
     }
   });
-
-  // Function to connect to the MongoDB database
-async function connectToDatabase() {
-  try {
-    await client.connect();
-    console.log("Connected to the database");
-    return client.db('Unity-In-Threads').collection('Bills');
-  } catch (error) {
-    console.error("Error connecting to the database:", error);
-    throw error;
-  }
-}
-
-// Fetch bill by billNumber endpoint
-app.get('/api/getBill/:billNumber', async (req, res) => {
-  try {
-    //console.log('You are in server.');
-    const billsCollection = await connectToDatabase();
-    const billNumber = req.params.billNumber;
-    console.log('Bill Number: ' + billNumber + ' jani kia haal hay');
-    const bill = await billsCollection.findOne({ billNumber });
-
-    if (bill) {
-      res.status(200).json(bill);
-    } else {
-      res.status(404).json({ error: 'Bill not found' });
-    }
-  } catch (error) {
-    console.error("Error fetching bill:", error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
-
 
 
 

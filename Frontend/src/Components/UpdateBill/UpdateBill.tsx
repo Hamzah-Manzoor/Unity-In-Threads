@@ -46,7 +46,7 @@ const UpdateBill = () => {
 
   const dummyBills = [
     {
-      billNumber: '111',
+      billNumber: 111,
       discount: 30,
       name: 'Ali Hamid',
       contact: '03468356335',
@@ -80,18 +80,18 @@ const UpdateBill = () => {
           paymentMode: 'Credit Card'
           //billStatus: 'Pending'
         },
-        // {
-        //   id: 2,
-        //   paymentDate: '2024-02-01',
-        //   amountPaid: 250,
-        //   paymentMode: 'Cash',
-        //   billStatus: 'Completed'
-        // }
+        {
+          //id: 2,
+          paymentDate: '2024-02-01',
+          amountPaid: 60,
+          paymentMode: 'Cash'
+          //billStatus: 'Completed'
+        }
       ]
     },
 
     {
-      billNumber: '112',
+      billNumber: 112,
       discount: 0,
       name: 'Hassan Mir',
       contact: '03532644661',
@@ -326,13 +326,30 @@ const UpdateBill = () => {
   const saveCustomerInfo = () => {
     const confirmation = window.confirm('Are you sure you want to save the changes?');
     if (confirmation) {
-      if (billData) {
-        setBillData({
-          ...billData,
-          name: customerName,
-          contact: customerContact
-        });
+      if (customerName && customerContact) {
+        if (billData) {
+          setBillData({
+            ...billData,
+            name: customerName,
+            contact: customerContact
+          });
+        }
+      } else if (customerName) {
+        if (billData) {
+          setBillData({
+            ...billData,
+            name: customerName
+          });
+        }
+      } else {
+        if (billData) {
+          setBillData({
+            ...billData,
+            contact: customerContact
+          });
+        }
       }
+
       setCustomerName('');
       setCustomerContact('');
     }

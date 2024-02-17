@@ -1,8 +1,8 @@
-import mongoose, { model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
 
-const purchasingDetailsSchema = new Schema({
+const purchasingDetailsSchema = new mongoose.Schema({
   itemType: String,
   productCode: String,
   productName: String,
@@ -12,13 +12,13 @@ const purchasingDetailsSchema = new Schema({
   quantity: Number
 });
 
-const paymentDetailsSchema = new Schema({
+const paymentDetailsSchema = new mongoose.Schema({
   paymentDate: Date,
   amountPaid: Number,
   paymentMode: String
 });
 
-const billSchema = new Schema({
+const billSchema = new mongoose.Schema({
   billNumber: Number,
   discount: Number,
   name: String,
@@ -27,6 +27,6 @@ const billSchema = new Schema({
   paymentDetails: [paymentDetailsSchema]
 });
 
-const Bill = model('Bill', billSchema);
+const Bill = mongoose.model('Bill', billSchema);
 
 export default Bill;
