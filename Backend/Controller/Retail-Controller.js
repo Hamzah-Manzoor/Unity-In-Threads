@@ -67,3 +67,70 @@ export const getBill = async (request, response) => {
             response.status(500).json({ error: 'Internal Server Error' });
         }
 }
+
+
+export const updateCustomerInfo = async (request, response) => {
+    try {
+        const { billNumber, name, contact } = request.body;
+    
+        const bill = await Bill.findOne({ billNumber });
+    
+        if (!bill) {
+          return response.status(404).json({ message: 'Bill not found' });
+        }
+    
+        bill.name = name;
+        bill.contact = contact;
+    
+        await bill.save();
+    
+        return response.status(200).json({ message: 'Customer info updated successfully', updatedBill: bill });
+      } catch (error) {
+        console.error(error);
+        return response.status(500).json({ error: 'Internal Server Error' });
+      }
+}
+
+
+export const handleDiscount = async (request, response) => {
+    try {
+        const { billNumber, discountAmount } = request.body;
+
+        // Find the bill with the provided bill number
+        const bill = await Bill.findOne({ billNumber });
+
+        if (!bill) {
+            return response.status(404).json({ error: 'Bill not found' });
+        }
+
+        // Update the discount amount of the bill
+        bill.discount = discountAmount;
+        await bill.save();
+
+        return response.status(200).json({ message: 'Discount amount updated successfully', updatedBill: bill });
+        } catch (error) {
+        console.error('Error updating discount amount:', error);
+        return response.status(500).json({ error: 'Internal Server Error' });
+        }
+}
+
+
+export const addPayment = async (request, response) => {
+    try {
+        const { billNumber, newPayment } = request.body;
+        const updatedBill = await Bill.findOneAndUpdate(
+          { billNumber: billNumber },
+          { $push: { paymentDetails: newPayment } },
+          { new: true }
+        );
+        response.status(200).json({ message: 'Payment added successfully', updatedBill });
+      } catch (error) {
+        console.error('Error adding payment:', error);
+        response.status(500).json({ error: 'Failed to add payment' });
+      }
+}
+
+
+export const deletePayment = async (request, response) => {
+
+}

@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-const { Schema, model } = mongoose;
-
 const purchasingDetailsSchema = new mongoose.Schema({
   itemType: String,
   productCode: String,
@@ -15,7 +13,8 @@ const purchasingDetailsSchema = new mongoose.Schema({
 const paymentDetailsSchema = new mongoose.Schema({
   paymentDate: Date,
   amountPaid: Number,
-  paymentMode: String
+  paymentMode: String,
+  details: String
 });
 
 const billSchema = new mongoose.Schema({
