@@ -1,11 +1,10 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const UpdateBill = () => {
 
   const [billNumber, setBillNumber] = useState('');
   const [billData, setBillData] = useState<any>(null);
-  const [discountAmount, setDiscountAmount] = useState<number>(0);
+  const [discountAmount, setDiscountAmount] = useState(0);
 
   const [newPaymentAmount, setNewPaymentAmount] = useState(0);
   const [newPaymentMode, setNewPaymentMode] = useState('Cash');
@@ -44,97 +43,97 @@ const UpdateBill = () => {
   };
   
 
-  const dummyBills = [
-    {
-      billNumber: 111,
-      discount: 30,
-      name: 'Ali Hamid',
-      contact: '03468356335',
-      purchasingDetails: [
-        {
-          itemType: 'Ready Made',
-          productCode: 'P001',
-          productName: 'Product A',
-          size: 'Large',
-          orderNumber: '001',
-          rate: 100,
-          quantity: 2
-          //total: 200
-        },
-        {
-          itemType: 'Order Make',
-          odbNumber: 'ODB001',
-          productName: 'Product B',
-          productCode: 'P002',
-          size: 'Small',
-          rate: 150,
-          quantity: 1
-          //total: 150
-        }
-      ],
-      paymentDetails: [
-        {
-          //id: 1,
-          paymentDate: '2024-01-30',
-          amountPaid: 100,
-          paymentMode: 'Credit Card'
-          //billStatus: 'Pending'
-        },
-        {
-          //id: 2,
-          paymentDate: '2024-02-01',
-          amountPaid: 60,
-          paymentMode: 'Cash'
-          //billStatus: 'Completed'
-        }
-      ]
-    },
+  // const dummyBills = [
+  //   {
+  //     billNumber: 111,
+  //     discount: 30,
+  //     name: 'Ali Hamid',
+  //     contact: '03468356335',
+  //     purchasingDetails: [
+  //       {
+  //         itemType: 'Ready Made',
+  //         productCode: 'P001',
+  //         productName: 'Product A',
+  //         size: 'Large',
+  //         orderNumber: '001',
+  //         rate: 100,
+  //         quantity: 2
+  //         //total: 200
+  //       },
+  //       {
+  //         itemType: 'Order Make',
+  //         odbNumber: 'ODB001',
+  //         productName: 'Product B',
+  //         productCode: 'P002',
+  //         size: 'Small',
+  //         rate: 150,
+  //         quantity: 1
+  //         //total: 150
+  //       }
+  //     ],
+  //     paymentDetails: [
+  //       {
+  //         //id: 1,
+  //         paymentDate: '2024-01-30',
+  //         amountPaid: 100,
+  //         paymentMode: 'Credit Card'
+  //         //billStatus: 'Pending'
+  //       },
+  //       {
+  //         //id: 2,
+  //         paymentDate: '2024-02-01',
+  //         amountPaid: 60,
+  //         paymentMode: 'Cash'
+  //         //billStatus: 'Completed'
+  //       }
+  //     ]
+  //   },
 
-    {
-      billNumber: 112,
-      discount: 0,
-      name: 'Hassan Mir',
-      contact: '03532644661',
-      purchasingDetails: [
-        {
-          itemType: 'Ready Made',
-          productCode: 'P002',
-          productName: 'Product C',
-          size: 'Large',
-          orderNumber: '001',
-          rate: 200,
-          quantity: 2
-          //total: 400
-        },
-        {
-          itemType: 'Order Make',
-          odbNumber: 'ODB002',
-          productName: 'Product D',
-          productCode: 'P003',
-          size: 'Small',
-          rate: 250,
-          quantity: 1
-          //total: 250
-        }
-      ],
-      paymentDetails: [
-        {
-          //id: 1,
-          paymentDate: '2024-01-30',
-          amountPaid: 400,
-          paymentMode: 'Credit Card'
-          //billStatus: 'Pending'
-        },
-        {
-          //id: 2,
-          paymentDate: '2024-02-01',
-          amountPaid: 250,
-          paymentMode: 'Cash'
-          //billStatus: 'Completed'
-        },
-      ]
-    },
-  ];
+  //   {
+  //     billNumber: 112,
+  //     discount: 0,
+  //     name: 'Hassan Mir',
+  //     contact: '03532644661',
+  //     purchasingDetails: [
+  //       {
+  //         itemType: 'Ready Made',
+  //         productCode: 'P002',
+  //         productName: 'Product C',
+  //         size: 'Large',
+  //         orderNumber: '001',
+  //         rate: 200,
+  //         quantity: 2
+  //         //total: 400
+  //       },
+  //       {
+  //         itemType: 'Order Make',
+  //         odbNumber: 'ODB002',
+  //         productName: 'Product D',
+  //         productCode: 'P003',
+  //         size: 'Small',
+  //         rate: 250,
+  //         quantity: 1
+  //         //total: 250
+  //       }
+  //     ],
+  //     paymentDetails: [
+  //       {
+  //         //id: 1,
+  //         paymentDate: '2024-01-30',
+  //         amountPaid: 400,
+  //         paymentMode: 'Credit Card'
+  //         //billStatus: 'Pending'
+  //       },
+  //       {
+  //         //id: 2,
+  //         paymentDate: '2024-02-01',
+  //         amountPaid: 250,
+  //         paymentMode: 'Cash'
+  //         //billStatus: 'Completed'
+  //       },
+  //     ]
+  //   },
+  // ];
 
   const calculateTotalAfterDiscount = () => {
     let total = calculateTotal();
@@ -172,27 +171,44 @@ const UpdateBill = () => {
         return;
       }
 
-      //const billStatus = totalAmountPaid + newPaymentAmount === totalAmountDue ? 'Completed' : 'Pending';
-
       const newPayment = {
-        paymentDate: new Date().toISOString().split('T')[0],
+        //paymentDate: new Date().toISOString().split('T')[0],
+        paymentDate: new Date().toISOString(),
         amountPaid: Number(newPaymentAmount),
         paymentMode: newPaymentMode,
         paymentDetails: newPaymentDetails,
-        //billStatus: billStatus
       };
 
-      const updatedPaymentDetails = [...billData.paymentDetails, newPayment];
+      fetch('http://localhost:3000/api/addPayment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ billNumber: billData.billNumber, newPayment })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to add payment');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Payment added successfully');
+        data;
+        const updatedPaymentDetails = [...billData.paymentDetails, newPayment];
 
-      const updatedBillData = {
-        ...billData,
-        paymentDetails: updatedPaymentDetails
-        //billStatus: billStatus // Update bill status here
-      };
-
-      setBillData(updatedBillData);
-      setNewPaymentAmount(0);
-      setNewPaymentDetails('');
+        const updatedBillData = {
+          ...billData,
+          paymentDetails: updatedPaymentDetails
+        };
+  
+        setBillData(updatedBillData);
+        setNewPaymentAmount(0);
+        setNewPaymentDetails('');
+      })
+      .catch(error => {
+        alert('Error adding payment: ' + error);
+      });
     } else {
       alert('Remaining amount due is: ' + (totalAmountDue - totalAmountPaid) + '. Please enter an amount less than or equal to the remaining amount due.');
     }
@@ -271,7 +287,6 @@ const UpdateBill = () => {
   };
   
   const handleChange = (index: number) => {
-    // Call updateChangedRows to mark the row as changed
     updateChangedRows(index);
   };
 
@@ -289,7 +304,7 @@ const UpdateBill = () => {
     for (let i = 0; i <= index; i++) {
       totalAmountPaid += billData.paymentDetails[i].amountPaid;
     }
-    const totalAmountDue = calculateTotalAfterDiscount();//billData.purchasingDetails.reduce((total: number, item: any) => total + item.rate * item.quantity, 0);
+    const totalAmountDue = calculateTotalAfterDiscount();
     return totalAmountPaid === totalAmountDue ? 'Completed' : 'Pending';
   };
 
@@ -303,55 +318,146 @@ const UpdateBill = () => {
 
   const applyDiscount = () => {
     if (billData) {
-      // Replace the discount in the billData state with the new discount value
-      setBillData({
-        ...billData,
-        discount: discountAmount // Update the discount amount
+      const requestBody = {
+        billNumber: billData.billNumber,
+        discountAmount: discountAmount
+      };
+  
+      fetch('http://localhost:3000/api/handleDiscount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to apply discount');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Discount applied successfully');
+        data;
+        setBillData({
+          ...billData,
+          discount: discountAmount
+        });
+        setDiscountAmount(0);
+      })
+      .catch(error => {
+        alert('Error applying discount: ' + error);
       });
     }
   };
 
   const removeDiscount = () => {
-    setDiscountAmount(0);
+
     if (billData) {
-      // Make the discount in the billData zero
-      setBillData({
-        ...billData,
-        discount: 0 // Set discount to zero
+      const requestBody = {
+        billNumber: billData.billNumber,
+        discountAmount: 0
+      };
+
+      fetch('http://localhost:3000/api/handleDiscount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to apply discount');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Discount removed successfully');
+        data;
+        setBillData({
+          ...billData,
+          discount: 0
+        });
+        setDiscountAmount(0);
+      })
+      .catch(error => {
+        alert('Error applying discount: ' + error);
       });
+
     }
   };
 
 
-  const saveCustomerInfo = () => {
+  const saveCustomerInfo = async () => {
     const confirmation = window.confirm('Are you sure you want to save the changes?');
     if (confirmation) {
-      if (customerName && customerContact) {
-        if (billData) {
-          setBillData({
-            ...billData,
-            name: customerName,
-            contact: customerContact
-          });
-        }
-      } else if (customerName) {
-        if (billData) {
-          setBillData({
-            ...billData,
-            name: customerName
-          });
-        }
-      } else {
-        if (billData) {
-          setBillData({
-            ...billData,
-            contact: customerContact
-          });
-        }
-      }
+      try {
+        
+        const requestBody = {
+          billNumber: billData.billNumber,
+          name: '',
+          contact: ''
+        };
 
-      setCustomerName('');
-      setCustomerContact('');
+        if ( customerName.length <= 0 ) {
+          requestBody.name = billData.name;
+          requestBody.contact = customerContact;
+        } else if ( customerContact.length <= 0 ) {
+          requestBody.name = customerName;
+          requestBody.contact = billData.contact;
+        } else {
+          requestBody.name = customerName;
+          requestBody.contact = customerContact;
+        }
+  
+  
+        fetch('http://localhost:3000/api/updateCustomerInfo', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to save customer info');
+          }
+          return response.json();
+        })
+        .then(data => {
+          alert('Customer info saved successfully!');
+          if (billData) {
+            data;
+            if ( customerName.length <= 0 ) {
+              setBillData({
+                ...billData,
+                contact: customerContact
+              });
+            } else if ( customerContact.length <= 0 ) {
+              setBillData({
+                ...billData,
+                name: customerName
+              });
+            } else {
+              setBillData({
+                ...billData,
+                name: customerName,
+                contact: customerContact
+              });
+            }
+            setCustomerName('');
+            setCustomerContact('');
+          }
+        })
+        .catch(error => {
+          setCustomerName('');
+          setCustomerContact('');
+          alert(error);
+        });
+      } catch (error) {
+        alert (error);
+      }
     }
   };
 
@@ -491,13 +597,11 @@ const UpdateBill = () => {
       </div>
     `;
 
-    // Create a new window with the bill content
     const printWindow = window.open('', '_blank')!;
     printWindow.document.open();
     printWindow.document.write(billContent);
     printWindow.document.close();
 
-    // Print the bill
     printWindow.print();
   };
   
@@ -526,25 +630,31 @@ const UpdateBill = () => {
       {billData && (
         <>
         <div className="flex flex-col mx-auto w-11/12 sm:w-9/12 md:w-8/12 lg:w-6/12 xl:w-5/12 mb-8">
-        <label htmlFor="customerName" className="text-lg font-semibold mb-1 text-white">Customer Name:</label>
-        <input 
-          type="text" 
-          id="customerName"
-          placeholder={billData.name}
-          className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-1"
-          value={customerName} 
-          onChange={(e) => setCustomerName(e.target.value)} 
-        />
-        <label htmlFor="customerContact" className="text-lg font-semibold mb-1 text-white">Customer Contact:</label>
-        <input 
-          type="text" 
-          id="customerContact"
-          placeholder={billData.contact}
-          className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-4"
-          value={customerContact} 
-          onChange={(e) => setCustomerContact(e.target.value)} 
-        />
-        <button onClick={saveCustomerInfo} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Save Customer Info</button>
+          <label htmlFor="customerName" className="text-lg font-semibold mb-1 text-white">Customer Name:</label>
+          <input 
+            type="text" 
+            id="customerName"
+            placeholder={billData.name}
+            className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-1"
+            value={customerName} 
+            onChange={(e) => setCustomerName(e.target.value)} 
+          />
+          <label htmlFor="customerContact" className="text-lg font-semibold mb-1 text-white">Customer Contact:</label>
+          <input 
+            type="text" 
+            id="customerContact"
+            placeholder={billData.contact}
+            className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-4"
+            value={customerContact} 
+            onChange={(e) => setCustomerContact(e.target.value)} 
+          />
+          <button 
+            onClick={saveCustomerInfo} 
+            className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full ${ !(customerName.length <= 0 && customerContact.length <= 0) ? '' : 'opacity-50 cursor-not-allowed'}`}
+            disabled={customerName.length <= 0 && customerContact.length <= 0}
+          >
+            Save Customer Info
+          </button>
         </div>
 
 
@@ -607,7 +717,6 @@ const UpdateBill = () => {
               <input 
                   type="number" 
                   id="discountAmount"
-                  //placeholder={billData.discount.toString()}
                   className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-4"
                   value={discountAmount === 0 ? (billData.discount) : (discountAmount)} 
                   onChange={(e) => {
@@ -633,7 +742,7 @@ const UpdateBill = () => {
                 <button 
                   className={`w-1/2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-1 mt-0.5 ${billData.discount > 0 ? '' : 'opacity-50 cursor-not-allowed'}`}
                   onClick={removeDiscount}
-                  disabled={billData.discount === 0}
+                  disabled={billData.discount == 0}
                 >
                   Remove Discount
                 </button>
@@ -659,7 +768,7 @@ const UpdateBill = () => {
 
                   <td className="border border-slate-500">{index+1}</td>
 
-                  <td className="border border-slate-500">{payment.paymentDate}</td>
+                  <td className="border border-slate-500">{payment.paymentDate.split('T')[0]}</td>
 
                   <td className="border border-slate-500">
                     {editableIndex === index ? (
@@ -683,12 +792,9 @@ const UpdateBill = () => {
                       <span
                         onClick={() => {
                           if (editedPaymentAmount || editedPaymentMode) {
-                            //console.log("Amount: " + editedPaymentAmount + " Mode: " + editedPaymentMode);
                             alert('Please save the row you have already changed.');
                           } else {
                             setEditableIndex(index);
-                            //setEditedPaymentAmount(null);
-                            //{editedPaymentAmount && editableIndex === index ? setEditedPaymentAmount(editedPaymentAmount) : setEditedPaymentAmount(payment.amountPaid) }
                           }
                         }}
                         style={{ cursor: 'pointer' }}
@@ -726,8 +832,6 @@ const UpdateBill = () => {
                             alert('Please save the row you have already changed.');
                           } else {
                             setEditableIndex(index);
-                            //{ editedPaymentMode && editableIndex === index ? setEditedPaymentMode(editedPaymentMode):setEditedPaymentMode(payment.paymentMode)}
-                            //setEditedPaymentMode(payment.paymentMode);
                           }
                         }}
                         style={{ cursor: 'pointer' }}
