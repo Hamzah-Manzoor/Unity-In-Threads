@@ -147,7 +147,7 @@ export default function Sidebar() {
                   </svg>
                   <span className="flex-1 ms-3">Record Retail Order</span>
                 </a>
-              </li> */}
+              </li>
 
               <li>  
                 <Link to="/retail/return-and-exchange" className="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group">

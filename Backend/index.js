@@ -3,6 +3,8 @@ import express from 'express';
 import { MongoClient, ObjectId } from 'mongodb';
 import cors from 'cors';
 import RetailRoutes from './Routes/Retail-Routes.js'
+import router from './Routes/Order_Routes.js';
+
 
 const app = express();
 const port = 3000;
@@ -65,6 +67,7 @@ app.post('/login', async (req, res) => {
   });
 
 
+app.use('/Orders' , router)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
