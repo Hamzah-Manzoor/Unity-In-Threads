@@ -11,7 +11,7 @@ const ProductTable = ({ orders, formFieldHeadings }) => {
     try {
         axios.post('/api/Orders/resumeOrders' , {orders}).then(response =>{
           console.log(orders)
-              const data = response.data();
+              const data = response.data;
               console.log(data)
         }).catch(err=>{
             console.log(err)
