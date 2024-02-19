@@ -14,6 +14,10 @@ const resumeOrderSchema = new mongoose.Schema({
       quantity: Number
     }
   ],
+  orderID : {
+      type : String,
+      required : true,
+  },
   createdAt: {
     type: Date,
     default: Date.now
