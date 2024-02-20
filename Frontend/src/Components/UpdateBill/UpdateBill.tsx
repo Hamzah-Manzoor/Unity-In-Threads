@@ -214,68 +214,113 @@ const UpdateBill = () => {
     }
   };
 
-  const handleSaveChanges = (index: number) => {
+  const handleSaveChanges = (Index: number) => {
     const confirmation = window.confirm('Are you sure you want to save the changes?');
     if (confirmation) {
 
+      const requestBody = {
+        billNumber: billData.billNumber,
+        amountPaid: 0,
+        paymentMode: '',
+        index: Index
+      };
       if (editedPaymentAmount !== null && editedPaymentMode !== null) {
-      
-        const totalAmountDue = calculateTotalAfterDiscount();
-        const totalAmountPaid = calculateTotalAmountPaid();
-        const updatedTotalAmountPaid = totalAmountPaid - billData.paymentDetails[index].amountPaid + editedPaymentAmount;
-  
-        if (updatedTotalAmountPaid <= totalAmountDue) {
-          const updatedPaymentDetails = billData.paymentDetails.map((payment: any, i: number) => {
-            if (i === index) {
-              return { ...payment, amountPaid: editedPaymentAmount, paymentMode: editedPaymentMode };
-            }
-            return payment;
-          });
-          const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
-          setBillData(updatedBillData);
-          setEditedPaymentAmount(null);
-          setEditedPaymentMode(null);
-          
-        } else {
-          alert('Total amount paid cannot exceed the total amount due.');
-          setEditedPaymentAmount(null);
-          setEditedPaymentMode(null);
-        }
+        requestBody.amountPaid = editedPaymentAmount;
+        requestBody.paymentMode = editedPaymentMode;
       } else if (editedPaymentAmount !== null) {
-        
-        const totalAmountDue = calculateTotalAfterDiscount();
-        const totalAmountPaid = calculateTotalAmountPaid();
-        const updatedTotalAmountPaid = totalAmountPaid - billData.paymentDetails[index].amountPaid + editedPaymentAmount;
+        requestBody.amountPaid = editedPaymentAmount;
+        requestBody.paymentMode = billData.paymentDetails[Index].paymentMode;
+      } else if (editedPaymentMode !== null) {
+        requestBody.amountPaid = billData.paymentDetails[Index].amountPaid;
+        requestBody.paymentMode = editedPaymentMode;
+      }
 
-        if (updatedTotalAmountPaid <= totalAmountDue) {
+
+
+
+
+      fetch(`http://localhost:3000/api/updatePaymentDetail`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to save changes');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Changes saved successfully!');
+        data;
+
+
+        if (editedPaymentAmount !== null && editedPaymentMode !== null) {
+      
+          const totalAmountDue = calculateTotalAfterDiscount();
+          const totalAmountPaid = calculateTotalAmountPaid();
+          const updatedTotalAmountPaid = totalAmountPaid - billData.paymentDetails[Index].amountPaid + editedPaymentAmount;
+    
+          if (updatedTotalAmountPaid <= totalAmountDue) {
+            const updatedPaymentDetails = billData.paymentDetails.map((payment: any, i: number) => {
+              if (i === Index) {
+                return { ...payment, amountPaid: editedPaymentAmount, paymentMode: editedPaymentMode };
+              }
+              return payment;
+            });
+            const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
+            setBillData(updatedBillData);
+            setEditedPaymentAmount(null);
+            setEditedPaymentMode(null);
+            
+          } else {
+            alert('Total amount paid cannot exceed the total amount due.');
+            setEditedPaymentAmount(null);
+            setEditedPaymentMode(null);
+          }
+        } else if (editedPaymentAmount !== null) {
+          
+          const totalAmountDue = calculateTotalAfterDiscount();
+          const totalAmountPaid = calculateTotalAmountPaid();
+          const updatedTotalAmountPaid = totalAmountPaid - billData.paymentDetails[Index].amountPaid + editedPaymentAmount;
+  
+          if (updatedTotalAmountPaid <= totalAmountDue) {
+            const updatedPaymentDetails = billData.paymentDetails.map((payment: any, i: number) => {
+              if (i === Index) {
+                return { ...payment, amountPaid: editedPaymentAmount };
+              }
+              return payment;
+            });
+            const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
+            setBillData(updatedBillData);
+            setEditedPaymentAmount(null);
+          } else {
+            alert('Total amount paid cannot exceed the total amount due.');
+            setEditedPaymentAmount(null);
+          }
+        } else if (editedPaymentMode !== null) {
           const updatedPaymentDetails = billData.paymentDetails.map((payment: any, i: number) => {
-            if (i === index) {
-              return { ...payment, amountPaid: editedPaymentAmount };
+            if (i === Index) {
+              return { ...payment, paymentMode: editedPaymentMode };
             }
             return payment;
           });
           const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
           setBillData(updatedBillData);
-          setEditedPaymentAmount(null);
-        } else {
-          alert('Total amount paid cannot exceed the total amount due.');
-          setEditedPaymentAmount(null);
+          setEditedPaymentMode(null);
         }
-      } else if (editedPaymentMode !== null) {
-        const updatedPaymentDetails = billData.paymentDetails.map((payment: any, i: number) => {
-          if (i === index) {
-            return { ...payment, paymentMode: editedPaymentMode };
-          }
-          return payment;
-        });
-        const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
-        setBillData(updatedBillData);
-        setEditedPaymentMode(null);
-      }
+
+
+      })
+      .catch(error => {
+        alert('Error saving changes:' + error);
+      });
 
       setEditableIndex(null);
       const updatedChangedRows = new Set<number>(changedRows);
-      updatedChangedRows.delete(index);
+      updatedChangedRows.delete(Index);
       setChangedRows(updatedChangedRows);
     }
   };
@@ -293,9 +338,26 @@ const UpdateBill = () => {
   const handleDeletePayment = (index: number) => {
     const confirmation = window.confirm('Are you sure you want to delete this payment detail?');
     if (confirmation) {
-      const updatedPaymentDetails = billData.paymentDetails.filter((payment: any, i: number) => i !== index && payment !== 0);
-      const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
-      setBillData(updatedBillData);
+      fetch(`http://localhost:3000/api/deletePayment/${billData.billNumber}/${index}`, {
+        method: 'DELETE'
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to delete payment');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Payment deleted successfully!');
+        data;
+
+        const updatedPaymentDetails = billData.paymentDetails.filter((payment: any, i: number) => i !== index && payment !== 0);
+        const updatedBillData = { ...billData, paymentDetails: updatedPaymentDetails };
+        setBillData(updatedBillData);
+      })
+      .catch(error => {
+        alert('Error deleting payment:' + error);
+      });
     }
   };
 
