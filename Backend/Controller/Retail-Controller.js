@@ -56,10 +56,8 @@ export const getBill = async (request, response) => {
         const fetchedBill = await Bill.findOne({ billNumber });
 
         if (fetchedBill) {
-            //console.log('Bill Fetched Successfully');
             response.status(200).json(fetchedBill);
         } else {
-            //console.log('Bill not found');
             response.status(404).json({ error: 'Bill not found' });
         }
         } catch (error) {
@@ -96,14 +94,12 @@ export const handleDiscount = async (request, response) => {
     try {
         const { billNumber, discountAmount } = request.body;
 
-        // Find the bill with the provided bill number
         const bill = await Bill.findOne({ billNumber });
 
         if (!bill) {
             return response.status(404).json({ error: 'Bill not found' });
         }
 
-        // Update the discount amount of the bill
         bill.discount = discountAmount;
         await bill.save();
 
@@ -132,5 +128,45 @@ export const addPayment = async (request, response) => {
 
 
 export const deletePayment = async (request, response) => {
+  try {
+    const { billNumber, index } = request.params;
+    
+    const bill = await Bill.findOne({ billNumber });
+    
+    if (!bill) {
+      return response.status(404).json({ error: 'Bill not found' });
+    }
 
-}
+    bill.paymentDetails.splice(index, 1);
+    
+    await bill.save();
+    response.json({ message: 'Payment deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting payment:', error);
+    response.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+export const handleChangeInPaymentDetail = async (request, response) => {
+  try {
+    const { billNumber, amountPaid, paymentMode, index } = request.body;
+
+    const bill = await Bill.findOne({ billNumber });
+
+    if (!bill) {
+      return response.status(404).json({ error: 'Bill not found' });
+    }
+    
+    const paymentDetail = bill.paymentDetails[index];
+
+    paymentDetail.amountPaid = amountPaid;
+    paymentDetail.paymentMode = paymentMode;
+
+    await bill.save();
+    response.json({ message: 'Changes saved successfully' });
+  } catch (error) {
+    console.error('Error saving changes:', error);
+    response.status(500).json({ error: 'Internal Server Error' });
+  }
+};
