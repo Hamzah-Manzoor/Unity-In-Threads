@@ -1,6 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
-const FinalizeOrder = () => {
+const FinalizeOrder = ({orders}) => {
   // States to store form values
   const [refSizeForm, setRefSizeForm] = useState('');
   const [tryDateFactory, setTryDateFactory] = useState('');
@@ -25,8 +26,24 @@ const FinalizeOrder = () => {
   };
 
   // Function to handle closing entry
-  const handleClose = () => {
-    // Logic to close the entry
+  const handleClose = (e) => {
+    e.preventDefault();
+    const newOrder = {
+      orders , 
+      refSizeForm ,
+      tryDateFactory , 
+      tryDateActual ,
+      deliveryDateFactory,
+      deliveryDateActual ,
+      notes
+    }
+        axios.post(`/api/Orders/addOrder` , {newOrder}).then((response)=>{
+              console.log(response)
+        }).catch((error)=>{
+            console.log(error)
+        })
+
+        handleSubmit(e);
   };
 
   // Function to handle reopening entry
@@ -37,7 +54,7 @@ const FinalizeOrder = () => {
   return (
     <div className="max-w-sm mx-auto">
       <h1 className="p-4 text-5xl text-slate-50">Finalize Order</h1>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="mb-5">
           <label htmlFor="refSizeForm" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Ref Size Form
@@ -118,7 +135,7 @@ const FinalizeOrder = () => {
         <div className="flex justify-between">
           <button
             type="button"
-            onClick={handleClose}
+            onClick={(e)=>{handleClose(e)}}
             className="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5"
           >
             Close

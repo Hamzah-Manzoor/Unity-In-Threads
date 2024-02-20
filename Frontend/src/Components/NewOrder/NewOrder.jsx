@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProductTable from './ProductTable';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const NewOrder = () => {
   // States to store form values
@@ -12,6 +14,8 @@ const NewOrder = () => {
   const [patchingFabricCode2, setPatchingFabricCode2] = useState('');
   const [rate, setRate] = useState(0);
   const [quantity, setQuantity] = useState(0);
+
+  
 
   const formFieldHeadings = [
     'Product name',
@@ -26,6 +30,24 @@ const NewOrder = () => {
   ];
 
   const [orders, setorders] = useState([])
+
+  const {orderID} = useParams();
+
+
+  useEffect(() => {
+    if(orderID){
+      console.log(orderID)
+      axios.get(`/api/Orders/getOrder` , { params: { orderID: orderID } }).then((response)=>{
+              console.log(response.data);
+              console.log('response')
+              setorders(response?.data?.orders?.orders);
+      }).catch((error)=>{
+        console.log(error)
+      })
+    }
+          
+  }, [])
+  
 
   const handleProductChange = (event) => {
     setProductName(event.target.value);

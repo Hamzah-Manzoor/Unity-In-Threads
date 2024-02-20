@@ -70,6 +70,13 @@ function App() {
                   </Layout>
                 }
               />
+              <Route path="/retail/NewOrder/:orderID" 
+                element={
+                  <Layout>
+                    <NewOrder></NewOrder>
+                  </Layout>
+                }
+              />
               <Route path="/retail/products/:productId" 
                 element={
                   <Layout>

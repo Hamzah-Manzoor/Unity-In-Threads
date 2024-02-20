@@ -75,7 +75,7 @@ const ProductTable = ({ orders, formFieldHeadings }) => {
         </button>
       </div>
       {/* Render FinalizeOrder component conditionally */}
-      {showFinalizeOrder && <FinalizeOrder />}
+      {showFinalizeOrder && <FinalizeOrder orders={orders} />}
     </div>
   );
 };
