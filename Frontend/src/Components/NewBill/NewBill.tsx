@@ -256,89 +256,89 @@ const NewBill = () => {
     { id: 4, name: 'Product D', odb: "114", code: 'P018', quantity: 2, price: 6150, size: "Large" },
   ];
 
-  const dummyBills = [
-    {
-      billNumber: 111,
-      purchasingDetails: [
-        {
-          itemType: 'Ready Made',
-          productCode: 'P001',
-          productName: 'Product A',
-          productColor: 'Blue',
-          size: 'Large',
-          orderNumber: '001',
-          rate: 100,
-          quantity: 2,
-          total: 200
-        },
-        {
-          itemType: 'Order Make',
-          orderNumber: "122",
-          productName: 'Product B',
-          productCode: 'P002',
-          size: 'Small',
-          rate: 150,
-          quantity: 1,
-          total: 150
-        }
-      ],
-      paymentDetails: [
-        {
-          paymentDate: '2024-01-30',
-          amountPaid: 100,
-          paymentMode: 'Credit Card',
-          billStatus: 'Pending'
-        },
-        // {
-        //   paymentDate: '2024-02-01',
-        //   amountPaid: 250,
-        //   paymentMode: 'Cash',
-        //   billStatus: 'Completed'
-        // }
-      ]
-    },
+  // const dummyBills = [
+  //   {
+  //     billNumber: 111,
+  //     purchasingDetails: [
+  //       {
+  //         itemType: 'Ready Made',
+  //         productCode: 'P001',
+  //         productName: 'Product A',
+  //         productColor: 'Blue',
+  //         size: 'Large',
+  //         orderNumber: '001',
+  //         rate: 100,
+  //         quantity: 2,
+  //         total: 200
+  //       },
+  //       {
+  //         itemType: 'Order Make',
+  //         orderNumber: "122",
+  //         productName: 'Product B',
+  //         productCode: 'P002',
+  //         size: 'Small',
+  //         rate: 150,
+  //         quantity: 1,
+  //         total: 150
+  //       }
+  //     ],
+  //     paymentDetails: [
+  //       {
+  //         paymentDate: '2024-01-30',
+  //         amountPaid: 100,
+  //         paymentMode: 'Credit Card',
+  //         billStatus: 'Pending'
+  //       },
+  //       // {
+  //       //   paymentDate: '2024-02-01',
+  //       //   amountPaid: 250,
+  //       //   paymentMode: 'Cash',
+  //       //   billStatus: 'Completed'
+  //       // }
+  //     ]
+  //   },
 
-    {
-      billNumber: 112,
-      purchasingDetails: [
-        {
-          itemType: 'Ready Made',
-          productCode: 'P002',
-          productName: 'Product C',
-          productColor: 'Black',
-          size: 'Large',
-          orderNumber: '001',
-          rate: 200,
-          quantity: 2,
-          total: 400
-        },
-        {
-          itemType: 'Order Make',
-          orderNumber: "121",
-          productName: 'Product D',
-          productCode: 'P003',
-          size: 'Small',
-          rate: 250,
-          quantity: 1,
-          total: 250
-        }
-      ],
-      paymentDetails: [
-        {
-          paymentDate: '2024-01-30',
-          amountPaid: 400,
-          paymentMode: 'Credit Card',
-          billStatus: 'Pending'
-        },
-        {
-          paymentDate: '2024-02-01',
-          amountPaid: 250,
-          paymentMode: 'Cash',
-          billStatus: 'Completed'
-        },
-      ]
-    },
-  ];
+  //   {
+  //     billNumber: 112,
+  //     purchasingDetails: [
+  //       {
+  //         itemType: 'Ready Made',
+  //         productCode: 'P002',
+  //         productName: 'Product C',
+  //         productColor: 'Black',
+  //         size: 'Large',
+  //         orderNumber: '001',
+  //         rate: 200,
+  //         quantity: 2,
+  //         total: 400
+  //       },
+  //       {
+  //         itemType: 'Order Make',
+  //         orderNumber: "121",
+  //         productName: 'Product D',
+  //         productCode: 'P003',
+  //         size: 'Small',
+  //         rate: 250,
+  //         quantity: 1,
+  //         total: 250
+  //       }
+  //     ],
+  //     paymentDetails: [
+  //       {
+  //         paymentDate: '2024-01-30',
+  //         amountPaid: 400,
+  //         paymentMode: 'Credit Card',
+  //         billStatus: 'Pending'
+  //       },
+  //       {
+  //         paymentDate: '2024-02-01',
+  //         amountPaid: 250,
+  //         paymentMode: 'Cash',
+  //         billStatus: 'Completed'
+  //       },
+  //     ]
+  //   },
+  // ];
 
   const handleAddItem = () => {
 
