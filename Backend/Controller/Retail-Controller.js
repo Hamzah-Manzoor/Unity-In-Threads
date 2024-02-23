@@ -1,58 +1,57 @@
 import Bill from '../Models/bill-model.js';
 
+export const addBill = async (request, response) => {
+  const { discount, name, contact, purchasingDetails, paymentDetails } = request.body;
+
+  try {
+    const lastBill = await Bill.findOne({}, {}, { sort: { 'billNumber': -1 } });
+    let lastBillNumber = 0;
+    if (lastBill) {
+      lastBillNumber = lastBill.billNumber;
+    }
+    const newBillNumber = lastBillNumber + 1;
+
+    const billData = new Bill({
+      billNumber: newBillNumber,
+      discount: discount || 0,
+      name: name || "",
+      contact: contact || "",
+      purchasingDetails,
+      paymentDetails: paymentDetails || [],
+    });
+
+    await billData.save();
+    response.status(201).json({ message: 'Bill added successfully' });
+  } catch (error) {
+    response.status(500).json({ message: 'Could not add bill', error: error.message });
+  }
+};
+
+export const resumeBill = async (request, response) => {
+  try {
+    const billNumber = request.params.billNumber;
+    const { purchasingDetails } = request.body;
+
+    const bill = await Bill.findOne({ billNumber });
+
+    if (!bill) {
+        return response.status(404).json({ error: 'Bill not found' });
+    }
+
+    bill.purchasingDetails = purchasingDetails;
+    await bill.save();
+
+    return response.status(200).json({ message: 'Purchasing Details updated successfully', updatedBill: bill });
+    } catch (error) {
+    console.error('Error updating Purchasing Details:', error);
+    return response.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 export const getBill = async (request, response) => {
     try {
         const billNumber = request.params.billNumber;
 
-        // // Fetch the bill from the database
-        // const bill = await Bill.findOne({ billNumber });
-
-        // if (!bill) {
-        //   // If the bill is not found, insert the dummy bill document into the database
-        //   const dummyBill = {
-        //     billNumber: 112,
-        //     discount: 0,
-        //     name: 'Hassan Mir',
-        //     contact: '03532644661',
-        //     purchasingDetails: [
-        //       {
-        //         itemType: 'Ready Made',
-        //         productCode: 'P002',
-        //         productName: 'Product C',
-        //         size: 'Large',
-        //         orderNumber: '001',
-        //         rate: 200,
-        //         quantity: 2
-        //       },
-        //       {
-        //         itemType: 'Order Make',
-        //         productCode: 'P003',
-        //         productName: 'Product D',
-        //         size: 'Small',
-        //         orderNumber: 'ODB002',
-        //         rate: 250,
-        //         quantity: 1
-        //       }
-        //     ],
-        //     paymentDetails: [
-        //       {
-        //         paymentDate: '2024-01-30',
-        //         amountPaid: 400,
-        //         paymentMode: 'Credit Card'
-        //       },
-        //       {
-        //         paymentDate: '2024-02-01',
-        //         amountPaid: 250,
-        //         paymentMode: 'Cash'
-        //       },
-        //     ]
-        //   };
-
-        //   await Bill.create(dummyBill);
-        //   console.log('Bill Inserted');
-        // }
-
-        // Fetch the bill again after insertion
         const fetchedBill = await Bill.findOne({ billNumber });
 
         if (fetchedBill) {

@@ -31,7 +31,7 @@ const UpdateBill = () => {
   const fetchBill = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/getBill/' + billNumber);
-      console.log('Response is: ' + response);
+      //console.log('Response is: ' + response);
       if (!response.ok) {
         throw new Error('Bill not found. Please enter a valid bill number.');
       }
@@ -176,7 +176,7 @@ const UpdateBill = () => {
         paymentDate: new Date().toISOString(),
         amountPaid: Number(newPaymentAmount),
         paymentMode: newPaymentMode,
-        paymentDetails: newPaymentDetails,
+        details: newPaymentDetails,
       };
 
       fetch('http://localhost:3000/api/addPayment', {
@@ -542,8 +542,8 @@ const UpdateBill = () => {
         <hr style="margin-top: 1px; margin-bottom: 20px;" class="my-4" />
 
         <div style="display: flex; justify-content: space-between;">
-          <span style="margin-bottom: 1px; margin-top: 1px;">Customer Name: ${billData.name}</span>
-          <span style="margin-right: 1px; text-align: right;">Contact Number: ${billData.contact}</span>
+          <span style="margin-bottom: 1px; margin-top: 1px;">Customer Name: ${billData.name ? (billData.name) : ("N/A")}</span>
+          <span style="margin-right: 1px; text-align: right;">Contact Number: ${billData.contact ? (billData.contact) : ("N/A")}</span>
         </div>
 
         <hr style="margin-top: 14px; margin-bottom: 20px;" class="my-4" />
@@ -625,7 +625,7 @@ const UpdateBill = () => {
           <tbody>
             ${billData.paymentDetails.map((payment: { paymentDate: any; amountPaid: any; paymentMode: any; billStatus: any; }, index: number) => `
               <tr class="bg-gray-100">
-                <td class="border border-gray-800 py-2">${payment.paymentDate}</td>
+                <td class="border border-gray-800 py-2">${payment.paymentDate.split('T')[0]}</td>
                 <td class="border border-gray-800 py-2">${payment.amountPaid}</td>
                 <td class="border border-gray-800 py-2">${payment.paymentMode}</td>
                 <td class="border border-gray-800 py-2">${calculateBillStatus(index)}</td>
@@ -696,7 +696,7 @@ const UpdateBill = () => {
           <input 
             type="text" 
             id="customerName"
-            placeholder={billData.name}
+            placeholder={billData.name ? (billData.name) : ("N/A")}
             className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-1"
             value={customerName} 
             onChange={(e) => setCustomerName(e.target.value)} 
@@ -705,7 +705,7 @@ const UpdateBill = () => {
           <input 
             type="text" 
             id="customerContact"
-            placeholder={billData.contact}
+            placeholder={billData.contact ? (billData.contact) : ("N/A")}
             className="border border-gray-400 rounded px-3 py-2 bg-gray-300 mb-4"
             value={customerContact} 
             onChange={(e) => setCustomerContact(e.target.value)} 
