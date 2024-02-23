@@ -6,15 +6,17 @@ import html2canvas from 'html2canvas';
 interface ReadyMadeOrderItem {
     productCode: string;
     productName: string;
-    productColor?: string;
-    productPrice: number;
+    size: string;
+    orderNumber: string;
+    rate: number;
     quantity: number;
   }
 
 interface OrderMakeItem {
-  odbNumber?: number;
-  productName: string;
   productCode: string;
+  productName: string;
+  size: string;
+  orderNumber: String;
   rate: number;
   quantity: number;
 }
@@ -82,9 +84,9 @@ const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
               </div>
               {readyMadeOrderList.map((item, index) => (
                 <div key={index} className="flex mb-2">
-                  <p className="basis-6/12">{`${item.productName} (${item.productColor})`}</p>
+                  <p className="basis-6/12">{`${item.productName} (${item.productCode})`}</p>
                   <p className="basis-3/12 text-center">{item.quantity}</p>
-                  <p className="basis-3/12 text-right">{item.productPrice}</p>
+                  <p className="basis-3/12 text-right">{item.rate}</p>
                 </div>
               ))}
             </>
@@ -112,7 +114,7 @@ const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
               </div>
               {orderMakeList.map((item, index) => (
                 <div key={index} className="flex mb-2">
-                  <p className="basis-6/12">{`${item.productName} (ODB#: ${item.odbNumber})`}</p>
+                  <p className="basis-6/12">{`${item.productName} (ODB#: ${item.orderNumber})`}</p>
                   <p className="basis-3/12 text-center">{item.quantity}</p>
                   <p className="basis-3/12 text-right">{item.rate}</p>
                 </div>
@@ -200,63 +202,63 @@ enum ItemType {
 const NewBill = () => {
   const [productCode, setProductCode] = useState('');
   const [quantity, setQuantity] = useState(0);
-  const [odbNumber, setOdbNumber] = useState(0);
+  const [odbNumber, setOdbNumber] = useState("");
   const [readyMadeList, setReadyMadeList] = useState<ReadyMadeOrderItem[]>([]);
   const [branchName] = useState('Emporium Mall (1st Floor)');
   const [itemType, setItemType] = useState<ItemType>(ItemType.ReadyMade);
   const [orderMakeList, setOrderMakeList] = useState<OrderMakeItem[]>([]);
   const [billType, setBillType] = useState<'New Bill' | 'Resume Bill'>('New Bill');
-  const [resumeBillNumber, setResumeBillNumber] = useState('');
+  const [resumeBillNumber, setResumeBillNumber] = useState(0);
   const [showReceipt, setShowReceipt] = useState(false);
 
-  const totalCost = readyMadeList.reduce((acc, item) => acc + (item.quantity * item.productPrice), 0) +
+  const totalCost = readyMadeList.reduce((acc, item) => acc + (item.quantity * item.rate), 0) +
     orderMakeList.reduce((acc, item) => acc + (item.rate * item.quantity), 0);
   
 
   const readyMadeProducts = [
-    { id: 1, name: 'Product A', code: 'P001', stock: 10, color: 'Blue', price: 3400 },
-    { id: 2, name: 'Product B', code: 'P002', stock: 15, color: 'Red', price: 4450 },
-    { id: 11, name: 'Product AA', code: 'P0011', stock: 10, color: 'Blue', price: 2200 },
-    { id: 22, name: 'Product BB', code: 'P0022', stock: 15, color: 'Red', price: 850 },
+    { id: 1, name: 'Product A', code: 'P001', orderMumber: "208", stock: 10, color: 'Blue', price: 3400, size: "Large" },
+    { id: 2, name: 'Product B', code: 'P002', orderMumber: "211", stock: 15, color: 'Red', price: 4450, size: "Small" },
+    { id: 11, name: 'Product AA', code: 'P0011', orderMumber: "215", stock: 10, color: 'Blue', price: 2200, size: "Medium" },
+    { id: 22, name: 'Product BB', code: 'P0022', orderMumber: "156", stock: 15, color: 'Red', price: 850, size: "Large" },
 
-    { id: 3, name: 'Product C', code: 'P003', stock: 12, color: 'Pink', price: 6040 },
-    { id: 4, name: 'Product D', code: 'P004', stock: 16, color: 'Brown', price: 4530 },
+    { id: 3, name: 'Product C', code: 'P003', orderMumber: "120", stock: 12, color: 'Pink', price: 6040, size: "Medium" },
+    { id: 4, name: 'Product D', code: 'P004', orderMumber: "114", stock: 16, color: 'Brown', price: 4530, size: "Medium" },
 
-    { id: 5, name: 'Product E', code: 'P005', stock: 23, color: 'Pink', price: 2570 },
-    { id: 6, name: 'Product F', code: 'P006', stock: 7, color: 'Violet', price: 5260 },
-
-
-    { id: 7, name: 'Product G', code: 'P007', stock: 18, color: 'Green', price: 5270 },
-    { id: 8, name: 'Product H', code: 'P008', stock: 42, color: 'Black', price: 3260 },
-
-    { id: 9, name: 'Product I', code: 'P009', stock: 19, color: 'Orange', price: 2600 },
-    { id: 10, name: 'Product J', code: 'P010', stock: 22, color: 'Blue', price: 1200 },
-
-    { id: 11, name: 'Product K', code: 'P011', stock: 13, color: 'Brown', price: 3500 },
-    { id: 12, name: 'Product L', code: 'P012', stock: 25, color: 'Indingo', price: 5500 },
+    { id: 5, name: 'Product E', code: 'P005', orderMumber: "102", stock: 23, color: 'Pink', price: 2570, size: "Large" },
+    { id: 6, name: 'Product F', code: 'P006', orderMumber: "98", stock: 7, color: 'Violet', price: 5260, size: "Medium" },
 
 
-    { id: 13, name: 'Product M', code: 'P013', stock: 18, color: 'Green', price: 52860 },
-    { id: 14, name: 'Product N', code: 'P014', stock: 42, color: 'Black' , price: 4370 },
+    { id: 7, name: 'Product G', code: 'P007', orderMumber: "152", stock: 18, color: 'Green', price: 5270, size: "Large" },
+    { id: 8, name: 'Product H', code: 'P008', orderMumber: "150", stock: 42, color: 'Black', price: 3260, size: "Small" },
 
-    { id: 15, name: 'Product O', code: 'P015', stock: 19, color: 'Orange', price: 10500 },
-    { id: 16, name: 'Product P', code: 'P016', stock: 22, color: 'Blue', price: 14600 },
+    { id: 9, name: 'Product I', code: 'P009', orderMumber: "146", stock: 19, color: 'Orange', price: 2600, size: "Medium" },
+    { id: 10, name: 'Product J', code: 'P010', orderMumber: "132", stock: 22, color: 'Blue', price: 1200, size: "Small" },
 
-    { id: 17, name: 'Product Q', code: 'P017', stock: 13, color: 'Brown', price: 15230 },
-    { id: 18, name: 'Product R', code: 'P018', stock: 25, color: 'Indingo', price: 5700 },
+    { id: 11, name: 'Product K', code: 'P011', orderMumber: "126", stock: 13, color: 'Brown', price: 3500, size: "Small" },
+    { id: 12, name: 'Product L', code: 'P012', orderMumber: "128", stock: 25, color: 'Indingo', price: 5500, size: "Medium" },
+
+
+    { id: 13, name: 'Product M', code: 'P013', orderMumber: "321", stock: 18, color: 'Green', price: 52860, size: "Large" },
+    { id: 14, name: 'Product N', code: 'P014', orderMumber: "322", stock: 42, color: 'Black' , price: 4370, size: "Small" },
+
+    { id: 15, name: 'Product O', code: 'P015', orderMumber: "325", stock: 19, color: 'Orange', price: 10500, size: "Small" },
+    { id: 16, name: 'Product P', code: 'P016', orderMumber: "327", stock: 22, color: 'Blue', price: 14600, size: "Small" },
+
+    { id: 17, name: 'Product Q', code: 'P017', orderMumber: "350", stock: 13, color: 'Brown', price: 15230, size: "Large" },
+    { id: 18, name: 'Product R', code: 'P018', orderMumber: "351", stock: 25, color: 'Indingo', price: 5700, size: "Large" },
   ];
 
 
   const orderMakeProducts = [
-    { id: 1, name: 'Product A', odb: 111, code: 'P010', quantity: 2, price: 3400 },
-    { id: 2, name: 'Product B', odb: 112, code: 'P015', quantity: 1, price: 4150 },
-    { id: 3, name: 'Product C', odb: 113, code: 'P017', quantity: 3, price: 5750 },
-    { id: 4, name: 'Product D', odb: 114, code: 'P018', quantity: 2, price: 6150 },
+    { id: 1, name: 'Product A', odb: "111", code: 'P010', quantity: 2, price: 3400, size: "Large" },
+    { id: 2, name: 'Product B', odb: "112", code: 'P015', quantity: 1, price: 4150, size: "Medium" },
+    { id: 3, name: 'Product C', odb: "113", code: 'P017', quantity: 3, price: 5750, size: "Small" },
+    { id: 4, name: 'Product D', odb: "114", code: 'P018', quantity: 2, price: 6150, size: "Large" },
   ];
 
   const dummyBills = [
     {
-      billNumber: '111',
+      billNumber: 111,
       purchasingDetails: [
         {
           itemType: 'Ready Made',
@@ -271,7 +273,7 @@ const NewBill = () => {
         },
         {
           itemType: 'Order Make',
-          odbNumber: 122,
+          orderNumber: "122",
           productName: 'Product B',
           productCode: 'P002',
           size: 'Small',
@@ -297,7 +299,7 @@ const NewBill = () => {
     },
 
     {
-      billNumber: '112',
+      billNumber: 112,
       purchasingDetails: [
         {
           itemType: 'Ready Made',
@@ -312,7 +314,7 @@ const NewBill = () => {
         },
         {
           itemType: 'Order Make',
-          odbNumber: 121,
+          orderNumber: "121",
           productName: 'Product D',
           productCode: 'P003',
           size: 'Small',
@@ -356,7 +358,7 @@ const NewBill = () => {
                 return {
                   ...item,
                   quantity: item.quantity + quantity,
-                  productPrice: item.productPrice + product.price * quantity,
+                  productPrice: product.price,
                 };
               }
               return item;
@@ -366,10 +368,17 @@ const NewBill = () => {
             const newItem: ReadyMadeOrderItem = {
               productCode: product.code,
               productName: product.name,
-              productColor: product.color,
-              productPrice: product.price,
+              size: product.size,
+              orderNumber: product.orderMumber,
+              rate: product.price,
               quantity,
             };
+            // productCode: string;
+            // productName: string;
+            // size: string;
+            // orderNumber: string;
+            // productPrice: number;
+            // quantity: number;
             setReadyMadeList([...readyMadeList, newItem]);
           }
     
@@ -389,9 +398,10 @@ const NewBill = () => {
 
       if (product) {
         const newItem: OrderMakeItem = {
-          odbNumber: product.odb,
-          productName: product.name,
           productCode: product.code,
+          productName: product.name,
+          size: product.size,
+          orderNumber: product.odb,
           rate: product.price,
           quantity: product.quantity,
         };
@@ -399,11 +409,8 @@ const NewBill = () => {
       } else {
         alert('Product not found with the provided code.');
       }
-
-      setOdbNumber(0);
+      setOdbNumber("");
     }
-
-
   };
   
 
@@ -420,13 +427,13 @@ const NewBill = () => {
   };
   
 
-  const handleGenerateInvoice = () => {
-    if (readyMadeList.length > 0 || orderMakeList.length > 0) {
-      setShowReceipt(true);
-    } else {
-      alert('Please add items to generate a receipt.');
-    }
-  };
+  // const handleGenerateInvoice = () => {
+  //   if (readyMadeList.length > 0 || orderMakeList.length > 0) {
+  //     setShowReceipt(true);
+  //   } else {
+  //     alert('Please add items to generate a receipt.');
+  //   }
+  // };
 
   const handleCloseReceipt = () => {
     setShowReceipt(false);
@@ -471,48 +478,114 @@ const NewBill = () => {
   //   // Implement saving the receipt as a PDF here
   // };
 
-  const handleResumeBill = () => {
+  
+
+  const handleResumeBill = async () => {
     if (billType === 'Resume Bill' && resumeBillNumber) {
-      // Find the bill in the dummyBills array based on the entered bill number
-      const selectedBill = dummyBills.find((bill) => bill.billNumber === resumeBillNumber);
-
-      if (selectedBill) {
-        // Extract and set Ready Made items from the selected bill
-        const readyMadeItems = selectedBill.purchasingDetails
-          .filter((item) => item.itemType === 'Ready Made')
-          .map((item) => ({
+      try {
+        const response = await fetch(`http://localhost:3000/api/getBill/${resumeBillNumber}`);
+        const billData = await response.json();
+        
+        // Extract Ready Made and Order Make items from the fetched bill data
+        const readyMadeItems = billData.purchasingDetails
+          .filter((item: { itemType: string; }) => item.itemType === 'Ready Made')
+          .map((item: { productCode: any; productName: any; size: any; orderNumber: any; rate: any; quantity: any; }) => ({
             productCode: item.productCode,
             productName: item.productName,
-            productColor: item.productColor,
-            productPrice: item.rate,
-            quantity: item.quantity,
-          }));
-        //console.log("Ready Made Items:", readyMadeItems);
-        setReadyMadeList(readyMadeItems);
-
-        // Extract and set Order Make items from the selected bill
-        const orderMakeItems = selectedBill.purchasingDetails
-          .filter((item) => item.itemType === 'Order Make')
-          .map((item) => ({
-            odbNumber: item.odbNumber,
-            productName: item.productName,
-            productCode: item.productCode,
+            size: item.size,
+            orderNumber: item.orderNumber,
             rate: item.rate,
             quantity: item.quantity,
           }));
-        setOrderMakeList(orderMakeItems);
+        
+        const orderMakeItems = billData.purchasingDetails
+          .filter((item: { itemType: string; }) => item.itemType === 'Order Make')
+          .map((item: { productCode: any; productName: any; size: any; orderNumber: any; rate: any; quantity: any; }) => ({
+            productCode: item.productCode,
+            productName: item.productName,
+            size: item.size,
+            orderNumber: item.orderNumber,
+            rate: item.rate,
+            quantity: item.quantity,
+          }));
 
-        // Reset other input fields and options
-        setProductCode('');
-        setQuantity(0);
-        setOdbNumber(0);
-        setItemType(ItemType.ReadyMade);
-        setBillType('New Bill');
-        setResumeBillNumber('');
-        setShowReceipt(false);
-      } else {
-        alert('Bill not found with the provided number.');
+        // Set the Ready Made and Order Make lists
+        setReadyMadeList(readyMadeItems);
+        setOrderMakeList(orderMakeItems);
+        
+        // Clear other fields
+        // setDiscount(billData.discount);
+        // setName(billData.name);
+        // setContact(billData.contact);
+        // setPaymentDetails(billData.paymentDetails); // If needed
+        
+        alert('Bill Resumed Successfully!');
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error resuming bill. Please try again.');
       }
+    } else {
+      alert('Please enter a bill number to resume.');
+    }
+  };
+
+  const handleGenerateBill = async () => {
+    if (readyMadeList.length > 0 || orderMakeList.length > 0) {
+      if (billType === 'Resume Bill' && resumeBillNumber) {
+        const data = {
+          purchasingDetails: [
+            ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
+            ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
+          ],
+        };
+
+        try {
+          const response = await fetch(`http://localhost:3000/api/resumeBill/${resumeBillNumber}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+          const responseData = await response.json();
+          console.log(responseData); // Handle the response from the server
+          alert('Updated Bill Saved Successfully!')
+        } catch (error) {
+          console.error('Error:', error);
+        }
+
+      } else {
+        const data = {
+          billNumber: 0,
+          discount: 0,
+          name: "",
+          contact: "",
+          purchasingDetails: [
+            ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
+            ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
+          ],
+          paymentDetails: []
+        };
+  
+        //console.log("Purchasing Details include: " + data.purchasingDetails[1].itemType);
+      
+        try {
+          const response = await fetch('http://localhost:3000/api/addBill', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+          const responseData = await response.json();
+          console.log(responseData); // Handle the response from the server
+          alert('New Bill Saved Successfully!')
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    } else {
+      alert('Please add items to generate a receipt.');
     }
   };
 
@@ -546,7 +619,7 @@ const NewBill = () => {
                   placeholder="Bill Number"
                   className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
                   value={resumeBillNumber}
-                  onChange={(e) => setResumeBillNumber(e.target.value)}
+                  onChange={(e) => setResumeBillNumber(parseInt(e.target.value))}
                 />
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2"
@@ -605,7 +678,7 @@ const NewBill = () => {
                   placeholder="ODB#"
                   className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
                   value={odbNumber}
-                  onChange={(e) => setOdbNumber(parseInt(e.target.value))}
+                  onChange={(e) => setOdbNumber(e.target.value)}
                 />
               </>
             )}
@@ -625,7 +698,7 @@ const NewBill = () => {
               className={`${
                 readyMadeList.length === 0 && orderMakeList.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'
               } text-white font-bold py-2 px-4 rounded`}
-              onClick={handleGenerateInvoice}
+              onClick={handleGenerateBill}
               disabled={readyMadeList.length === 0 && orderMakeList.length === 0}
             >
               Generate Bill
@@ -655,9 +728,10 @@ const NewBill = () => {
                     <div key={index} className="flex items-center border-b border-gray-300 py-2 text-white">
                       <p className="flex-1">{item.productCode}</p>
                       <p className="flex-1">{item.productName}</p>
-                      <p className="flex-1">{item.productColor}</p>
+                      <p className="flex-1">{item.size}</p>
+                      <p className="flex-1">Order# {item.orderNumber}</p>
+                      <p className="flex-1">Rs. {item.rate}</p>
                       <p className="flex-1">x{item.quantity}</p>
-                      <p className="flex-1">Rs. {item.productPrice}</p>
                       <button
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                         onClick={() => handleDeleteReadyMadeItem(index)}
@@ -678,11 +752,12 @@ const NewBill = () => {
                 </div>
                 {orderMakeList.map((item, index) => (
                   <div key={index} className="flex items-center border-b border-gray-300 py-2 text-white">
-                    <p className="flex-1">{`ODB#: ${item.odbNumber}`}</p>
                     <p className="flex-1">{item.productCode}</p>
                     <p className="flex-1">{item.productName}</p>
-                    <p className="flex-1">{`x${item.quantity}`}</p>
+                    <p className="flex-1">{item.size}</p>
+                    <p className="flex-1">{`ODB#: ${item.orderNumber}`}</p>
                     <p className="flex-1">{`Rs. ${item.rate}`}</p>
+                    <p className="flex-1">{`x${item.quantity}`}</p>
                     <button
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                       onClick={() => handleDeleteOrderMakeItem(index)}
