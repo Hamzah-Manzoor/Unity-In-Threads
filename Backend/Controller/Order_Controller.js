@@ -33,7 +33,7 @@ export const addresumeOrders = async(req,res)=>{
 export const getOrders = async(req,res)=> {
     try {
         const orders =  await ResumeOrder.find();
-        //console.log(orders)
+        console.log(orders)
 
         res.status(200).send({
             orders : orders

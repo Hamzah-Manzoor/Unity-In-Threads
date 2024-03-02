@@ -12,6 +12,7 @@ export default function ResumeOrders() {
         axios.get('/api/Orders/get-Orders').then((res)=>{
                 console.log("response", res);
                 setorders(res.data.orders);
+                console.log(orders)
         }).catch((err)=>{
             console.log(err);
         })
