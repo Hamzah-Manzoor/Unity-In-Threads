@@ -1,6 +1,7 @@
 import Order from '../Models/Order_modal.js';
 import ResumeOrder from '../Models/Resume_Orders.js';
 import ShortUniqueId from 'short-unique-id';
+import FormDataModel from '../Models/SizeForm.js';
 
 
 export const addresumeOrders = async(req,res)=>{
@@ -28,6 +29,19 @@ export const addresumeOrders = async(req,res)=>{
         })
     }
 
+}
+
+
+export const SizeForm = async(req,res)=>{
+    try {
+        const {formData , comment , files}= req.body;
+
+        console.log(formData);
+        console.log(comment)
+        console.log(files)
+    } catch (error) {
+            
+    }
 }
 
 export const getOrders = async(req,res)=> {

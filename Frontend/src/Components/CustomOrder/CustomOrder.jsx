@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import CommentForm from './CommentForm';
+import axios from 'axios';
 
 
 export default function CustomOrder() {
@@ -45,14 +46,16 @@ export default function CustomOrder() {
   };
 
   // Function to handle form submission
-  const handleSubmit = () => {
-    // Do something with the form data
-    console.log(formData);
-    console.log(comment)
+  const handleSubmit = (e) => {
     console.log(files)
-    
-    setComment('');
-    setFiles([]);
+    e.preventDefault();
+    axios.post('/api/Orders/sizeForm' , {formData , comment , files}).then((res)=>{
+        console.log(res)
+    }).catch((err)=>{
+        console.log(err)
+    })
+    // setComment('');
+    // setFiles([]);
   };    
         
       
@@ -445,7 +448,7 @@ export default function CustomOrder() {
               <CommentForm setComment={setComment} setFiles={setFiles} comment={comment} files={files} ></CommentForm>
             </div>
             <div className="p-4 text-2xl text-slate-50">
-            <button type="button" onClick={()=>{handleSubmit()}} class="text-white bg-gradient-to-r from-blue-500
+            <button type="button" onClick={(e)=>{handleSubmit(e)}} class="text-white bg-gradient-to-r from-blue-500
              via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 
              focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 
              font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
