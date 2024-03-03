@@ -7,7 +7,21 @@ export default function CustomOrder() {
 
   const [comment, setComment] = useState('');
   const [files, setFiles] = useState([]);
+  const [base64Array, setBase64Array] = useState([]);
 
+  function converttoBase64(file){
+        return new Promise((resolve , reject)=>{
+              const fileReader = new FileReader(file)
+
+              fileReader.readAsDataURL(file)
+              fileReader.onload = ()=>{
+                  resolve(fileReader.result)
+              }
+              fileReader.onerror = (error)=>{
+                reject(error);
+              }
+        })
+  }
 
   const [formData, setFormData] = useState({
     customerName: '',
@@ -45,11 +59,35 @@ export default function CustomOrder() {
     }));
   };
 
+  
+  const handleFileChange = async (files) => {
+    const fileList = Array.isArray(files) ? files : [files];
+  
+    const base64Promises = fileList.map(file => converttoBase64(file));
+
+    console.log(base64Promises)
+  
+    try {
+      const base64Results = await Promise.all(base64Promises);
+
+      console.log('base64Results' + base64Array)
+      
+      setBase64Array(prevState => [...prevState, ...base64Results]); // Concatenate new results with previous state
+      
+
+    } catch (error) {
+      console.error('Error converting files to base64:', error);
+    }
+  };
+  
+
   // Function to handle form submission
-  const handleSubmit = (e) => {
-    console.log(files)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('/api/Orders/sizeForm' , {formData , comment , files}).then((res)=>{
+    await handleFileChange(files);
+    console.log(base64Array)
+    // /api/Orders/get-Orders
+    axios.post('http://localhost:3000/Orders/sizeForm' , {formData , comment , base64Array}).then((res)=>{
         console.log(res)
     }).catch((err)=>{
         console.log(err)

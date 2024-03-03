@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
+import shortid from 'shortid'; // You can use shortid library to generate short, unique IDs
+
 
 // Define the schema for form data
 const formDataSchema = new mongoose.Schema({
-    formData :[
+  sizeFormId : {
+    type : String ,
+    required : true
+  },
+  formData :[
         {
             customerName: String,
             sizeFor: String,
@@ -34,7 +40,6 @@ const formDataSchema = new mongoose.Schema({
   }]
 }, { timestamps: true });
 
-// Define the model
 const FormDataModel = mongoose.model('FormData', formDataSchema);
 
 export default FormDataModel;

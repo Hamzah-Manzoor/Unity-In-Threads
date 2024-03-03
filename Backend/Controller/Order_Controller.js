@@ -2,6 +2,8 @@ import Order from '../Models/Order_modal.js';
 import ResumeOrder from '../Models/Resume_Orders.js';
 import ShortUniqueId from 'short-unique-id';
 import FormDataModel from '../Models/SizeForm.js';
+import shortid from 'shortid';
+
 
 
 export const addresumeOrders = async(req,res)=>{
@@ -34,13 +36,32 @@ export const addresumeOrders = async(req,res)=>{
 
 export const SizeForm = async(req,res)=>{
     try {
-        const {formData , comment , files}= req.body;
+        const {formData , comment , base64Array}= req.body;
+        console.log(base64Array)
+        console.log(`${formData.customerName}-${formData.sizeFor}-${shortid.generate()}`)
 
-        console.log(formData);
-        console.log(comment)
-        console.log(files)
+        const newSizeForm = new FormDataModel({
+            sizeFormId : `${formData.customerName}-${formData.sizeFor}-${shortid.generate()}`,
+            formData : formData , 
+            comments : {
+                comment : comment , 
+                files : base64Array
+            }
+        })
+
+        await newSizeForm.save();
+
+        return res.status(200).send({
+            message : "New Size Form saved and Created"
+        })
+
+
+        console.log(base64Array)
     } catch (error) {
-            
+        console.log(error)
+            return res.status(500).send({
+                message : "Error in creation of the Size Form"
+            })
     }
 }
 
