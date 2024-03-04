@@ -23,6 +23,7 @@ import Login_Type_Context from './context/Login_Type_Context/Login_Type_Context'
 import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
 import NewOrder from './Components/NewOrder/NewOrder'
 import ResumeOrders from './Components/ResumeOrders/ResumeOrders'
+import OrderDelivery from './Components/Order-Delivery/OrderDelivery'
 
 
 function App() {
@@ -60,6 +61,11 @@ function App() {
               <Route path="/retail/resume-order" element={
                 <Layout>
                   <ResumeOrders></ResumeOrders>
+                </Layout>
+              } />
+              <Route path="/retail/Order-Delivery" element={
+                <Layout>
+                  <OrderDelivery></OrderDelivery>
                 </Layout>
               } />
               {/* /retail/NewOrder */}

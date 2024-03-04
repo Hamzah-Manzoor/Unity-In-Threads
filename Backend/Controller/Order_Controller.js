@@ -36,16 +36,15 @@ export const addresumeOrders = async(req,res)=>{
 
 export const SizeForm = async(req,res)=>{
     try {
-        const {formData , comment , base64Array}= req.body;
-        console.log(base64Array)
+        const {formData , comment}= req.body;
+        
         console.log(`${formData.customerName}-${formData.sizeFor}-${shortid.generate()}`)
 
         const newSizeForm = new FormDataModel({
             sizeFormId : `${formData.customerName}-${formData.sizeFor}-${shortid.generate()}`,
             formData : formData , 
             comments : {
-                comment : comment , 
-                files : base64Array
+                comment : comment
             }
         })
 
@@ -118,6 +117,7 @@ export const addOrder = async(req,res)=>{
         console.log(newOrder)
         // Create a new order instance
         const newOrderData = new Order({
+          orderID : newOrder.orderID,  
           orders: newOrder.orders,
           refSizeForm: newOrder.refSizeForm,
           Dates: [

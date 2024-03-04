@@ -85,7 +85,7 @@ const NewOrder = () => {
   };
 
   return (
-    <div className="">
+    <div>
     <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
       <h1 className='p-4 text-5xl text-slate-50'>New Order</h1>
       <label htmlFor="productName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -227,7 +227,7 @@ const NewOrder = () => {
             <div className="">
                 {
                     orders.length>0 &&
-                    <ProductTable orders={orders} formFieldHeadings={formFieldHeadings}></ProductTable>
+                    <ProductTable orders={orders} orderID={orderID} formFieldHeadings={formFieldHeadings}></ProductTable>
                 }
             </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FinalizeOrder from './FinalizeOrder';
 import axios from 'axios';
 
-const ProductTable = ({ orders, formFieldHeadings }) => {
+const ProductTable = ({ orders, orderID , formFieldHeadings }) => {
   const [showFinalizeOrder, setShowFinalizeOrder] = useState(false); // State variable to toggle FinalizeOrder component visibility
 
   const closeOrder = async(e)=>{
@@ -75,7 +75,7 @@ const ProductTable = ({ orders, formFieldHeadings }) => {
         </button>
       </div>
       {/* Render FinalizeOrder component conditionally */}
-      {showFinalizeOrder && <FinalizeOrder orders={orders} />}
+      {showFinalizeOrder && <FinalizeOrder orders={orders} orderID={orderID} />}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-const FinalizeOrder = ({orders}) => {
+const FinalizeOrder = ({orders , orderID}) => {
   // States to store form values
   const [refSizeForm, setRefSizeForm] = useState('');
   const [tryDateFactory, setTryDateFactory] = useState('');
@@ -28,7 +28,9 @@ const FinalizeOrder = ({orders}) => {
   // Function to handle closing entry
   const handleClose = (e) => {
     e.preventDefault();
+    console.log(orders)
     const newOrder = {
+      orderID ,
       orders , 
       refSizeForm ,
       tryDateFactory , 
