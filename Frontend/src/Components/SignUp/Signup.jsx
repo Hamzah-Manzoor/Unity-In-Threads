@@ -44,6 +44,7 @@ export default function Signup() {
             console.log(user)
             await axios.post(`http://localhost:3000/registerUser` , user).then((res)=>{
                       console.log(res.data)
+                      alert('SignUp Successful')
                       Navigate('/login')
                 }).catch((e)=>{
                   console.log("I am here")

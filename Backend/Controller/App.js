@@ -1,6 +1,7 @@
-const express = require('express');
-const { MongoClient, ObjectId } = require('mongodb');
-const cors = require('cors'); // Import the cors middleware
+import express from 'express';
+import { MongoClient, ObjectId } from 'mongodb';
+import cors from 'cors'; // Import the cors middleware
+
 const app = express();
 const port = 3000;
 
