@@ -21,6 +21,9 @@ import Dashboard_production from './Components/Dashboard/Dashboard_production'
 import { useContext } from 'react'
 import Login_Type_Context from './context/Login_Type_Context/Login_Type_Context'
 import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
+import SetProductRate from './Components/ProductRate/SetProductRate'
+import UpdateProductRate from './Components/ProductRate/UpdateProductRate'
+import ProductSize from './Components/ProductSize/ProductSize'
 import NewOrder from './Components/NewOrder/NewOrder'
 import ResumeOrders from './Components/ResumeOrders/ResumeOrders'
 import OrderDelivery from './Components/Order-Delivery/OrderDelivery'
@@ -101,6 +104,27 @@ function App() {
                 element={
                   <Layout>
                     <NewBill/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/set-product-rate" 
+                element={
+                  <Layout>
+                    <SetProductRate/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/update-product-rate" 
+                element={
+                  <Layout>
+                    <UpdateProductRate/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/product-size" 
+                element={
+                  <Layout>
+                    <ProductSize/>
                   </Layout>
                 }
               />
