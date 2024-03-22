@@ -28,7 +28,6 @@ import NewOrder from './Components/NewOrder/NewOrder'
 import ResumeOrders from './Components/ResumeOrders/ResumeOrders'
 import OrderDelivery from './Components/Order-Delivery/OrderDelivery'
 
-
 function App() {
   const type = useContext(Login_Type_Context);
   console.log(type)
@@ -125,6 +124,41 @@ function App() {
                 element={
                   <Layout>
                     <ProductSize/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/order-to-ready-made" 
+                element={
+                  <Layout>
+                    <OrderToReadyMade/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/ready-made-to-order" 
+                element={
+                  <Layout>
+                    <ReadyMadeToOrder/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/ready-made-to-ready-made" 
+                element={
+                  <Layout>
+                    <ReadyMadeToReadyMade/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/pair-up-product" 
+                element={
+                  <Layout>
+                    <PairUpProduct/>
+                  </Layout>
+                }
+              />
+               <Route path="/retail/break-up-product" 
+                element={
+                  <Layout>
+                    <BreakUpProduct/>
                   </Layout>
                 }
               />
