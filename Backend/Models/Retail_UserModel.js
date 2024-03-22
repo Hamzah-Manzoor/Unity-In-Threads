@@ -26,4 +26,4 @@ const RetailUserSchema = new mongoose.Schema({
 
 const RetailUser = mongoose.model("RetailUserSchema" , RetailUserSchema);
 
-module.exports = RetailUser;
+export default RetailUser;

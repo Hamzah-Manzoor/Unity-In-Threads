@@ -29,6 +29,9 @@ import ReadyMadeToOrder from './Components/ShiftProducts/ReadyMadeToOrder'
 import ReadyMadeToReadyMade from './Components/ShiftProducts/ReadyMadeToReadyMade'
 import BreakUpProduct from './Components/ShiftProducts/BreakUpProduct'
 import PairUpProduct from './Components/ShiftProducts/PairUpProduct'
+import NewOrder from './Components/NewOrder/NewOrder'
+import ResumeOrders from './Components/ResumeOrders/ResumeOrders'
+import OrderDelivery from './Components/Order-Delivery/OrderDelivery'
 
 function App() {
   const type = useContext(Login_Type_Context);
@@ -55,12 +58,62 @@ function App() {
                     </Layout>
                   }
               />
+              <Route path="/retail/resume-order" element={
+                <Layout>
+                  <ResumeOrders></ResumeOrders>
+                </Layout>
+              } />
+              <Route path="/retail/Order-Delivery" element={
+                <Layout>
+                  <OrderDelivery></OrderDelivery>
+                </Layout>
+              } />
+              {/* /retail/NewOrder */}
+              <Route path="/retail/NewOrder" 
+                element={
+                  <Layout>
+                    <NewOrder></NewOrder>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/NewOrder/:orderID" 
+                element={
+                  <Layout>
+                    <NewOrder></NewOrder>
+                  </Layout>
+                }
+              />
               <Route path='/retail/custom-order'
                   element={ // 'element' should be used instead of 'Component'
                     <Layout>
                       <CustomOrder></CustomOrder>
                     </Layout>
                   }
+              />
+              <Route path="/retail/resume-order" element={
+                <Layout>
+                  <ResumeOrders></ResumeOrders>
+                </Layout>
+              } />
+              <Route path="/retail/Order-Delivery" element={
+                <Layout>
+                  <OrderDelivery></OrderDelivery>
+                </Layout>
+              } />
+              {/* /retail/NewOrder */}
+              <Route path="/retail/NewOrder" 
+                element={
+                  <Layout>
+                    <NewOrder></NewOrder>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/NewOrder/:orderID" 
+                element={
+                  <Layout>
+                    <NewOrder></NewOrder>
+                  </Layout>
+                }
               />
               <Route path="/retail/products/:productId" 
                 element={

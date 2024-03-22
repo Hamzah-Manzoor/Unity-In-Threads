@@ -3,9 +3,16 @@ import express from 'express';
 import { MongoClient, ObjectId } from 'mongodb';
 import cors from 'cors';
 import RetailRoutes from './Routes/Retail-Routes.js'
+import router from './Routes/Order_Routes.js';
+import bodyParser from 'body-parser';
+
+
 
 const app = express();
 const port = 3000;
+
+// Middleware to parse JSON requests with an increased limit
+app.use(bodyParser.json({ limit: '50mb' }));
 
 const uri = "mongodb+srv://l201269:dRb8JHOGNS8EgGKq@unity-in-threads.wdi6zdw.mongodb.net/?retryWrites=true&w=majority";
 const uri2 = "mongodb+srv://l201269:dRb8JHOGNS8EgGKq@unity-in-threads.wdi6zdw.mongodb.net/Unity-In-Threads?retryWrites=true&w=majority";
@@ -65,6 +72,7 @@ app.post('/login', async (req, res) => {
   });
 
 
+app.use('/Orders' , router)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
