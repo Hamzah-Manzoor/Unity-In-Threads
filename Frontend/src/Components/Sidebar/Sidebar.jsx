@@ -8,6 +8,7 @@ export default function Sidebar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
   const [isDropdownOpen3, setIsDropdownOpen3] = useState(false);
+  const [isDropdownOpenShiftProduct, setIsDropdownShiftProducts] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -15,6 +16,10 @@ export default function Sidebar() {
 
   const toggleDropdown2 = () => {
     setIsDropdownOpen2(!isDropdownOpen2);
+  };
+
+  const toggleShiftProduct = () => {
+    setIsDropdownShiftProducts(!isDropdownOpenShiftProduct);
   };
 
   const toggleDropdown3 = () => {
@@ -96,15 +101,12 @@ export default function Sidebar() {
                   data-collapse-toggle="dropdown-example"
                   onClick={toggleDropdown3}
                 >
-                  <svg
-                    className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 18 21"
-                  >
-                    <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z" />
+                  <svg 
+                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
                   </svg>
+
                   <span className="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Product Rate</span>
                   <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
@@ -125,8 +127,8 @@ export default function Sidebar() {
 
               <li>
                 <Link to="/retail/product-size" className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
-                  <svg className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                    <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                  <svg className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                   </svg>
                   <span className="flex-1 ms-3">Product Size</span>
                 </Link>
@@ -167,6 +169,64 @@ export default function Sidebar() {
                 </ul>
               </li>
 
+              <li>
+                <Link to="/retail/pair-up-product" className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                <svg 
+                  className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
+                  xmlns="http://www.w3.org/2000/svg" 
+                  x="0px" y="0px" width="100" fill="currentColor" height="100" viewBox="0 0 50 50">
+                  <path d="M 25 2 C 12.318 2 2 12.318 2 25 C 2 37.682 12.318 48 25 48 C 37.682 48 48 37.682 48 25 C 48 12.318 37.682 2 25 2 z M 25 14 C 31 14 31 20 31 20 L 31 22 C 31 22 30.98621 22.541248 30.730469 23.052734 C 30.474726 23.56422 30.166667 24 29 24 C 27.833333 24 27.525274 23.56422 27.269531 23.052734 C 27.013788 22.541248 27 22 27 22 L 27 20 C 27 20 27 18 25 18 C 23 18 23 20 23 20 L 23 30 C 23 30 23 36 17 36 C 11 36 11 30 11 30 L 11 25 L 15 25 L 15 30 C 15 30 15 32 17 32 C 19 32 19 30 19 30 L 19 20 C 19 20 19 14 25 14 z M 35 25 L 39 25 L 39 30 C 39 30 39 36 33 36 C 27 36 27 30 27 30 L 27 25.492188 C 27.547197 25.796008 28.210284 26 29 26 C 29.789716 26 30.452803 25.796008 31 25.492188 L 31 30 C 31 30 31 32 33 32 C 35 32 35 30 35 30 L 35 25 z"></path>
+                  </svg>
+                  <span className="flex-1 ms-3">PairUp Product</span>
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/retail/break-up-product" className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                  <svg className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
+                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m7.848 8.25 1.536.887M7.848 8.25a3 3 0 1 1-5.196-3 3 3 0 0 1 5.196 3Zm1.536.887a2.165 2.165 0 0 1 1.083 1.839c.005.351.054.695.14 1.024M9.384 9.137l2.077 1.199M7.848 15.75l1.536-.887m-1.536.887a3 3 0 1 1-5.196 3 3 3 0 0 1 5.196-3Zm1.536-.887a2.165 2.165 0 0 0 1.083-1.838c.005-.352.054-.695.14-1.025m-1.223 2.863 2.077-1.199m0-3.328a4.323 4.323 0 0 1 2.068-1.379l5.325-1.628a4.5 4.5 0 0 1 2.48-.044l.803.215-7.794 4.5m-2.882-1.664A4.33 4.33 0 0 0 10.607 12m3.736 0 7.794 4.5-.802.215a4.5 4.5 0 0 1-2.48-.043l-5.326-1.629a4.324 4.324 0 0 1-2.068-1.379M14.343 12l-2.882 1.664" />
+                  </svg>
+                  <span className="flex-1 ms-3">BreakUp Product</span>
+                </Link>
+              </li>
+
+              <li>
+                <button
+                  type="button"
+                  className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+                  aria-controls="dropdown-example"
+                  data-collapse-toggle="dropdown-example"
+                  onClick={toggleShiftProduct}
+                >
+                <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true"
+                 fill="currentColor" 
+                 xmlns="http://www.w3.org/2000/svg" 
+                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+
+                  <span className="flex-1 text-left ms-3 rtl:text-right whitespace-nowrap">Shift Product</span>
+                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                  </svg>
+                </button>
+                <ul
+                  id="dropdown-example"
+                  className={`py-2 space-y-2 ${isDropdownOpenShiftProduct ? '' : 'hidden'}`}
+                >
+                  <li>
+                    <Link to="/retail/order-to-ready-made" className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">Order To Ready Made</Link>
+                  </li>
+                  <li>
+                    <Link to="/retail/ready-made-to-order" className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">Ready Made To Order</Link>
+                  </li>
+                  <li>
+                    <Link to="/retail/ready-made-to-ready-made" className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">Ready Made To Ready Made</Link>
+                  </li>
+                </ul>
+              </li>
+
               
               <li>
               {/* /products */}
@@ -181,9 +241,10 @@ export default function Sidebar() {
               <li>
               {/* /products */}
                 <Link to="/retail/add-product" className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
-                  <svg className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                    <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                  <svg className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                   </svg>
+
                   <span className="flex-1 ms-3">Add Product</span>
                 </Link>
               </li>

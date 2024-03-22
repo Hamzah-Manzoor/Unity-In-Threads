@@ -24,6 +24,11 @@ import Login_Type_State from './context/Login_Type_Context/Login_Type_State'
 import SetProductRate from './Components/ProductRate/SetProductRate'
 import UpdateProductRate from './Components/ProductRate/UpdateProductRate'
 import ProductSize from './Components/ProductSize/ProductSize'
+import OrderToReadyMade from './Components/ShiftProducts/OrderToReadyMade'
+import ReadyMadeToOrder from './Components/ShiftProducts/ReadyMadeToOrder'
+import ReadyMadeToReadyMade from './Components/ShiftProducts/ReadyMadeToReadyMade'
+import BreakUpProduct from './Components/ShiftProducts/BreakUpProduct'
+import PairUpProduct from './Components/ShiftProducts/PairUpProduct'
 
 function App() {
   const type = useContext(Login_Type_Context);
@@ -96,6 +101,41 @@ function App() {
                 element={
                   <Layout>
                     <ProductSize/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/order-to-ready-made" 
+                element={
+                  <Layout>
+                    <OrderToReadyMade/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/ready-made-to-order" 
+                element={
+                  <Layout>
+                    <ReadyMadeToOrder/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/ready-made-to-ready-made" 
+                element={
+                  <Layout>
+                    <ReadyMadeToReadyMade/>
+                  </Layout>
+                }
+              />
+              <Route path="/retail/pair-up-product" 
+                element={
+                  <Layout>
+                    <PairUpProduct/>
+                  </Layout>
+                }
+              />
+               <Route path="/retail/break-up-product" 
+                element={
+                  <Layout>
+                    <BreakUpProduct/>
                   </Layout>
                 }
               />
