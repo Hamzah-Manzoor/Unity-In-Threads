@@ -7,7 +7,7 @@ const SetProductRate = () => {
 
     // Function to handle submission
     const handleSubmit = () => {
-        alert(`Product rate set: Price Code - ${priceCode}, Rate - ${rate}`);
+        alert(`${priceCode} is set to -> Rs.${rate}`);
     };
 
     // Function to handle reset
