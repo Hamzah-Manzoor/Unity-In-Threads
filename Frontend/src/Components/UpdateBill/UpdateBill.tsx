@@ -1,6 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 const UpdateBill = () => {
+
+  //const location = useLocation();
+  //const { billNumberProp } = location.state;
+
+
+
+
+  const location = useLocation();
+  const { state } = location;
+  const [billNumberProp, setBillNumberProp] = useState<string | null>(null);
+
+
+
+
+
 
   const [billNumber, setBillNumber] = useState('');
   const [billData, setBillData] = useState<any>(null);
@@ -28,6 +45,45 @@ const UpdateBill = () => {
   //   }
   // };
 
+  // useEffect(() => {
+  //   if (billNumberProp !== null) {
+  //     setBillNumber(billNumberProp);
+  //     alert("You are here in fetching part of the bill.");
+  //     fetchBill();
+  //   }
+  // }, [billNumberProp]);
+
+
+
+
+
+  useEffect(() => {
+    if (state && state.billNumberProp) {
+      setBillNumberProp(state.billNumberProp);
+      location.state = null;
+    }
+  }, [state, location]);
+
+  useEffect(() => {
+    const fetchBillForProp = async () => {
+      try {
+        if (billNumberProp !== null) {
+          const response = await fetch(`http://localhost:3000/api/getBill/${billNumberProp}`);
+          if (!response.ok) {
+            throw new Error('Bill not found. Please enter a valid bill number.');
+          }
+          const billDataFromServer = await response.json();
+          setBillData(billDataFromServer);
+        }
+      } catch (error: any) {
+        alert(error.message);
+      }
+    };
+
+    fetchBillForProp();
+  }, [billNumberProp]);
+
+
   const fetchBill = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/getBill/' + billNumber);
@@ -36,104 +92,16 @@ const UpdateBill = () => {
         throw new Error('Bill not found. Please enter a valid bill number.');
       }
       const billDataFromServer = await response.json();
-      setBillData(billDataFromServer);
+      if (billDataFromServer.resumable){
+        alert('This bill has not been closed yet, please try another bill.');
+      } else {
+        setBillData(billDataFromServer);
+      }
     } catch (error: any) {
       alert(error.message);
     }
   };
   
-
-  // const dummyBills = [
-  //   {
-  //     billNumber: 111,
-  //     discount: 30,
-  //     name: 'Ali Hamid',
-  //     contact: '03468356335',
-  //     purchasingDetails: [
-  //       {
-  //         itemType: 'Ready Made',
-  //         productCode: 'P001',
-  //         productName: 'Product A',
-  //         size: 'Large',
-  //         orderNumber: '001',
-  //         rate: 100,
-  //         quantity: 2
-  //         //total: 200
-  //       },
-  //       {
-  //         itemType: 'Order Make',
-  //         odbNumber: 'ODB001',
-  //         productName: 'Product B',
-  //         productCode: 'P002',
-  //         size: 'Small',
-  //         rate: 150,
-  //         quantity: 1
-  //         //total: 150
-  //       }
-  //     ],
-  //     paymentDetails: [
-  //       {
-  //         //id: 1,
-  //         paymentDate: '2024-01-30',
-  //         amountPaid: 100,
-  //         paymentMode: 'Credit Card'
-  //         //billStatus: 'Pending'
-  //       },
-  //       {
-  //         //id: 2,
-  //         paymentDate: '2024-02-01',
-  //         amountPaid: 60,
-  //         paymentMode: 'Cash'
-  //         //billStatus: 'Completed'
-  //       }
-  //     ]
-  //   },
-
-  //   {
-  //     billNumber: 112,
-  //     discount: 0,
-  //     name: 'Hassan Mir',
-  //     contact: '03532644661',
-  //     purchasingDetails: [
-  //       {
-  //         itemType: 'Ready Made',
-  //         productCode: 'P002',
-  //         productName: 'Product C',
-  //         size: 'Large',
-  //         orderNumber: '001',
-  //         rate: 200,
-  //         quantity: 2
-  //         //total: 400
-  //       },
-  //       {
-  //         itemType: 'Order Make',
-  //         odbNumber: 'ODB002',
-  //         productName: 'Product D',
-  //         productCode: 'P003',
-  //         size: 'Small',
-  //         rate: 250,
-  //         quantity: 1
-  //         //total: 250
-  //       }
-  //     ],
-  //     paymentDetails: [
-  //       {
-  //         //id: 1,
-  //         paymentDate: '2024-01-30',
-  //         amountPaid: 400,
-  //         paymentMode: 'Credit Card'
-  //         //billStatus: 'Pending'
-  //       },
-  //       {
-  //         //id: 2,
-  //         paymentDate: '2024-02-01',
-  //         amountPaid: 250,
-  //         paymentMode: 'Cash'
-  //         //billStatus: 'Completed'
-  //       },
-  //     ]
-  //   },
-  // ];
 
   const calculateTotalAfterDiscount = () => {
     let total = calculateTotal();
@@ -151,8 +119,6 @@ const UpdateBill = () => {
     }
     return false;
   };
-
-
 
   const calculateTotalAmountPaid = () => {
     if (billData) {
@@ -235,10 +201,6 @@ const UpdateBill = () => {
         requestBody.paymentMode = editedPaymentMode;
       }
 
-
-
-
-
       fetch(`http://localhost:3000/api/updatePaymentDetail`, {
         method: 'PUT',
         headers: {
@@ -311,8 +273,6 @@ const UpdateBill = () => {
           setBillData(updatedBillData);
           setEditedPaymentMode(null);
         }
-
-
       })
       .catch(error => {
         alert('Error saving changes:' + error);
@@ -450,12 +410,10 @@ const UpdateBill = () => {
     }
   };
 
-
   const saveCustomerInfo = async () => {
     const confirmation = window.confirm('Are you sure you want to save the changes?');
     if (confirmation) {
       try {
-        
         const requestBody = {
           billNumber: billData.billNumber,
           name: '',
@@ -525,7 +483,6 @@ const UpdateBill = () => {
 
 
   const printBill = () => {
-    // Generate bill content
     const billContent = `
       <div class="font-sans">
 
@@ -691,6 +648,7 @@ const UpdateBill = () => {
 
       {billData && (
         <>
+        <p className='text-white text-center font-bold text-lg'>Bill Number: {billData.billNumber}</p>
         <div className="flex flex-col mx-auto w-11/12 sm:w-9/12 md:w-8/12 lg:w-6/12 xl:w-5/12 mb-8">
           <label htmlFor="customerName" className="text-lg font-semibold mb-1 text-white">Customer Name:</label>
           <input 

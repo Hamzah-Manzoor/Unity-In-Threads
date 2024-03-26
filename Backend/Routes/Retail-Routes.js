@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getBill, updateCustomerInfo, handleDiscount, addPayment, deletePayment, handleChangeInPaymentDetail, addBill, resumeBill } from '../Controller/Retail-Controller.js';
+import { getBill, updateCustomerInfo, handleDiscount, addPayment, deletePayment, handleChangeInPaymentDetail, addBill, resumeBill, getLastBillNumber, closeBill, fetchResumableBills } from '../Controller/Retail-Controller.js';
 
 const router = express.Router();
 
@@ -12,6 +12,9 @@ router.delete('/api/deletePayment/:billNumber/:index', deletePayment);
 router.put('/api/updatePaymentDetail', handleChangeInPaymentDetail);
 router.post('/api/addBill', addBill);
 router.put('/api/resumeBill/:billNumber', resumeBill);
+router.get('/api/lastBillNumber', getLastBillNumber);
+router.put('/api/closeBill/:billNumber', closeBill);
+router.get('/api/fetchResumableBills', fetchResumableBills);
 
 
 

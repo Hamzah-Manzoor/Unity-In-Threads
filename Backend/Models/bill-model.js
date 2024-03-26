@@ -19,6 +19,7 @@ const paymentDetailsSchema = new mongoose.Schema({
 
 const billSchema = new mongoose.Schema({
   billNumber: Number,
+  resumable: Boolean,
   discount: Number,
   name: String,
   contact: String,
