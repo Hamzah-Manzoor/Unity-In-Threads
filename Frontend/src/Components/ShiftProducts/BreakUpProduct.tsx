@@ -8,7 +8,7 @@ const BreakUpProduct = () => {
     const [ConfirmNewProduct1Code, setConfirmNewProduct1Code] = useState("");
     const [NewProduct2Code, setNewProduct2Code] = useState("");
     const [ConfirmNewProduct2Code, setConfirmNewProduct2Code] = useState("");
-    const [quantity, setQuantity] = useState("");
+    const [quantity, setQuantity] = useState("1");
     const [Details, setDetails] = useState("");
 
     // Function to handle submission
@@ -24,7 +24,7 @@ const BreakUpProduct = () => {
         setConfirmNewProduct1Code("");
         setNewProduct2Code("");
         setConfirmNewProduct2Code("");
-        setQuantity("");
+        setQuantity("1");
         setDetails("");
     };
 
@@ -63,7 +63,6 @@ const BreakUpProduct = () => {
                                 type="number"
                                 placeholder="Enter quantity"
                                 value={quantity}
-                                onChange={(e) => setQuantity(e.target.value)}
                                 step="1" 
                                 className="w-full border border-gray-300 p-2"
                             />

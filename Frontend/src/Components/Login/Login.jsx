@@ -8,11 +8,11 @@ export default function Login() {
   
   const context = useContext(Retail_User_Context)
   const [email, setemail] = useState('');
-    const [password, setpassword] = useState('')
-    const type = useContext(Login_Type_Context);
+  const [password, setpassword] = useState('')
+  const type = useContext(Login_Type_Context);
 
 
-    const Navigate = useNavigate();
+  const Navigate = useNavigate();
   const Login = (e)=>{
 
     e.preventDefault();

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const SetProductRate = () => {
     // State variables for the input values
@@ -7,7 +8,19 @@ const SetProductRate = () => {
 
     // Function to handle submission
     const handleSubmit = () => {
-        alert(`${priceCode} is set to -> Rs.${rate}`);
+        // Send the product rate data to the backend API
+
+        axios.post("http://localhost:3000/set-product-rate", { priceCode, rate})
+            .then(response => {
+                // Handle successful response
+                console.log("Product rate added successfully:", response.data);
+                alert(`${priceCode} is set to -> Rs.${rate}`);
+            })
+            .catch(error => {
+                // Handle error
+                console.error("Error adding product rate:", error);
+                alert("Failed to set product rate. Please try again later.");
+            });
     };
 
     // Function to handle reset

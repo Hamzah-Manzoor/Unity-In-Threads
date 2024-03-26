@@ -1,19 +1,33 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const UpdateProductRate = () => {
-    // State variables for the input values
+    // State variables for the input values and error message
     const [priceCode, setPriceCode] = useState("");
     const [rate, setRate] = useState("");
+    const [previousRate, setPreviousRate] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     // Function to handle submission
-    const handleSubmit = () => {
-        alert(`Product rate set: Price Code - ${priceCode}, Rate - ${rate}`);
+    const handleSubmit = async () => {
+        try {
+            const prevRate = rate;
+            setPreviousRate(prevRate);
+            // Send the product rate data to the backend API
+            const response = await axios.post("http://localhost:3000/update-product-rate", { priceCode, rate });
+            alert(response.data.message);
+        } catch (error) {
+            console.error("Error updating product rate:", error);
+            setErrorMessage("Price code you want to update doesn't exist");
+        }
     };
 
     // Function to handle reset
     const handleReset = () => {
         setPriceCode("");
         setRate("");
+        setPreviousRate("");
+        setErrorMessage("");
     };
 
     return (
@@ -61,6 +75,13 @@ const UpdateProductRate = () => {
                                 Reset
                             </button>
                         </div>
+                        {/* Display previous rate and error message */}
+                        {previousRate && (
+                            <p className="text-white mt-4">Previous rate: {previousRate}</p>
+                        )}
+                        {errorMessage && (
+                            <p className="text-red-500 mt-4">{errorMessage}</p>
+                        )}
                     </div>
                 </div>
             </div>

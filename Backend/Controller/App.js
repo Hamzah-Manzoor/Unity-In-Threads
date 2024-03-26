@@ -88,6 +88,56 @@ app.get('/api/getBill/:billNumber', async (req, res) => {
 });
 
 
+app.post("/set-product-rate", async (req, res) => {
+  try {
+    await client.connect();
+    const db = client.db('Unity-In-Threads');
+    const collection = db.collection('ProductRate');
+
+      const { priceCode, rate } = req.body;
+      // Create a new ProductRate document
+      const result = await collection.insertOne({ priceCode, rate });
+
+      res.status(201).json({ message: 'Product rate added successfully', insertedId: result.insertedId });
+  } catch (error) {
+      console.error("Error adding product rate:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }finally {
+    await client.close();
+  }
+});
+
+app.post("/update-product-rate", async (req, res) => {
+  try {
+      
+      // Connect to the database
+      await client.connect();
+      const db = client.db('Unity-In-Threads');
+      const collection = db.collection('ProductRate');
+
+      const { priceCode, rate } = req.body;
+
+      // Check if the price code exists in the database
+      const existingRate = await collection.findOne({ priceCode });
+
+      if (!existingRate) {
+          return res.status(404).json({ error: 'Price code not found' });
+      }
+
+      // Update the rate for the given price code
+      await collection.updateOne({ priceCode }, { $set: { rate } });
+
+      res.status(200).json({ message: 'Product rate updated successfully.' });
+  } catch (error) {
+      console.error("Error updating product rate:", error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  } finally {
+      await client.close();
+  }
+});
+
+
+
 
 
 app.listen(port, () => {
