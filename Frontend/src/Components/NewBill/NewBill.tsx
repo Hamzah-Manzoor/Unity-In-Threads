@@ -1,6 +1,7 @@
-import React, { useState} from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './NewBill.css';
-import html2canvas from 'html2canvas';
+//import html2canvas from 'html2canvas';
 
 
 interface ReadyMadeOrderItem {
@@ -21,195 +22,28 @@ interface OrderMakeItem {
   quantity: number;
 }
 
-interface ReceiptPopupProps {
-  readyMadeOrderList: ReadyMadeOrderItem[];
-  orderMakeList: OrderMakeItem[];
-  totalCost: number;
-  branchName: string;
-  closeReceipt: () => void;
-  printReceipt: () => void;
-  saveAsImage: () => void;
-  // saveAsPDF: () => void;
-  //showReceipt: boolean;
-}
-
-const ReceiptPopup: React.FC<ReceiptPopupProps> = ({
-  readyMadeOrderList,
-  orderMakeList,
-  totalCost,
-  branchName,
-  closeReceipt,
-  printReceipt,
-  saveAsImage,
-  //saveAsPDF,
-  //showReceipt,
-}) => {
-
-  const currentDate = new Date();
-
-  const formattedDate = currentDate.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-
-  const formattedTime = currentDate.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
-  return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
-      <div id="receipt" className="bg-white p-8 rounded shadow-2xl max-h-full overflow-y-auto">
-
-        <div className="text-center mb-4">
-          {/* Added Padding on the heading to get some width on the invoice */}
-          <p className="text-3xl font-bold px-10">Haroon's Designer</p>
-          <p className="font-mono">Contact: +92 334 4701621</p>
-          <p className="font-mono text-sm text-gray-600">{branchName}</p>
-          <p className="font-mono text-sm text-gray-600">{formattedDate} at {formattedTime}</p>
-          <p className="font-mono text-sm text-gray-600">Order Number: 52735</p>
-        </div>
-
-        <hr className="my-2 border-t border-gray-400" />
-
-
-        <div className="mb-4">
-
-          {/* Display Ready Made items */}
-          {readyMadeOrderList.length > 0 && (
-            <>
-              <div className="text-center mt-4 mb-2">
-                <p className="text-lg font-bold">Ready Made Items</p>
-              </div>
-              {readyMadeOrderList.map((item, index) => (
-                <div key={index} className="flex mb-2">
-                  <p className="basis-6/12">{`${item.productName} (${item.productCode})`}</p>
-                  <p className="basis-3/12 text-center">{item.quantity}</p>
-                  <p className="basis-3/12 text-right">{item.rate}</p>
-                </div>
-              ))}
-            </>
-          )}
-
-          {/* <div className="flex mb-2 font-semibold">
-            <p className="w-6/12">Product Name</p>
-            <p className="w-3/12 text-center">Quantity</p>
-            <p className="w-3/12 text-right">Price</p>
-          </div>
-
-          {orderList.map((item, index) => (
-            <div key={index} className="flex mb-2">
-              <p className="basis-6/12">{`${item.productName} (${item.productColor})`}</p>
-              <p className="basis-3/12 text-center">{item.quantity}</p>
-              <p className="basis-3/12 text-right">{item.productPrice}</p>
-            </div>
-          ))} */}
-
-          {/* Display Order Make items */}
-          {orderMakeList.length > 0 && (
-            <>
-              <div className="text-center mt-4 mb-2">
-                <p className="text-lg font-bold">Order Make Items</p>
-              </div>
-              {orderMakeList.map((item, index) => (
-                <div key={index} className="flex mb-2">
-                  <p className="basis-6/12">{`${item.productName} (ODB#: ${item.orderNumber})`}</p>
-                  <p className="basis-3/12 text-center">{item.quantity}</p>
-                  <p className="basis-3/12 text-right">{item.rate}</p>
-                </div>
-              ))}
-            </>
-          )}
-
-        </div>
-
-
-        <hr className="my-4 border-t border-gray-400" />
-
-        <div className="flex justify-between mb-2">
-          <p>Total:</p>
-          <p>{totalCost}</p>
-        </div>
-
-        <div className="flex justify-between mb-2">
-          <p>Tax (17%):</p>
-          <p>{(totalCost * 0.17).toFixed(2)}</p>
-        </div>
-
-        <div className="flex justify-between mb-2 font-bold">
-          <p>Total (incl. Tax):</p>
-          <p>{(totalCost * 1.17).toFixed(2)}</p>
-        </div>
-
-        <hr className="my-4 border-t border-gray-400" />
-
-        <div className="text-center mb-4">
-          {/* Added Padding on the heading to get some width on the invoice */}
-          <p className="font-serif">THANK YOU!</p>
-        </div>
-
-        <div className="buttonsContainer hideBtnsInImage">
-
-          <hr className="my-4 border-t border-gray-400" />
-
-          <div className="flex justify-between mt-4">
-
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-              onClick={printReceipt}
-            >
-              Print
-            </button>
-
-            <button
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-              onClick={saveAsImage}
-            >
-              Save as Image
-            </button>
-
-            {/* <button
-              className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
-              onClick={saveAsPDF}
-            >
-              Save as PDF
-            </button> */}
-
-            <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
-              onClick={closeReceipt}
-            >
-              Close
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  );
-};
-
 
 enum ItemType {
   ReadyMade = 'Ready Made',
   OrderMake = 'Order Make',
 }
 
-
 const NewBill = () => {
   const [productCode, setProductCode] = useState('');
   const [quantity, setQuantity] = useState(0);
   const [odbNumber, setOdbNumber] = useState("");
   const [readyMadeList, setReadyMadeList] = useState<ReadyMadeOrderItem[]>([]);
-  const [branchName] = useState('Emporium Mall (1st Floor)');
+  //const [branchName] = useState('Emporium Mall (1st Floor)');
   const [itemType, setItemType] = useState<ItemType>(ItemType.ReadyMade);
   const [orderMakeList, setOrderMakeList] = useState<OrderMakeItem[]>([]);
   const [billType, setBillType] = useState<'New Bill' | 'Resume Bill'>('New Bill');
   const [resumeBillNumber, setResumeBillNumber] = useState(0);
-  const [showReceipt, setShowReceipt] = useState(false);
+  const [tempResumeBillNumber, setTempResumeBillNumber] = useState(0);
+  const [activeBill, setActiveBill] = useState(false);
+  //const [showReceipt, setShowReceipt] = useState(false);
+  const [billNumber, setBillNumber] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const [resumableBills, setResumableBills] = useState<any>(null);
 
   const totalCost = readyMadeList.reduce((acc, item) => acc + (item.quantity * item.rate), 0) +
     orderMakeList.reduce((acc, item) => acc + (item.rate * item.quantity), 0);
@@ -256,91 +90,30 @@ const NewBill = () => {
     { id: 4, name: 'Product D', odb: "114", code: 'P018', quantity: 2, price: 6150, size: "Large" },
   ];
 
-  // const dummyBills = [
-  //   {
-  //     billNumber: 111,
-  //     purchasingDetails: [
-  //       {
-  //         itemType: 'Ready Made',
-  //         productCode: 'P001',
-  //         productName: 'Product A',
-  //         productColor: 'Blue',
-  //         size: 'Large',
-  //         orderNumber: '001',
-  //         rate: 100,
-  //         quantity: 2,
-  //         total: 200
-  //       },
-  //       {
-  //         itemType: 'Order Make',
-  //         orderNumber: "122",
-  //         productName: 'Product B',
-  //         productCode: 'P002',
-  //         size: 'Small',
-  //         rate: 150,
-  //         quantity: 1,
-  //         total: 150
-  //       }
-  //     ],
-  //     paymentDetails: [
-  //       {
-  //         paymentDate: '2024-01-30',
-  //         amountPaid: 100,
-  //         paymentMode: 'Credit Card',
-  //         billStatus: 'Pending'
-  //       },
-  //       // {
-  //       //   paymentDate: '2024-02-01',
-  //       //   amountPaid: 250,
-  //       //   paymentMode: 'Cash',
-  //       //   billStatus: 'Completed'
-  //       // }
-  //     ]
-  //   },
 
-  //   {
-  //     billNumber: 112,
-  //     purchasingDetails: [
-  //       {
-  //         itemType: 'Ready Made',
-  //         productCode: 'P002',
-  //         productName: 'Product C',
-  //         productColor: 'Black',
-  //         size: 'Large',
-  //         orderNumber: '001',
-  //         rate: 200,
-  //         quantity: 2,
-  //         total: 400
-  //       },
-  //       {
-  //         itemType: 'Order Make',
-  //         orderNumber: "121",
-  //         productName: 'Product D',
-  //         productCode: 'P003',
-  //         size: 'Small',
-  //         rate: 250,
-  //         quantity: 1,
-  //         total: 250
-  //       }
-  //     ],
-  //     paymentDetails: [
-  //       {
-  //         paymentDate: '2024-01-30',
-  //         amountPaid: 400,
-  //         paymentMode: 'Credit Card',
-  //         billStatus: 'Pending'
-  //       },
-  //       {
-  //         paymentDate: '2024-02-01',
-  //         amountPaid: 250,
-  //         paymentMode: 'Cash',
-  //         billStatus: 'Completed'
-  //       },
-  //     ]
-  //   },
-  // ];
+  useEffect(() => {
+    const fetchLastBillNumber = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/lastBillNumber');
+        if (response.ok) {
+          const data = await response.json();
+          setBillNumber(data.lastBillNumber + 1);
+        } else {
+          throw new Error('Failed to fetch last bill number');
+        }
+      } catch (error) {
+        alert("Error fetching last bill number!");
+        console.error('Error fetching last bill number:', error);
+      }
+    };
+
+    fetchLastBillNumber();
+  }, []); 
+
 
   const handleAddItem = () => {
+
+    setResumeBillNumber(0);
 
     if (itemType === ItemType.ReadyMade) {
 
@@ -373,16 +146,11 @@ const NewBill = () => {
               rate: product.price,
               quantity,
             };
-            // productCode: string;
-            // productName: string;
-            // size: string;
-            // orderNumber: string;
-            // productPrice: number;
-            // quantity: number;
             setReadyMadeList([...readyMadeList, newItem]);
           }
+
+          //updateBillInDB();
     
-          // Reset input fields after adding/updating the item
           setProductCode('');
           setQuantity(0);
         } else {
@@ -406,120 +174,91 @@ const NewBill = () => {
           quantity: product.quantity,
         };
         setOrderMakeList([...orderMakeList, newItem]);
+        //updateBillInDB();
       } else {
         alert('Product not found with the provided code.');
       }
       setOdbNumber("");
     }
   };
+
+  useEffect(() => {
+    if ( (activeBill || readyMadeList.length > 0) && resumeBillNumber == 0 ) {
+      updateBillInDB();
+    }
+  }, [readyMadeList]);
+
+  useEffect(() => {
+    if ( (activeBill || orderMakeList.length > 0) && resumeBillNumber == 0 ) {
+      updateBillInDB();
+    }
+  }, [orderMakeList]);
+
+  useEffect(() => {
+    if ( resumeBillNumber > 0 ) {
+      handleResumeBill();
+    }
+  }, [resumeBillNumber]);
   
 
   const handleDeleteReadyMadeItem = (index: number) => {
+    setResumeBillNumber(0);
     const updatedList = [...readyMadeList];
     updatedList.splice(index, 1);
     setReadyMadeList(updatedList);
+    //updateBillInDB();
   };
 
   const handleDeleteOrderMakeItem = (index: number) => {
+    setResumeBillNumber(0);
     const updatedList = [...orderMakeList];
     updatedList.splice(index, 1);
     setOrderMakeList(updatedList);
+    //updateBillInDB();
   };
-  
-
-  // const handleGenerateInvoice = () => {
-  //   if (readyMadeList.length > 0 || orderMakeList.length > 0) {
-  //     setShowReceipt(true);
-  //   } else {
-  //     alert('Please add items to generate a receipt.');
-  //   }
-  // };
-
-  const handleCloseReceipt = () => {
-    setShowReceipt(false);
-  };
-
-  const handlePrintReceipt = () => {
-    // Functionality to print the receipt
-    window.print();
-  };
-
-  const handleSaveAsImage = () => {
-    const receiptElement = document.getElementById('receipt');
-    const lineContainer = document.querySelector('.buttonsContainer') as HTMLElement;
-    const buttonsContainer = document.querySelector('.hideBtnsInImage') as HTMLElement;
-    
-  
-    if (receiptElement && buttonsContainer) {
-      lineContainer.classList.add('hiddenForCapture');
-      buttonsContainer.classList.add('hiddenForCapture');
-  
-      // Wait for a short delay to ensure the class is added before capturing the image
-      //setTimeout(() => {
-        html2canvas(receiptElement, {
-          ignoreElements: (element) => element.classList.contains('hiddenForCapture')
-        }).then((canvas) => {
-          const imgData = canvas.toDataURL('image/png');
-          const link = document.createElement('a');
-          link.download = 'receipt.png';
-          link.href = imgData;
-          link.click();
-  
-          // Remove the class after generating the image
-          lineContainer.classList.remove('hiddenForCapture');
-          buttonsContainer.classList.remove('hiddenForCapture');
-        });
-      //}, 100); // Adjust the delay as needed
-    }
-  };
-
-  // const handleSaveAsPDF = () => {
-  //   // Functionality to save the receipt as a PDF
-  //   // Implement saving the receipt as a PDF here
-  // };
-
-  
 
   const handleResumeBill = async () => {
     if (billType === 'Resume Bill' && resumeBillNumber) {
       try {
         const response = await fetch(`http://localhost:3000/api/getBill/${resumeBillNumber}`);
         const billData = await response.json();
-        
-        // Extract Ready Made and Order Make items from the fetched bill data
-        const readyMadeItems = billData.purchasingDetails
-          .filter((item: { itemType: string; }) => item.itemType === 'Ready Made')
-          .map((item: { productCode: any; productName: any; size: any; orderNumber: any; rate: any; quantity: any; }) => ({
-            productCode: item.productCode,
-            productName: item.productName,
-            size: item.size,
-            orderNumber: item.orderNumber,
-            rate: item.rate,
-            quantity: item.quantity,
-          }));
-        
-        const orderMakeItems = billData.purchasingDetails
-          .filter((item: { itemType: string; }) => item.itemType === 'Order Make')
-          .map((item: { productCode: any; productName: any; size: any; orderNumber: any; rate: any; quantity: any; }) => ({
-            productCode: item.productCode,
-            productName: item.productName,
-            size: item.size,
-            orderNumber: item.orderNumber,
-            rate: item.rate,
-            quantity: item.quantity,
-          }));
 
-        // Set the Ready Made and Order Make lists
-        setReadyMadeList(readyMadeItems);
-        setOrderMakeList(orderMakeItems);
-        
-        // Clear other fields
-        // setDiscount(billData.discount);
-        // setName(billData.name);
-        // setContact(billData.contact);
-        // setPaymentDetails(billData.paymentDetails); // If needed
-        
-        alert('Bill Resumed Successfully!');
+        if (billData.resumable) {
+          // Extract Ready Made and Order Make items from the fetched bill data
+          const readyMadeItems = billData.purchasingDetails
+            .filter((item: { itemType: string; }) => item.itemType === 'Ready Made')
+            .map((item: { productCode: any; productName: any; size: any; orderNumber: any; rate: any; quantity: any; }) => ({
+              productCode: item.productCode,
+              productName: item.productName,
+              size: item.size,
+              orderNumber: item.orderNumber,
+              rate: item.rate,
+              quantity: item.quantity,
+            }));
+          
+          const orderMakeItems = billData.purchasingDetails
+            .filter((item: { itemType: string; }) => item.itemType === 'Order Make')
+            .map((item: { productCode: any; productName: any; size: any; orderNumber: any; rate: any; quantity: any; }) => ({
+              productCode: item.productCode,
+              productName: item.productName,
+              size: item.size,
+              orderNumber: item.orderNumber,
+              rate: item.rate,
+              quantity: item.quantity,
+            }));
+
+          // Set the Ready Made and Order Make lists
+          setReadyMadeList(readyMadeItems);
+          setOrderMakeList(orderMakeItems);
+          
+          setBillNumber(resumeBillNumber);
+          setActiveBill(true);
+          //setResumeBillNumber(0);
+
+          alert('Bill Resumed Successfully!');
+        } else {
+          alert('Error! Provided Bill Number is not a Resuamble bill')
+        }
       } catch (error) {
         console.error('Error:', error);
         alert('Error resuming bill. Please try again.');
@@ -529,63 +268,163 @@ const NewBill = () => {
     }
   };
 
-  const handleGenerateBill = async () => {
+  const handleCloseBill = async () => {
     if (readyMadeList.length > 0 || orderMakeList.length > 0) {
-      if (billType === 'Resume Bill' && resumeBillNumber) {
-        const data = {
-          purchasingDetails: [
-            ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
-            ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
-          ],
-        };
-
-        try {
-          const response = await fetch(`http://localhost:3000/api/resumeBill/${resumeBillNumber}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          });
-          const responseData = await response.json();
-          console.log(responseData); // Handle the response from the server
-          alert('Updated Bill Saved Successfully!')
-        } catch (error) {
-          console.error('Error:', error);
-        }
-
-      } else {
-        const data = {
-          billNumber: 0,
-          discount: 0,
-          name: "",
-          contact: "",
-          purchasingDetails: [
-            ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
-            ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
-          ],
-          paymentDetails: []
-        };
-  
-        //console.log("Purchasing Details include: " + data.purchasingDetails[1].itemType);
-      
-        try {
-          const response = await fetch('http://localhost:3000/api/addBill', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          });
-          const responseData = await response.json();
-          console.log(responseData); // Handle the response from the server
-          alert('New Bill Saved Successfully!')
-        } catch (error) {
-          console.error('Error:', error);
-        }
+      try {
+        const response = await fetch(`http://localhost:3000/api/closeBill/${billNumber}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          //body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        alert('Bill Closed Successfully!')
+        navigate('/retail/update-bill', { state: { billNumberProp: billNumber } });
+      } catch (error) {
+        console.error('Error:', error);
       }
     } else {
-      alert('Please add items to generate a receipt.');
+      alert('Please add items to close a bill.');
+    }
+  };
+
+  // const handleGenerateBill = async () => {
+  //   if (billType === 'Resume Bill' && resumeBillNumber) {
+  //     const data = {
+  //       purchasingDetails: [
+  //         ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
+  //         ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
+  //       ],
+  //     };
+
+  //     try {
+  //       const response = await fetch(`http://localhost:3000/api/resumeBill/${resumeBillNumber}`, {
+  //         method: 'PUT',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify(data),
+  //       });
+  //       const responseData = await response.json();
+  //       console.log(responseData); // Handle the response from the server
+  //       alert('Updated Bill Saved Successfully!')
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //     }
+
+  //   } else {
+  //     const data = {
+  //       billNumber: 0,
+  //       discount: 0,
+  //       name: "",
+  //       contact: "",
+  //       purchasingDetails: [
+  //         ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
+  //         ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
+  //       ],
+  //       paymentDetails: []
+  //     };
+
+  //     //console.log("Purchasing Details include: " + data.purchasingDetails[1].itemType);
+    
+  //     try {
+  //       const response = await fetch('http://localhost:3000/api/addBill', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify(data),
+  //       });
+  //       const responseData = await response.json();
+  //       console.log(responseData); // Handle the response from the server
+  //       alert('New Bill Saved Successfully!');
+
+  //       navigate('/retail/update-bill', { state: { billNumberProp: billNumber } });
+
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //     }
+  //   }
+  // };
+
+  const fetchResumableBills = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/fetchResumableBills', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        alert('Failed to fetch resumable bills!');
+      }
+      const resumableBillsData = await response.json();
+      setResumableBills(resumableBillsData);
+    } catch (error: any) {
+      console.error('Error fetching resumable bills:', error.message);
+    }
+  };
+
+  const updateBillInDB = async () => {
+    //setResumeBillNumber(0);
+    if (activeBill) {
+      const data = {
+        purchasingDetails: [
+          ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
+          ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
+        ],
+      };
+
+      try {
+        const response = await fetch(`http://localhost:3000/api/resumeBill/${billNumber}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        alert('Updated Bill Saved Successfully!')
+      } catch (error) {
+        alert('Error! Failed to Update Bill in the Database.');
+        console.error('Error:', error);
+      }
+
+    } else {
+      const data = {
+        billNumber: billNumber,
+        resumable: true,
+        discount: 0,
+        name: "",
+        contact: "",
+        purchasingDetails: [
+          ...readyMadeList?.map(item => ({ ...item, itemType: 'Ready Made' })),
+          ...orderMakeList?.map(item => ({ ...item, itemType: 'Order Make' }))
+        ],
+        paymentDetails: []
+      };
+
+      //console.log("Purchasing Details include: " + data.purchasingDetails[1].itemType);
+    
+      try {
+        const response = await fetch('http://localhost:3000/api/addBill', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+        setActiveBill(true);
+        alert('New Bill Saved Successfully!');
+      } catch (error) {
+        alert('Error! Failed to Create a New Bill in the Database.');
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -603,7 +442,12 @@ const NewBill = () => {
             </label>
             <select
               value={billType}
-              onChange={(e) => setBillType(e.target.value as 'New Bill' | 'Resume Bill')}
+              onChange={(e) => {
+                setBillType(e.target.value as 'New Bill' | 'Resume Bill')
+                if (e.target.value === 'Resume Bill') {
+                  fetchResumableBills();
+                }
+              }}
               className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
             >
               <option value="New Bill">New Bill</option>
@@ -618,14 +462,14 @@ const NewBill = () => {
                   type="text"
                   placeholder="Bill Number"
                   className="border border-gray-400 rounded px-3 py-2 bg-gray-300"
-                  value={resumeBillNumber}
-                  onChange={(e) => setResumeBillNumber(parseInt(e.target.value))}
+                  value={tempResumeBillNumber}
+                  onChange={(e) => setTempResumeBillNumber(parseInt(e.target.value))}
                 />
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2"
-                  onClick={handleResumeBill}
+                  onClick={() => setResumeBillNumber(tempResumeBillNumber)}
                 >
-                  Get Bill
+                  Resume Bill
                 </button>
               </>
             )}
@@ -698,10 +542,10 @@ const NewBill = () => {
               className={`${
                 readyMadeList.length === 0 && orderMakeList.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'
               } text-white font-bold py-2 px-4 rounded`}
-              onClick={handleGenerateBill}
+              onClick={handleCloseBill}
               disabled={readyMadeList.length === 0 && orderMakeList.length === 0}
             >
-              Generate Bill
+              Close Bill
             </button>
 
           </div>
@@ -714,11 +558,49 @@ const NewBill = () => {
 
       <div>
 
+        <p className='text-right text-white font-bold'>Bill No: {billNumber}</p>
+
         {readyMadeList.length === 0 && orderMakeList.length === 0 ? (
-          <p className="text-center text-gray-500">Please Add Items to Generate a Bill.</p>
+          <>
+            {billType === 'Resume Bill' ? (
+
+              <div className="flex flex-wrap justify-center">
+
+                {resumableBills?.map((bill: any, index: number) => (
+                  <div className="max-w-sm rounded overflow-hidden shadow-lg shadow-gray-500 mx-4 my-4 bg-gray-300" key={index}>
+                    <div className="px-6 py-4 flex flex-col justify-between h-full">
+                      <div>
+                        <div className="font-bold text-xl mb-2">Bill Number: {bill.billNumber}</div>
+                        <p className="text-gray-700 text-base">Purchasing Details:</p>
+                        <ul>
+                          {bill.purchasingDetails.map((detail: any, detailIndex: number) => (
+                            <li key={detailIndex}>
+                              <p className="text-gray-700 text-base">{detail.productCode} ({detail.itemType}) x{detail.quantity}</p>
+                              {/* <p>Product Name: {detail.productName}</p> */}
+                              {/* <p>Order Number: {detail.orderNumber}</p> */}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className='mt-3'></div>
+                      <div className="mt-auto flex justify-center">
+                        <button
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          onClick={() => setResumeBillNumber(bill.billNumber)}
+                        >
+                          Resume Bill
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">Please Add Items to Generate a Bill.</p>
+            ) }
+          </>
         ) : (
           <>
-
             {readyMadeList.length > 0 && (
               <>
                 <div className="text-center mt-4 mb-2">
@@ -787,7 +669,7 @@ const NewBill = () => {
         </div>
       )}
 
-      {showReceipt && (
+      {/* {showReceipt && (
         <ReceiptPopup
         readyMadeOrderList={readyMadeList}
         orderMakeList={orderMakeList}
@@ -799,7 +681,7 @@ const NewBill = () => {
         // saveAsPDF={handleSaveAsPDF}
         // showReceipt={showReceipt}
         />
-      )}
+      )} */}
     </div>
   );
 };
