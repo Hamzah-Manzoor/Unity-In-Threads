@@ -1,36 +1,48 @@
 import React, { useState } from "react";
+import Modal from "../ModalComponent/ModalWindow";
 
 interface ProductSize {
     productName: string;
     size: string;
 }
 
-const UpdateProductRate = () => {
-    // State variables for the input values
+const AddProductSize = () => {
+    // State variables for the input values and modal
     const [productName, setProductName] = useState("");
     const [size, setSize] = useState("");
     const [productSizes, setProductSizes] = useState<ProductSize[]>([]);
     const [showTable, setShowTable] = useState(false); // State to track if sizes have been viewed
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
     // Function to handle submission
     const handleSubmit = () => {
         if (productName && size) {
-            // Check if the entry already exists
-            const entryExists = productSizes.some(entry => entry.productName === productName && entry.size === size);
+            // Check if the size is within the valid range for specific products
+            if ((["Formal Waist Coat", "Sherwani", "Prince Coat"].includes(productName) && (parseInt(size) >= 32 && parseInt(size) <= 40)) || !["Formal Waist Coat", "Sherwani", "Prince Coat"].includes(productName)) {
+                // Check if the entry already exists
+                const entryExists = productSizes.some(entry => entry.productName === productName && entry.size === size);
+                
+                if (!entryExists) {
+                    // Add the new entry to the productSizes array
+                    setProductSizes([...productSizes, { productName, size }]);
+                    setModalMessage("Product size added successfully");
+                    setModalOpen(true);
+                } else {
+                    setModalMessage("Entry already exists!");
+                    setModalOpen(true);
+                }
 
-            if (!entryExists) {
-                // Add the new entry to the productSizes array
-                setProductSizes([...productSizes, { productName, size }]);
-                alert("Productsize added successfully");
+                // Reset the input fields
+                setProductName("");
+                setSize("");
             } else {
-                alert("Entry already exists!"); // Display a message to the user
+                setModalMessage("Invalid size for selected product. Size must be between 32 and 40 for Formal Waist Coat, Sherwani, and Prince Coat.");
+                setModalOpen(true);
             }
-
-            // Reset the input fields
-            setProductName("");
-            setSize("");
         }
     };
+
 
     // Function to handle reset
     const handleReset = () => {
@@ -57,7 +69,9 @@ const UpdateProductRate = () => {
                         placeholder="Enter Size"
                         value={size}
                         onChange={(e) => setSize(e.target.value)}
-                        step="1"
+                        step="2"
+                        min={32}
+                        max={40}
                         className="w-full border border-gray-300 p-2"
                     />
                 );
@@ -169,8 +183,10 @@ const UpdateProductRate = () => {
                     </div>
                 </div>
             </div>
+            {/* Modal for displaying messages */}
+            <Modal isOpen={modalOpen} message={modalMessage} onClose={() => setModalOpen(false)} />
         </div>
     );
 };
 
-export default UpdateProductRate;
+export default AddProductSize;
