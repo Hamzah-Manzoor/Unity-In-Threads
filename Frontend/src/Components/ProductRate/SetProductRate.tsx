@@ -1,27 +1,41 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Modal from "../ModalComponent/ModalWindow";
 
 const SetProductRate = () => {
     // State variables for the input values
     const [priceCode, setPriceCode] = useState("");
     const [rate, setRate] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
+    
     // Function to handle submission
     const handleSubmit = () => {
         // Send the product rate data to the backend API
-
         axios.post("http://localhost:3000/set-product-rate", { priceCode, rate})
             .then(response => {
                 // Handle successful response
                 console.log("Product rate added successfully:", response.data);
-                alert(`${priceCode} is set to -> Rs.${rate}`);
+                setModalMessage(`${priceCode} is set to -> Rs.${rate}`);
+                setModalOpen(true);
             })
             .catch(error => {
                 // Handle error
-                console.error("Error adding product rate:", error);
-                alert("Failed to set product rate. Please try again later.");
+                if (error.response && error.response.status === 409) {
+                    // If the error is due to duplicate price code, display specific message
+                    console.error("Error adding product rate:", error);
+                    setModalMessage("Price code already exists. Please enter a different price code.");
+                    setModalOpen(true);
+                } else {
+                    // For other errors, display a generic message
+                    console.error("Error adding product rate:", error);
+                    setModalMessage("Failed to set product rate. Please try again later.");
+                    setModalOpen(true);
+                }
             });
     };
+
 
     // Function to handle reset
     const handleReset = () => {
@@ -77,6 +91,8 @@ const SetProductRate = () => {
                     </div>
                 </div>
             </div>
+            {/* Modal for displaying messages */}
+            <Modal isOpen={modalOpen} message={modalMessage} onClose={() => setModalOpen(false)} />
         </div>
     );
 };

@@ -90,22 +90,33 @@ app.get('/api/getBill/:billNumber', async (req, res) => {
 
 app.post("/set-product-rate", async (req, res) => {
   try {
-    await client.connect();
-    const db = client.db('Unity-In-Threads');
-    const collection = db.collection('ProductRate');
+      // Connect to the database
+      await client.connect();
+      const db = client.db('Unity-In-Threads');
+      const collection = db.collection('ProductRate');
 
       const { priceCode, rate } = req.body;
-      // Create a new ProductRate document
+
+      // Check if the price code already exists in the database
+      const existingRate = await collection.findOne({ priceCode });
+
+      if (existingRate) {
+          // If the price code already exists, return a 409 Conflict status
+          return res.status(409).json({ error: 'Price code already exists' });
+      }
+
+      // If the price code doesn't exist, insert the new product rate
       const result = await collection.insertOne({ priceCode, rate });
 
       res.status(201).json({ message: 'Product rate added successfully', insertedId: result.insertedId });
   } catch (error) {
       console.error("Error adding product rate:", error);
       res.status(500).json({ error: 'Internal Server Error' });
-  }finally {
-    await client.close();
+  } finally {
+      await client.close();
   }
 });
+
 
 app.post("/update-product-rate", async (req, res) => {
   try {
