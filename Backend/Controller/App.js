@@ -3,7 +3,7 @@ import { MongoClient, ObjectId } from 'mongodb';
 import cors from 'cors'; // Import the cors middleware
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 const uri = "mongodb+srv://l201269:dRb8JHOGNS8EgGKq@unity-in-threads.wdi6zdw.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
