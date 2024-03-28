@@ -72,7 +72,7 @@ const AddProductSize = () => {
                         step="2"
                         min={32}
                         max={40}
-                        className="w-full border border-gray-300 p-2"
+                        className="w-full border border-gray-300 bg-gray-300 p-2"
                     />
                 );
             case "Shalwar Suit":
@@ -82,7 +82,7 @@ const AddProductSize = () => {
                     <select
                         value={size}
                         onChange={(e) => setSize(e.target.value)}
-                        className="w-full border border-gray-300 p-2"
+                        className="w-full border border-gray-300 bg-gray-300 p-2"
                     >
                         <option value="" disabled>Select size</option>
                         <option value="Small">Small</option>
@@ -119,16 +119,16 @@ const AddProductSize = () => {
             <div className="flex justify-center mb-4 bg-gray-700 p-3.5">
                 <div className="w-11/12 sm:w-9/12 md:w-8/12 lg:w-6/12 xl:w-5/12">
                     <div className="flex flex-col">
-                        <h2 className="text-lg font-bold mb-1 text-white text-center text-5xl">
+                        <h2 className="font-bold mb-8 text-white text-center text-3xl">
                             Add a Product Size
                         </h2>
                         {/* Input fields */}
                         <div className="mb-4">
-                            <label className="text-white">Product Name:</label>
+                            <label className="text-lg font-semibold mb-1 text-white">Product Name:</label>
                             <select
                                 value={productName}
                                 onChange={(e) => setProductName(e.target.value)}
-                                className="w-full border border-gray-300 p-2"
+                                className="w-full border border-gray-300 bg-gray-300 p-2"
                             >
                                 <option value="" disabled>Select product</option>
                                 <option value="Sherwani">Sherwani</option>
@@ -138,26 +138,26 @@ const AddProductSize = () => {
                                 <option value="Formal Waist Coat">Waist Coat</option>
                             </select>
                         </div>
-                        <div className="mb-4">
-                            <label className="text-white">Product Size:</label>
+                        <div className="mb-10">
+                            <label className="text-lg font-semibold mb-1 text-white">Product Size:</label>
                             {getSizeOptions()}
                         </div>
                         {/* Buttons */}
                         <div className="flex justify-center space-x-4">
                             <button
                                 onClick={handleSubmit}
-                                className="bg-green-500 text-white font-semibold p-3 rounded-full"
+                                className="bg-green-500 hover:bg-green-700 px-10 text-white font-bold py-3 rounded-full text-base"
                             >
-                                Submit
+                                Add
                             </button>
                             <button
                                 onClick={handleReset}
-                                className="bg-orange-500 text-white font-semibold p-3 rounded-full"
+                                className="bg-orange-500 hover:bg-orange-600 px-10 text-white font-semibold py-3 rounded-full text-base"
                             >
                                 Reset
                             </button>
                             <button
-                                className="bg-blue-500 text-white font-semibold p-3 rounded-full"
+                                className="bg-blue-500 hover:bg-blue-700 px-10 text-white font-semibold py-3 rounded-full text-base"
                                 onClick={() => setShowTable(!showTable)}
                             >
                                 View Sizes
