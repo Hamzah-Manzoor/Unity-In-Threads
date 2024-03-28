@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Modal from "../ModalComponent/ModalWindow";
 
@@ -64,7 +64,7 @@ const UpdateProductRate = () => {
                                 onClick={handleSubmit}
                                 className="bg-green-500 text-white font-semibold p-3 rounded-full"
                             >
-                                Submit
+                                Update
                             </button>
                             <button
                                 onClick={handleReset}
